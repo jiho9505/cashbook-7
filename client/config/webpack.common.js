@@ -6,7 +6,7 @@ const path = require('path');
 const config = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, '../dist'),
     filename: 'build.js',
   },
   module: {
@@ -43,23 +43,15 @@ const config = {
       },
     ],
   },
-  /* webpack-dev-server */
-  mode: 'development',
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: '.dist',
-    port: 9000,
-    hot: true,
-  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'style.css',
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './public/index.html'), //  어느 파일을 참조할 것인가
+      template: path.resolve(__dirname, '../public/index.html'), //  어느 파일을 참조할 것인가
       inject: true, //  번들링한 파일을 자동으로 불러올 것인가
-      filename: path.resolve(__dirname, './dist/index.html'),
+      filename: path.resolve(__dirname, '../dist/index.html'),
     }),
   ],
 };
