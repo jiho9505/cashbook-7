@@ -1,3 +1,3 @@
 import './index.scss';
 
-console.log('test');
+document.getElementById('root').innerHTML = `<h1>hi</h1>`;
