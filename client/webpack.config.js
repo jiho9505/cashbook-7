@@ -20,8 +20,12 @@ const config = {
         },
       },
       {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        test: /\.s[ac]ss$/i,
+        use: [
+          MiniCssExtractPlugin.loader, // CSS 파일을 빼서 파일로 관리, style-loader 대체
+          'css-loader', //  CSS를 CommonJS로 translate
+          'sass-loader', //  Sass를 CSS로 Compile
+        ],
       },
     ],
   },
