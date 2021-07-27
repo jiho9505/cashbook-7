@@ -3,4 +3,5 @@ const { merge } = require('webpack-merge');
 
 module.exports = merge(commonWebpackConfig, {
   mode: 'production',
+  devtool: 'source-map',
 });

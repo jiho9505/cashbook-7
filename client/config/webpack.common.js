@@ -6,11 +6,22 @@ const path = require('path');
 const config = {
   entry: './src/index.ts',
   output: {
-    path: path.resolve(__dirname, '../build'),
+    path: path.resolve(__dirname, '..', 'build'),
     filename: 'index.bundle.js',
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.json'],
+    alias: {
+      '@src': path.resolve(__dirname, '..', 'src'),
+    },
   },
   module: {
     rules: [
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: ['ts-loader'],
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -20,11 +31,6 @@ const config = {
             presets: [['@babel/preset-env', { targets: 'defaults' }]],
           },
         },
-      },
-      {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: ['ts-loader'],
       },
       {
         test: /\.s[ac]ss$/i,
@@ -54,9 +60,9 @@ const config = {
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../public/index.html'), //  어느 파일을 참조할 것인가
+      template: path.resolve(__dirname, '..', 'public/index.html'), //  어느 파일을 참조할 것인가
       inject: true, //  번들링한 파일을 자동으로 불러올 것인가
-      filename: path.resolve(__dirname, '../build/index.html'),
+      filename: path.resolve(__dirname, '..', 'build/index.html'),
     }),
   ],
 };
