@@ -4,22 +4,27 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 
 const config = {
-  entry: './src/index.js',
+  entry: './src/index.ts',
   output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: 'build.js',
+    path: path.resolve(__dirname, '../build'),
+    filename: 'index.bundle.js',
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /mode_modules/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: [['@babel/preset-env', { targets: 'defaults' }]],
           },
         },
+      },
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: ['ts-loader'],
       },
       {
         test: /\.s[ac]ss$/i,
@@ -51,7 +56,7 @@ const config = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'), //  어느 파일을 참조할 것인가
       inject: true, //  번들링한 파일을 자동으로 불러올 것인가
-      filename: path.resolve(__dirname, '../dist/index.html'),
+      filename: path.resolve(__dirname, '../build/index.html'),
     }),
   ],
 };
