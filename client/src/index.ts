@@ -1,3 +1,17 @@
 import '@src/index.scss';
+import Model from '@src/models';
+import Router from './Router';
+import handleEvent from './utils/handleEvent';
 
-document.getElementById('root').innerHTML = `<h1>hi</h1>`;
+new Model();
+new Router();
+
+handleEvent.fire(
+  'statechange',
+  history.state ?? {
+    path: '/',
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    isReplace: true,
+  }
+);
