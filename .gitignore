@@ -110,3 +110,5 @@ typings/
 # config (databases) 
 # but, there is a sample config file
 config/
+
+migrations/
