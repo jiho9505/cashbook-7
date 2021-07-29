@@ -1,5 +1,10 @@
 @use "./reset";
 
+@font-face {
+    font-family: Raleway;
+    src: url(./fonts/raleway.ttf);
+}
+
 :root{
     // Color
     --bg-color: #F4F6FC;
