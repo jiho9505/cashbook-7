@@ -1,0 +1,35 @@
+.content__statistics{
+    position:relative;
+    display:flex;
+    justify-content: space-between;
+    width:100%;
+    height:100%;
+}
+
+.doughnut-chart{
+    flex:1;
+    margin-right:40px;
+    height:48%;
+    border-radius:10px;
+    background-color: #fff;
+    padding:40px 30px;
+    span {
+        font-weight: bold;
+        font-size: 30px;
+        line-height: 9px;
+        color:var(--font-color);
+    }
+}
+
+.recently-account-history{
+    @extend .doughnut-chart;
+    margin-right:0;
+    flex:1;
+}
+
+.curved-chart{
+    @extend .doughnut-chart;
+    position:absolute;
+    bottom:0;
+    width:100%;
+}
