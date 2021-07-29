@@ -1,4 +1,4 @@
-import '@src/index.scss';
+import '@src/styles/global.scss';
 import Model from '@src/models';
 import Router from './Router';
 import handleEvent from './utils/handleEvent';
