@@ -3,6 +3,15 @@
 @font-face {
     font-family: Raleway;
     src: url(./fonts/raleway.ttf);
+    font-weight:400;
+    font-style:normal;
+}
+
+@font-face {
+    font-family: Raleway;
+    src: url(./fonts/raleway.ttf);
+    font-weight:700;
+    font-style:bold;
 }
 
 :root{
