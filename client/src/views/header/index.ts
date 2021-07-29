@@ -1,5 +1,14 @@
 import '@src/views/header/index.scss';
-import { Account, Calendar, Logo, Logout, Statistic } from '@src/static/imageUrls';
+import {
+  Account,
+  AccountActive,
+  Calendar,
+  CalendarActive,
+  Logo,
+  Logout,
+  Statistic,
+  StatisticActive,
+} from '@src/static/imageUrls';
 import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
 
@@ -23,6 +32,7 @@ export default class HeaderView {
     if (!(target instanceof HTMLElement)) return;
 
     const a = target.closest('a');
+    if (!a) return;
     const path = a.getAttribute('href');
     // 2. 현재 Navigation에 속성 변경
 
@@ -30,18 +40,17 @@ export default class HeaderView {
     handleEvent.fire('statechange', { ...history.state, path });
   }
 
-  getAItem(currentPath: string): string {
+  getNavItem(currentPath: string): string {
     const PATHS = [
-      ['/account', Account],
-      ['/statistics', Statistic],
-      ['/calendar', Calendar],
+      ['/account', Account, AccountActive],
+      ['/statistics', Statistic, StatisticActive],
+      ['/calendar', Calendar, CalendarActive],
     ];
-    console.log(currentPath);
 
-    return PATHS.reduce((acc, [path, img]) => {
+    return PATHS.reduce((acc, [path, img, activeImg]) => {
       const pathHTML = `
         <a href=${path} class="header__${path.slice(1)}${path === currentPath ? ' active' : ''}">
-          <img src=${img}>
+          <img src=${path === currentPath ? activeImg : img}>
         </a>
       `;
       acc.push(pathHTML);
@@ -50,14 +59,13 @@ export default class HeaderView {
   }
 
   render() {
-    console.log('render');
     $('header').innerHTML = `
       <div class="header__logo">
         <img src=${Logo}>
       </div>
-      <div class="header__a-wrap">
-        ${this.getAItem(this.currentPath)}
-      </div>
+      <nav class="header__nav-wrap">
+        ${this.getNavItem(this.currentPath)}
+      </nav>
 
       <div class="header__logout">
         <img src=${Logout}>
