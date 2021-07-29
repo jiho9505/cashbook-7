@@ -19,7 +19,6 @@ export default class Router {
     });
 
     handleEvent.subscribe('statechange', (e: CustomEvent) => {
-      console.log(e);
       this.stateChangeHandler({ state: e.detail });
     });
   }
@@ -29,7 +28,6 @@ export default class Router {
       delete e.state.isReplace;
       history.replaceState(e.state, '', e.state.path as string);
     } else {
-      console.log('push');
       history.pushState(e.state, '', e.state.path as string);
     }
   }
