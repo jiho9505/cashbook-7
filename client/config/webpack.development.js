@@ -8,5 +8,8 @@ module.exports = merge(commonWebpackConfig, {
     contentBase: '../build',
     port: 9000,
     hot: true,
+    historyApiFallback: {
+      index: '/',
+    },
   },
 });
