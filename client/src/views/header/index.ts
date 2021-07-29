@@ -1,16 +1,8 @@
 import '@src/views/header/index.scss';
-import {
-  Account,
-  AccountActive,
-  Calendar,
-  CalendarActive,
-  Logo,
-  Logout,
-  Statistic,
-  StatisticActive,
-} from '@src/static/imageUrls';
+import { Logo, Logout } from '@src/static/imageUrls';
 import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
+import { PATHS } from '@src/static/header';
 
 export default class HeaderView {
   currentPath = '';
@@ -41,12 +33,6 @@ export default class HeaderView {
   }
 
   getNavItem(currentPath: string): string {
-    const PATHS = [
-      ['/account', Account, AccountActive],
-      ['/statistics', Statistic, StatisticActive],
-      ['/calendar', Calendar, CalendarActive],
-    ];
-
     return PATHS.reduce((acc, [path, img, activeImg]) => {
       const pathHTML = `
         <a href=${path} class="header__${path.slice(1)}${path === currentPath ? ' active' : ''}">
