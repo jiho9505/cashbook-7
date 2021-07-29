@@ -25,3 +25,13 @@ const getChildHTML = (child: string | string[]) => {
 
   return child.reduce((acc, curr) => acc + getChildHTML(curr), '');
 };
+
+export const changeIntoDateFormat = (data: number) => {
+  const currentDate = new Date(data);
+  const m = currentDate.getMonth() + 1;
+  const d = currentDate.getDate();
+  const h = currentDate.getHours();
+  const hh = h <= 12 ? h : h - 12;
+  const mm = currentDate.getMinutes();
+  return `${m}월 ${d}일, ${hh.toString().padStart(2, '0')}:${mm} ${h < 12 ? 'am' : 'pm'}`;
+};
