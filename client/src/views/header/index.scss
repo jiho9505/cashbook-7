@@ -2,7 +2,6 @@ header {
     position:relative;
     width:300px;
     height:100%;
-    // background-color:black;
 }
 
 .header__logo{
@@ -14,27 +13,22 @@ header {
 .header__account, .header__statistics, .header__calendar, .header__logout {
     all:unset;
     cursor:pointer; 
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    width:90px;
+    height:90px;
 
     &.active{
-        width: 90px;
-        height: 90px;
-        display:flex;
-        align-items:center;
-        justify-content: center;
         border-radius:50%;
-
         background-color:var(--concept-color);
         filter: drop-shadow(0px 0px 20px rgba(93, 95, 239, 0.5));
-
-        img{
-            filter: invert(100%) sepia(98%) saturate(7%) hue-rotate(152deg) brightness(103%) contrast(103%);
-        }
     }
 
     
 }
 
-.header__a-wrap{
+.header__nav-wrap{
     display:flex;
     flex-direction: column;
     align-items: center;
@@ -45,5 +39,5 @@ header {
 .header__logout {
     position:absolute;
     bottom:80px;
-    left:calc(150px - 20px);
+    left:calc(150px - 45px);
 }

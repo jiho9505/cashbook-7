@@ -6,7 +6,8 @@
     --concept-color: #5D5FEF;
 
     // Size
-    --tablet : 1440px;
+    --tablet-width : 1440px;
+    --tablet-height : 990px;
 }
 
 body{
@@ -17,7 +18,8 @@ body{
 #root{
     display:flex;
     height:100%;
-    min-width: var(--tablet);
+    min-width: var(--tablet-width);
+    min-height: var(--tablet-height);
     background-color: var(--bg-color);
     padding: 50px;
 }
