@@ -56,4 +56,29 @@ export default class AccountView {
         </div>
       </div>`;
   }
+
+  createCard(): string {
+    return this.payMethods
+      .map((payMethod, idx) => {
+        console.log(cardType[payMethod]);
+        return `
+        <div class='account__card ${cardType[payMethod]}'>
+          <div class='account__card-price'>
+            10,000원
+          </div>
+          
+          <div class='account__card-check active'>
+            <img src=${CheckButton}>
+          </div>
+          <div class='account__card-option'>
+            <img src=${Option}>
+          </div>
+          <div class='account__card-name'>
+            ${payMethod}
+          </div>
+        </div>
+      `;
+      })
+      .join('');
+  }
 }
