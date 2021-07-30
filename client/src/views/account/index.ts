@@ -1,16 +1,7 @@
 import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
-import {
-  Health,
-  Transport,
-  Food,
-  Culture,
-  Others,
-  Shopping,
-  DailyLife,
-  CheckButton,
-  Option,
-} from '@src/static/imageUrls';
+import { HEALTH, TRAFFIC, FOOD, CULTURE, ETC, SHOPPING, LIFE, CheckButton, Option } from '@src/static/imageUrls';
+
 import '@src/views/account/index.scss';
 import { cardType } from '@src/static/constants';
 
@@ -142,7 +133,7 @@ export default class AccountView {
       <tr class='table_row'>
         <td>
           <div class='table__content-container'>
-            <img src=${Health}>
+            <img src=${HEALTH}>
             <div class='table__content-detail'>
                 <span>
                   헬스장 1달 이용권
