@@ -1,13 +1,29 @@
 @use "./reset";
 
-:root {
-  // Color
-  --bg-color: #f4f6fc;
-  --concept-color: #5d5fef;
-  --concept-color-span: #3e2b75;
-  // Size
-  --tablet-width: 1440px;
-  --tablet-height: 990px;
+@font-face {
+    font-family: Raleway;
+    src: url(./fonts/raleway.ttf);
+    font-weight:400;
+    font-style:normal;
+}
+
+@font-face {
+    font-family: Raleway;
+    src: url(./fonts/raleway.ttf);
+    font-weight:700;
+    font-style:bold;
+}
+
+:root{
+    // Color
+    --bg-color: #F4F6FC;
+    --concept-color: #5D5FEF;
+    --concept-color-span: #3e2b75;
+    --font-color:#3E2B75;
+
+    // Size
+    --tablet-width : 1440px;
+    --tablet-height : 990px;
 }
 
 body {

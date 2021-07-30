@@ -19,3 +19,4 @@ export const TRAFFIC = BASE_URL + 'category' + '/traffic.svg';
 
 export const CheckButton = BASE_URL + 'checkbutton.svg';
 export const Option = BASE_URL + 'option.svg';
+
