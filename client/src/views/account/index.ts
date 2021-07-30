@@ -81,4 +81,13 @@ export default class AccountView {
       })
       .join('');
   }
+
+  createMyBalance(): string {
+    return `
+      <div class='account__balance-container'>
+        <span class='account__balance-text'>현재 잔고</span>
+        <span class='account__balance'>${this.balance}</span>  
+      </div>
+    `;
+  }
 }
