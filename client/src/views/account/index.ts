@@ -133,4 +133,42 @@ export default class AccountView {
         ${this.createContentDetail()}
       </tbody>`;
   }
+
+  /**
+   * DB 구성에 따라 아래 값을 바꿀 예정
+   */
+  createContentDetail() {
+    return `
+      <tr class='table_row'>
+        <td>
+          <div class='table__content-container'>
+            <img src=${Health}>
+            <div class='table__content-detail'>
+                <span>
+                  헬스장 1달 이용권
+                </span>
+                <span class='table__content-pay'>
+                  신한카드
+                </span>
+            </div>
+          </div>
+          
+        </td>
+        <td>
+          <span>
+              생활
+          </span>
+        </td>
+        <td>
+          <span>
+              7월 28일, 11:48 am
+          </span>
+        </td>
+        <td>
+          <span>
+              -₩ 300,000
+          </span>
+        </td>
+      </tr>`;
+  }
 }
