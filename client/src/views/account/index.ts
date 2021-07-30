@@ -90,4 +90,20 @@ export default class AccountView {
       </div>
     `;
   }
+
+  createHistoryHeader(): string {
+    return `
+      <div class='history__header'>
+        <div class='history__header-left'>
+          <span class='history__text'>내역</span>
+          <span class='history__add'>+</span>
+        </div>
+        <div class='history__header-right'>
+          <span>수입</span>  
+          <span>${this.income}</span>
+          <span>지출</span>
+          <span>${this.expenditure}</span>
+        </div>
+      </div>`;
+  }
 }
