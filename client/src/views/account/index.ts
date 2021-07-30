@@ -42,4 +42,18 @@ export default class AccountView {
         </div>
       </div>`;
   }
+
+  createPayMethod(): string {
+    return `
+      <div>
+        <div class='account__pay-container'>
+          <span class='account__pay-text'>결제수단</span>
+          <span class='account__pay'>+</span>
+        </div>
+        
+        <div class='account__card-container'>
+          ${this.createCard()}
+        </div>
+      </div>`;
+  }
 }
