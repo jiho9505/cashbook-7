@@ -2,7 +2,7 @@ import '@src/views/header/index.scss';
 import { Logo, Logout } from '@src/static/imageUrls';
 import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
-import { PATHS } from '@src/static/header';
+import { PATHS } from '@src/static/constants';
 
 export default class HeaderView {
   currentPath = '';

@@ -1,0 +1,196 @@
+.account {
+  color: var(--concept-color-span);
+  font-size: 20px;
+  font-weight: bold;
+  width: 1250px; // 임시
+}
+
+.account__balance-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.account__balance-text {
+  font-size: 30px;
+}
+
+.account__balance {
+  font-size: 60px;
+  margin-bottom: 40px;
+}
+
+.account__pay-container {
+  display: flex;
+  gap: 10px;
+  font-size: 30px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.account__pay {
+  font-size: 50px;
+}
+
+.account__card-container {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 40px;
+  width: 100%;
+  overflow-x: auto; // 임시 스크롤
+  scrollbar-color: #d4aa70 #e4e4e4;
+  scrollbar-width: thin;
+}
+
+.account__card {
+  width: 390px;
+  height: 170px;
+  border-radius: 18px;
+  flex-shrink: 0; // item의 크기가 가변적이 되지 않는다. 즉 390px 고정!
+  background: linear-gradient(180deg, #989da5 1%, white 99%);
+  margin-bottom: 5px;
+  color: white;
+  position: relative;
+  padding: 10px;
+
+  &.shinhan {
+    background: linear-gradient(180deg, #2d78e8 1%, white 99%);
+  }
+
+  &.kakao {
+    background: linear-gradient(180deg, #ffc312 1%, white 99%);
+  }
+
+  &.samsung {
+    background: linear-gradient(180deg, red 1%, white 99%);
+  }
+
+  &.lotte {
+    background: linear-gradient(180deg, #6f1e51 1%, white 99%);
+  }
+
+  &.woori {
+    background: linear-gradient(180deg, #489cff 1%, white 99%);
+  }
+
+  &.hyundai {
+    background: linear-gradient(180deg, #924600 1%, white 99%);
+  }
+
+  &.money {
+    background: linear-gradient(180deg, #a3cb38 1%, white 99%);
+  }
+}
+
+.account__card-price {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+}
+
+.account__card-option {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+}
+
+.account__card-check {
+  display: none;
+  position: absolute;
+  bottom: 30px;
+  right: 10px;
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+
+  &.active {
+    display: block;
+  }
+}
+
+.account__card-name {
+  position: absolute;
+  bottom: 40px;
+  left: 10px;
+}
+
+.history__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.history__header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.history__text {
+  font-size: 30px;
+}
+
+.history__add {
+  font-size: 50px;
+}
+
+.table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  // 첫줄은 테이블 고정
+  // 아래 2줄은 테이블 간격
+}
+
+.table__content-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  transform: translateY(25px);
+}
+
+.table__content-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.table__content-pay {
+  font-weight: normal;
+}
+
+.table__content {
+  width: 35%;
+}
+
+.table__category {
+  width: 15%;
+}
+
+.table__date {
+  width: 25%;
+}
+
+.table__price {
+  width: 25%;
+}
+
+.account__card-container::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(180deg, var(--concept-color) 0%, #708ad4 99%);
+  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+  border-radius: 100px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+.account__card-container::-webkit-scrollbar {
+  width: 1px;
+}
+
+.account__card-container::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
