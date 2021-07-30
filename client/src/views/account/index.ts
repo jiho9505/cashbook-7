@@ -106,4 +106,12 @@ export default class AccountView {
         </div>
       </div>`;
   }
+
+  createHistoryContent(): string {
+    return `
+      <table class='table'>
+        ${this.createTableHeader()}
+        ${this.createTableContent()}
+      </table>`;
+  }
 }
