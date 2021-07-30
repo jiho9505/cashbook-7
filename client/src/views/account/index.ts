@@ -126,4 +126,11 @@ export default class AccountView {
         </tr>
       </thead>`;
   }
+
+  createTableContent(): string {
+    return `
+      <tbody>
+        ${this.createContentDetail()}
+      </tbody>`;
+  }
 }
