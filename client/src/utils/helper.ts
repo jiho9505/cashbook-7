@@ -13,6 +13,7 @@ export const Container = ({
   child = undefined,
 }) => {
   const Node = document.createElement(tagName);
+  if (id) Node.setAttribute('id', id);
   if (className) Node.setAttribute('class', className);
   if (attribute instanceof Array && attribute.length !== 0) {
     attribute.forEach(([key, val]) => {
