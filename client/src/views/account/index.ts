@@ -114,4 +114,16 @@ export default class AccountView {
         ${this.createTableContent()}
       </table>`;
   }
+
+  createTableHeader(): string {
+    return `
+      <thead>
+        <tr class='table__header' align='left'>
+          <th class='table__content'>거래내용</th>
+          <th class='table__category'>카테고리</th>
+          <th class='table__date'>날짜</th>
+          <th class='table__price'>금액</th>
+        </tr>
+      </thead>`;
+  }
 }
