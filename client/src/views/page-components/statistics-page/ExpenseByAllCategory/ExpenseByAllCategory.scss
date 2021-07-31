@@ -1,0 +1,31 @@
+.expense-by-all-category{
+    width:550px;
+    height:325px;
+    border-radius:10px;
+    padding:30px;
+    background-color: #fff;
+    span {
+        font-family: Raleway;
+        font-weight: bold;
+        font-size: 20px;
+        color:var(--font-color);
+    }
+}
+
+.expense-by-all-category__title{
+    display:block;
+}
+
+.expense-by-all-category__content{
+    display:flex;
+    height:280px;
+    svg {
+        path.hide {
+            opacity:0;
+        }
+    }
+    .expense-by-all-category__sort{
+        flex:1;
+    }
+}
+
