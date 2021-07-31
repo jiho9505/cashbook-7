@@ -79,4 +79,10 @@ export default class AccountHistoryModal {
         <input class="history-form__content" type="text" />
     `;
   }
+
+  createPayMethodForm() {
+    return `
+        <div class="history-form__pay-method"></div>
+    `;
+  }
 }
