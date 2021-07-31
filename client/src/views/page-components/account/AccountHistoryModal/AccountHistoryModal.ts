@@ -63,4 +63,13 @@ export default class AccountHistoryModal {
     </div>
     `;
   }
+
+  createMoneyForm() {
+    return `
+      <div class="history-form__money-container">
+        <span>금액</span>
+        <input class="history-form__money" type="text" />
+      </div>
+      `;
+  }
 }
