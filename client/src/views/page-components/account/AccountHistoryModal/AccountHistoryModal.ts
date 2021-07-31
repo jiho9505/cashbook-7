@@ -54,4 +54,13 @@ export default class AccountHistoryModal {
       </div>
     `;
   }
+
+  createDateForm() {
+    return `
+     <div class="history-form__date-container">
+        <span>일자</span>
+        <input class="history-form__date" type="text" />
+    </div>
+    `;
+  }
 }
