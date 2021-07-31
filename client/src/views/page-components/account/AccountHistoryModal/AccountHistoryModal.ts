@@ -2,18 +2,20 @@ import { $, createDOMWithSelector } from '@src/utils/helper';
 import './AccountHistoryModal.scss';
 import handleEvent from '@src/utils/handleEvent';
 import { CategoryImg } from '@src/static/constants';
+import PayMethods from '@src/views/components/PayMethods/PayMethods';
+import { samplePay } from '@src/dummyData';
 
 export default class AccountHistoryModal {
-  state: string;
+  state: any;
 
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
       this.setState(e.detail.store);
 
-      console.log('b');
       this.render();
       const modal = $('.account-histrory-modal');
-
+      const payMethodForm = $('.history-form__pay-method');
+      new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
       // modal.addEventListener('click', this.clickEventHandler.bind(this))
       // modal.addEventListener('keyup', this.keyupEventHandler.bind(this))
       // modal.addEventListener('focusout', this.focusoutEventHandler.bind(this))
@@ -42,14 +44,14 @@ export default class AccountHistoryModal {
       <div class="history-form">
         <form>
             <div class="history-form__date-money-container">
-                ${this.createDateForm}
-                ${this.createMoneyForm}
+                ${this.createDateForm()}
+                ${this.createMoneyForm()}
             </div>
-            <div>
-                ${this.createContentForm}
+            <div class="history-form__content-container">
+                ${this.createContentForm()}
             </div>
-            ${this.createPayMethodForm}
-            ${this.createCategoryForm}
+            ${this.createPayMethodForm()}
+            ${this.createCategoryForm()}
         </form> 
       </div>
     `;
