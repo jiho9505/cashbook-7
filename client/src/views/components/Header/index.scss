@@ -1,43 +1,39 @@
 header {
-    position:relative;
-    width:300px;
+    position:sticky;
     height:100%;
-}
-
-.header__logo{
-    img {
-        width:300px;
-    }
-}
-
-.header__account, .header__statistics, .header__calendar, .header__logout {
-    all:unset;
-    cursor:pointer; 
-    display:flex;
-    align-items:center;
-    justify-content: center;
-    width:90px;
-    height:90px;
-
-    &.active{
-        border-radius:50%;
-        background-color:var(--concept-color);
-        filter: drop-shadow(0px 0px 20px rgba(93, 95, 239, 0.5));
-    }
-
-    
+    width:400px;
+    margin-right:100px;
 }
 
 .header__nav-wrap{
     display:flex;
     flex-direction: column;
     align-items: center;
-    margin-top:80px;
-    gap: 60px;
+    margin-top:170px;
+    gap: 100px;
+}
+
+.header__account, .header__statistics, .header__calendar, .header__logout {
+    all:unset;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    cursor:pointer; 
+
+    img {
+        width:35px;
+        height:35px;
+    }
+
+    &.active{
+        width:80px;
+        height:80px;
+        border-radius:50%;
+        background-color:var(--concept-color);
+        filter: drop-shadow(0px 0px 20px rgba(93, 95, 239, 0.5));
+    }
 }
 
 .header__logout {
-    position:absolute;
-    bottom:80px;
-    left:calc(150px - 45px);
+    margin-top:400px;
 }
