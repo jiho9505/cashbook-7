@@ -1,7 +1,7 @@
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import './AccountHistoryModal.scss';
 import handleEvent from '@src/utils/handleEvent';
-import { CategoryImg } from '@src/static/constants';
+import { categoryList, matchCategoryAndImg } from '@src/static/constants';
 import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import { samplePay } from '@src/dummyData';
 
@@ -16,11 +16,21 @@ export default class AccountHistoryModal {
       const modal = $('.account-histrory-modal');
       const payMethodForm = $('.history-form__pay-method');
       new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
-      // modal.addEventListener('click', this.clickEventHandler.bind(this))
+      //   modal.addEventListener('click', this.onClickHandler.bind(this))
       // modal.addEventListener('keyup', this.keyupEventHandler.bind(this))
       // modal.addEventListener('focusout', this.focusoutEventHandler.bind(this))
     });
   }
+
+  //   onClickHandler() {
+  //     this.onClickCategory()
+  //     this.onClickPayMethod()
+  //     this.onClickSubmit()
+  //   }
+
+  //   onClickCategory(){
+
+  //   }
 
   setState(state): void {
     this.state = state;
@@ -92,8 +102,23 @@ export default class AccountHistoryModal {
     return `
       <div class="history-form__category">
         <span>분류</span>
-        <div></div>
+        <div class="history-form__category-container">
+            ${this.createCategoryList()}
+        </div>
       </div>
     `;
+  }
+
+  createCategoryList() {
+    return categoryList
+      .map((category) => {
+        return `
+            <div class="history-form__category-list active">
+                <img src=${matchCategoryAndImg[category]}>
+                <span>${category}</span>
+            </div>
+        `;
+      })
+      .join('');
   }
 }
