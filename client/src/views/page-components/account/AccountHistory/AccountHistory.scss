@@ -1,0 +1,61 @@
+.account-history__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+
+  .account-history__header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.account-history__text {
+  font-size: 30px;
+}
+
+.account-history__add {
+  font-size: 50px;
+}
+
+.account-history-table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  // 첫줄은 테이블 고정
+  // 아래 2줄은 테이블 간격
+
+  .account-history-table__content-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    transform: translateY(25px);
+  }
+
+  .account-history-table__content-detail {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .account-history-table__content-pay {
+    font-weight: normal;
+  }
+
+  .account-history-table__content {
+    width: 35%;
+  }
+
+  .account-history-table__category {
+    width: 15%;
+  }
+
+  .account-history-table__date {
+    width: 25%;
+  }
+
+  .account-history-table__price {
+    width: 25%;
+  }
+}
