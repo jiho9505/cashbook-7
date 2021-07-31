@@ -1,12 +1,12 @@
-import { $ } from '@src/utils/helper';
-import { createDOMWithSelector, matchCategoryAndImg } from '@src/utils/helper';
-import './history.scss';
+import { $, createDOMWithSelector } from '@src/utils/helper';
+import { matchCategoryAndImg } from '@src/static/constants';
+import './AccountHistory.scss';
 
-export default class History {
+export default class AccountHistory {
   state: any;
   history: HTMLElement;
   constructor({ parent, state }) {
-    this.history = createDOMWithSelector('div', '.history');
+    this.history = createDOMWithSelector('div', '.account-history');
 
     parent.appendChild(this.history);
     this.setProperty(state);
@@ -18,7 +18,7 @@ export default class History {
   }
 
   render(): void {
-    $('.history').innerHTML = `
+    $('.account-history').innerHTML = `
         ${this.createHistoryHeader()}
         ${this.createHistoryContent()}
         `;
@@ -26,23 +26,21 @@ export default class History {
 
   createHistoryHeader(): string {
     return `
-      <div class='history__header'>
-        <div class='history__header-left'>
-          <span class='history__text'>내역</span>
-          <span class='history__add'>+</span>
+      <div class='account-history__header'>
+        <div class='account-history__header-left'>
+          <span class='account-history__text'>내역</span>
+          <span class='account-history__add'>+</span>
         </div>
-        <div class='history__header-right'>
-          <span>수입</span>  
-          <span>${this.state.income}</span>
-          <span>지출</span>
-          <span>${this.state.expenditure}</span>
+        <div class='account-history__header-right'>
+          <span>수입 ${this.state.income}</span>
+          <span>지출 ${this.state.expenditure}</span>
         </div>
       </div>`;
   }
 
   createHistoryContent(): string {
     return `
-      <table class='table'>
+      <table class='account-history-table'>
         ${this.createTableHeader()}
         ${this.createTableContent()}
       </table>`;
@@ -51,11 +49,11 @@ export default class History {
   createTableHeader(): string {
     return `
       <thead>
-        <tr class='table__header' align='left'>
-          <th class='table__content'>거래내용</th>
-          <th class='table__category'>카테고리</th>
-          <th class='table__date'>날짜</th>
-          <th class='table__price'>금액</th>
+        <tr class='account-history-table__header' align='left'>
+          <th class='account-history-table__content'>거래내용</th>
+          <th class='account-history-table__category'>카테고리</th>
+          <th class='account-history-table__date'>날짜</th>
+          <th class='account-history-table__price'>금액</th>
         </tr>
       </thead>`;
   }
@@ -72,13 +70,13 @@ export default class History {
       .map((item) => {
         const image = matchCategoryAndImg[item.category];
         return `
-            <tr class='table_row'>
+            <tr class='account-history-table_row'>
                 <td>
-                    <div class='table__content-container'>
+                    <div class='account-history-table__content-container'>
                         <img src=${image}>
-                        <div class='table__content-detail'>
+                        <div class='account-history-table__content-detail'>
                             <span>${item.content}</span>
-                            <span class='table__content-pay'>${item.payMethod}</span>
+                            <span class='account-history-table__content-pay'>${item.payMethod}</span>
                         </div>
                     </div>
                 </td>
