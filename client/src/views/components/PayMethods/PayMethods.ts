@@ -23,6 +23,8 @@ export default class PayMethod {
 
   onClickHandler(e: MouseEvent) {
     this.onClickAddButton(e);
+    this.onClickCardChoice(e);
+    // this.onClickXbox(e);
   }
 
   onClickAddButton(e: MouseEvent) {
@@ -30,6 +32,41 @@ export default class PayMethod {
     if (!(target instanceof HTMLElement)) return;
     if (target.className === 'pay') handleEvent.fire('createhistorymodal', {});
   }
+
+  onClickCardChoice(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.id === 'card') {
+      const currentCardIdx = Number(target.dataset.idx);
+      const currentCardName = this.state[currentCardIdx].payMethodName;
+      console.log(currentCardName); // 필터의 기준
+      const checkButton = target.querySelector('#checkbutton');
+      if (checkButton.classList.contains('active')) {
+        checkButton.classList.remove('active');
+        // 옵저버 (필터)
+      } else {
+        checkButton.classList.add('active');
+        // 옵저버 (필터)
+        this.removeOthersClassList(currentCardIdx);
+      }
+    }
+  }
+
+  removeOthersClassList(currentCardIdx) {
+    const allCheckElement = document.querySelectorAll('#checkbutton');
+
+    for (let i = 0; i < allCheckElement.length; i++) {
+      if (i !== currentCardIdx) {
+        allCheckElement[i].classList.remove('active');
+      }
+    }
+  }
+
+  // onClickXbox(e: MouseEvent) {
+  //   const { target } = e;
+  //   if (!(target instanceof HTMLElement)) return;
+  //   if (target.className === 'card-xbox-img') console.log('hi');
+  // }
 
   setState(state): void {
     this.state = state;
@@ -67,16 +104,16 @@ export default class PayMethod {
     return this.state
       .map((pay, idx) => {
         return `
-            <div class='card ${cardType[pay.payMethodName]}'>
+            <div class='card ${cardType[pay.payMethodName]}' id='card' data-idx=${idx}>
               <div class='card-price'>
-              ${this.isHistoryModal() ? `` : `${pay.payMethodMoney}`}
+                ${this.isHistoryModal() ? `` : `${pay.payMethodMoney}`}
               </div>
 
-              <div class='card-check active'>
+              <div class='card-check' id='checkbutton'>
                 <img src=${CheckButton}>
               </div>
-              <div class='card-option'>
-              ${this.isHistoryModal() ? `` : `<img src=${Xbox}>`}
+              <div class='card-xbox'>
+                ${this.isHistoryModal() ? `` : `<img class='card-xbox-img' src=${Xbox}>`}
               </div>
               <div class='card-name'>
                 ${pay.payMethodName}
