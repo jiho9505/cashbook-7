@@ -9,11 +9,11 @@ export default class AccountHistory {
     this.history = createDOMWithSelector('div', '.account-history');
 
     parent.appendChild(this.history);
-    this.setProperty(state);
+    this.setState(state);
     this.render();
   }
 
-  setProperty(state): void {
+  setState(state): void {
     this.state = state;
   }
 

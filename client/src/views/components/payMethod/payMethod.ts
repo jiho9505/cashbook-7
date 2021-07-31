@@ -11,11 +11,11 @@ export default class PayMethod {
     this.PayWrapper = document.createElement('div');
 
     parent.appendChild(this.PayWrapper);
-    this.setProperty(state);
+    this.setState(state);
     this.render();
   }
 
-  setProperty(state): void {
+  setState(state): void {
     this.state = state;
   }
 
