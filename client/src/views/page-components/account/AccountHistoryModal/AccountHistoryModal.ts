@@ -27,4 +27,13 @@ export default class AccountHistoryModal {
   render(): void {
     $('#root').innerHTML += this.createModal();
   }
+
+  createModal() {
+    return `
+        <div class="account-history-modal">
+            <div class="overlay"></div>
+            ${this.createForm()}
+        </div>
+      `;
+  }
 }
