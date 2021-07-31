@@ -1,0 +1,30 @@
+import { $, createDOMWithSelector } from '@src/utils/helper';
+import './AccountHistoryModal.scss';
+import handleEvent from '@src/utils/handleEvent';
+import { CategoryImg } from '@src/static/constants';
+
+export default class AccountHistoryModal {
+  state: string;
+
+  constructor() {
+    handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
+      this.setState(e.detail.store);
+
+      console.log('b');
+      this.render();
+      const modal = $('.account-histrory-modal');
+
+      // modal.addEventListener('click', this.clickEventHandler.bind(this))
+      // modal.addEventListener('keyup', this.keyupEventHandler.bind(this))
+      // modal.addEventListener('focusout', this.focusoutEventHandler.bind(this))
+    });
+  }
+
+  setState(state): void {
+    this.state = state;
+  }
+
+  render(): void {
+    $('#root').innerHTML += this.createModal();
+  }
+}
