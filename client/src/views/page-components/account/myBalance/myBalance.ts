@@ -1,6 +1,5 @@
-import { $ } from '@src/utils/helper';
-import { createDOMWithSelector } from '@src/utils/helper';
-import './myBalance.scss';
+import { $, createDOMWithSelector } from '@src/utils/helper';
+import './MyBalance.scss';
 
 export default class MyBalance {
   state: string;
