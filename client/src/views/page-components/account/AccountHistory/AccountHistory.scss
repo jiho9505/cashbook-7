@@ -9,6 +9,27 @@
     align-items: center;
     gap: 10px;
   }
+
+  .account-history__header-right {
+    display: flex;
+    gap: 10px;
+  }
+}
+
+.account-history__income {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.account-history__expenditure {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  span {
+    color: #ef5d5d;
+  }
 }
 
 .account-history__text {
