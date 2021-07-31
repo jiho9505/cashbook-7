@@ -7,30 +7,41 @@ import { samplePay } from '@src/dummyData';
 
 export default class AccountHistoryModal {
   state: any;
-
+  choicedCategoryIndex: number = 0;
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
       this.setState(e.detail.store);
 
       this.render();
-      const modal = $('.account-histrory-modal');
+      const modal = $('.account-history-modal');
       const payMethodForm = $('.history-form__pay-method');
       new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
-      //   modal.addEventListener('click', this.onClickHandler.bind(this))
+
+      modal.addEventListener('click', this.onClickHandler.bind(this));
       // modal.addEventListener('keyup', this.keyupEventHandler.bind(this))
       // modal.addEventListener('focusout', this.focusoutEventHandler.bind(this))
     });
   }
 
-  //   onClickHandler() {
-  //     this.onClickCategory()
-  //     this.onClickPayMethod()
-  //     this.onClickSubmit()
-  //   }
+  onClickHandler(e: MouseEvent) {
+    this.onClickCategory(e);
+    //   this.onClickPayMethod()
+    //   this.onClickSubmit()
+  }
 
-  //   onClickCategory(){
-
-  //   }
+  onClickCategory(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.id === 'category-item') {
+      if (target.classList.contains('active')) {
+        target.classList.remove('active');
+        // 옵저버 (필터)
+      } else {
+        target.classList.add('active');
+        // 옵저버 (필터)
+      }
+    }
+  }
 
   setState(state): void {
     this.state = state;
@@ -62,6 +73,7 @@ export default class AccountHistoryModal {
             </div>
             ${this.createPayMethodForm()}
             ${this.createCategoryForm()}
+            ${this.createConfirmButton()}
         </form> 
       </div>
     `;
@@ -113,12 +125,20 @@ export default class AccountHistoryModal {
     return categoryList
       .map((category) => {
         return `
-            <div class="history-form__category-list active">
+            <div class="history-form__category-list" id='category-item'>
                 <img src=${matchCategoryAndImg[category]}>
                 <span>${category}</span>
             </div>
         `;
       })
       .join('');
+  }
+
+  createConfirmButton() {
+    return `
+        <div class="history-form__confirm-container" >
+            <button class="history-form__confirm" >등록하기</button>
+        </div>
+      `;
   }
 }
