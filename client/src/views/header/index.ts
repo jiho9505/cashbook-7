@@ -26,9 +26,6 @@ export default class HeaderView {
     const a = target.closest('a');
     if (!a) return;
     const path = a.getAttribute('href');
-    // 2. 현재 Navigation에 속성 변경
-
-    // 3. statechange를 fire한다.
     handleEvent.fire('statechange', { ...history.state, path });
   }
 

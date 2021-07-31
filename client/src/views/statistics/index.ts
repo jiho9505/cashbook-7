@@ -97,7 +97,6 @@ export default class StatisticsView {
     const { x, y, radius, degree } = props;
     const isLargeArc = degree > 180 ? 1 : 0;
     const isEnd = degree === this.MAX_DEGREE;
-    // console.log(finishCoo.x, finishCoo.y);
     const d = `M ${startCoord.x} ${startCoord.y} A ${radius} ${radius} 0 ${isLargeArc} 1 ${finishCoord.x} ${
       finishCoord.y
     } L ${x} ${y} ${isEnd ? 'z' : ''}`;
