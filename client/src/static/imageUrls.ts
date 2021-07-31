@@ -18,5 +18,6 @@ export const SHOPPING = BASE_URL + 'category' + '/shopping.svg';
 export const TRAFFIC = BASE_URL + 'category' + '/traffic.svg';
 
 export const CheckButton = BASE_URL + 'checkbutton.svg';
-export const Option = BASE_URL + 'option.svg';
-
+export const Xbox = BASE_URL + 'xbox.svg';
+export const CheckActive = BASE_URL + 'checkActive.svg';
+export const CheckNonActive = BASE_URL + 'checkNonActive.svg';
