@@ -63,7 +63,7 @@ export default class StatisticsPageView {
     return Container({
       tagName: 'div',
       className: 'expense-on-category__content',
-      child: [this.DoughnutChart(), this.ExpenseOnCategorySort()],
+      // child: [this.DoughnutChart(), this.ExpenseOnCategorySort()],
     });
   }
 

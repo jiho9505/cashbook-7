@@ -15,34 +15,34 @@
 }
 
 :root{
-    // Color
     --bg-color: #F4F6FC;
     --concept-color: #5D5FEF;
     --concept-color-span: #3e2b75;
     --font-color:#3E2B75;
 
-    // Size
-    --max-width : 1920px;
-    --max-height : 1080px;
+    --min-height : 1080px;
 }
 
 body {
   position:absolute;
   width: 100vw;
   height: 100vh;
-  min-width: var(--max-width);
-  min-height: var(--max-height);
+  min-height: var(--min-height);
+  background-color: var(--bg-color);
 }
 
 #root {
   display: flex;
+  min-width : 1440px;
   height: 100%;
+  margin: 0 auto;
+  padding: 0 50px;
   background-color: var(--bg-color);
-  padding: 80px 100px;
 }
 
 .content-wrap {
-  width: 100%;
+  width:1135px;
   height: 100%;
+  margin: 0 auto;
   padding-top:150px;
 }

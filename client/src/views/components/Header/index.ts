@@ -49,11 +49,10 @@ export default class Header {
       </div>
       <nav class="header__nav-wrap">
         ${this.getNavItem(this.currentPath)}
+        <div class="header__logout">
+          <img src=${Logout}>
+        </div>
       </nav>
-
-      <div class="header__logout">
-        <img src=${Logout}>
-      </div>
     `;
   }
 }
