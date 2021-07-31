@@ -1,8 +1,8 @@
 import handleEvent from '@src/utils/handleEvent';
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import '@src/views/page-components/account/index.scss';
-import MyBalance from './MyBalance/MyBalance';
-import PayMethod from '@src/views/components/PayMethod/PayMethod';
+import Balance from './Balance/Balance';
+import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import AccountHistory from './AccountHistory/AccountHistory';
 import { sampleBalance, samplePay, sampleHistory } from '@src/dummyData';
 
@@ -21,8 +21,8 @@ export default class AccountView {
 
       $('.content-wrap').appendChild(accountWrapper);
 
-      new MyBalance({ parent: accountWrapper, state: this.state.balance });
-      new PayMethod({ parent: accountWrapper, state: this.state.payMethods });
+      new Balance({ parent: accountWrapper, state: this.state.balance });
+      new PayMethods({ parent: accountWrapper, state: this.state.payMethods });
       new AccountHistory({ parent: accountWrapper, state: this.state.accountHistory });
     });
   }

@@ -1,7 +1,7 @@
 import { cardType } from '@src/static/constants';
 import handleEvent from '@src/utils/handleEvent';
 import { CheckButton, Option } from '@src/static/imageUrls';
-import './PayMethod.scss';
+import './PayMethods.scss';
 
 export default class PayMethod {
   state: any;
