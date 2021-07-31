@@ -49,32 +49,3 @@ export const createDOMWithSelector = (tag: string, ...selectors: string[]) => {
   });
   return $DOM;
 };
-
-export const cardType: object = {
-  신한카드: 'shinhan',
-  우리카드: 'woori',
-  카카오뱅크: 'kakao',
-  롯데카드: 'lotte',
-  현대카드: 'hyundai',
-  삼성카드: 'samsung',
-  현금: 'money',
-};
-
-const BASE_URL = 'https://cashbook-7.s3.ap-northeast-2.amazonaws.com/';
-const CULTURE = BASE_URL + 'category' + '/culture.svg';
-const ETC = BASE_URL + 'category' + '/etc.svg';
-const FOOD = BASE_URL + 'category' + '/food.svg';
-const HEALTH = BASE_URL + 'category' + '/health.svg';
-const LIFE = BASE_URL + 'category' + '/life.svg';
-const SHOPPING = BASE_URL + 'category' + '/shopping.svg';
-const TRAFFIC = BASE_URL + 'category' + '/traffic.svg';
-
-export const matchCategoryAndImg = {
-  문화: CULTURE,
-  기타: ETC,
-  '의료/건강': HEALTH,
-  음식: FOOD,
-  교통: TRAFFIC,
-  '쇼핑/뷰티': SHOPPING,
-  생활: LIFE,
-};
