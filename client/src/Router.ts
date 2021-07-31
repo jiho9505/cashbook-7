@@ -2,13 +2,13 @@ import handleEvent from './utils/handleEvent';
 import AccountView from './views/page-components/account-page';
 import CalendarView from './views/calendar';
 import Header from './views/components/Header';
-import StatisticsView from './views/statistics';
+import StatisticsPageView from './views/page-components/statistics-page';
 
 export default class Router {
   constructor() {
     new Header();
     new AccountView();
-    new StatisticsView();
+    new StatisticsPageView();
     new CalendarView();
 
     window.addEventListener('popstate', (e) => {
