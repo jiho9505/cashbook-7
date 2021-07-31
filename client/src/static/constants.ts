@@ -12,7 +12,7 @@ import {
   TRAFFIC,
   SHOPPING,
   LIFE,
-} from './imageUrls';
+} from './image-urls';
 
 export const PATHS = [
   ['/account', Account, AccountActive],

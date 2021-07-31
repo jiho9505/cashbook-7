@@ -1,4 +1,4 @@
-import { CULTURE, ETC, FOOD, HEALTH, LIFE, SHOPPING, TRAFFIC } from '@src/static/imageUrls';
+import { CULTURE, ETC, FOOD, HEALTH, LIFE, SHOPPING, TRAFFIC } from '@src/static/image-urls';
 
 export const PICTOGRAM = {
   culture: CULTURE,

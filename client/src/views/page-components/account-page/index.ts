@@ -1,6 +1,6 @@
 import handleEvent from '@src/utils/handleEvent';
 import { $, createDOMWithSelector } from '@src/utils/helper';
-import '@src/views/page-components/account/index.scss';
+import '@src/views/page-components/account-page/index.scss';
 import MyBalance from './MyBalance/MyBalance';
 import PayMethod from '@src/views/components/PayMethod/PayMethod';
 import AccountHistory from './AccountHistory/AccountHistory';

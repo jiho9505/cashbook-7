@@ -1,10 +1,11 @@
-import '@src/views/header/index.scss';
-import { Logo, Logout } from '@src/static/imageUrls';
+import { Logo, Logout } from '@src/static/image-urls';
 import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
 import { PATHS } from '@src/static/constants';
 
-export default class HeaderView {
+import './index.scss';
+
+export default class Header {
   currentPath = '';
 
   constructor() {

@@ -1,14 +1,12 @@
-import HomeView from '@src/views/home';
 import handleEvent from './utils/handleEvent';
-import AccountView from './views/page-components/Account';
+import AccountView from './views/page-components/account-page';
 import CalendarView from './views/calendar';
-import HeaderView from './views/header';
+import Header from './views/components/Header';
 import StatisticsView from './views/statistics';
 
 export default class Router {
   constructor() {
-    new HeaderView();
-    new HomeView();
+    new Header();
     new AccountView();
     new StatisticsView();
     new CalendarView();
