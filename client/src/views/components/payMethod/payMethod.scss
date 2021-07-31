@@ -1,13 +1,17 @@
+@mixin cardBackGround($color: #989da5) {
+  background: linear-gradient(150deg, $color 1%, white 99%);
+}
+
 .pay-container {
   display: flex;
   gap: 10px;
   font-size: 30px;
   align-items: center;
   margin-bottom: 20px;
-}
 
-.pay {
-  font-size: 50px;
+  .pay {
+    font-size: 50px;
+  }
 }
 
 .card-container {
@@ -18,95 +22,95 @@
   overflow-x: auto; // 임시 스크롤
   scrollbar-color: #d4aa70 #e4e4e4;
   scrollbar-width: thin;
-}
 
-.card {
-  width: 390px;
-  height: 170px;
-  border-radius: 18px;
-  flex-shrink: 0; // item의 크기가 가변적이 되지 않는다. 즉 390px 고정!
-  background: linear-gradient(180deg, #989da5 1%, white 99%);
-  margin-bottom: 5px;
-  color: white;
-  position: relative;
-  padding: 10px;
-
-  &.shinhan {
-    background: linear-gradient(180deg, #2d78e8 1%, white 99%);
+  &::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(180deg, var(--concept-color) 0%, #708ad4 99%);
+    box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+    border-radius: 100px;
+    border: 3px solid transparent;
+    background-clip: content-box;
   }
 
-  &.kakao {
-    background: linear-gradient(180deg, #ffc312 1%, white 99%);
+  &::-webkit-scrollbar {
+    width: 1px;
   }
 
-  &.samsung {
-    background: linear-gradient(180deg, red 1%, white 99%);
+  &::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    border-radius: 100px;
   }
 
-  &.lotte {
-    background: linear-gradient(180deg, #6f1e51 1%, white 99%);
+  .card {
+    width: 390px;
+    height: 170px;
+    border-radius: 18px;
+    flex-shrink: 0; // item의 크기가 가변적이 되지 않는다. 즉 390px 고정!
+    @include cardBackGround();
+    margin-bottom: 5px;
+    color: white;
+    position: relative;
+    padding: 10px;
+
+    &.shinhan {
+      @include cardBackGround(#2d78e8);
+    }
+
+    &.kakao {
+      @include cardBackGround(#ffc312);
+    }
+
+    &.samsung {
+      @include cardBackGround(red);
+    }
+
+    &.lotte {
+      @include cardBackGround(#6f1e51);
+    }
+
+    &.woori {
+      @include cardBackGround(#489cff);
+    }
+
+    &.hyundai {
+      @include cardBackGround(#924600);
+    }
+
+    &.money {
+      @include cardBackGround(#a3cb38);
+    }
+
+    .card-price {
+      position: absolute;
+      top: 15px;
+      left: 10px;
+    }
+
+    .card-option {
+      position: absolute;
+      top: 15px;
+      right: 10px;
+    }
+
+    .card-check {
+      display: none;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+
+      &.active {
+        display: block;
+      }
+    }
+
+    .card-name {
+      position: absolute;
+      bottom: 20px;
+      left: 10px;
+    }
   }
-
-  &.woori {
-    background: linear-gradient(180deg, #489cff 1%, white 99%);
-  }
-
-  &.hyundai {
-    background: linear-gradient(180deg, #924600 1%, white 99%);
-  }
-
-  &.money {
-    background: linear-gradient(180deg, #a3cb38 1%, white 99%);
-  }
-}
-
-.card-price {
-  position: absolute;
-  top: 15px;
-  left: 10px;
-}
-
-.card-option {
-  position: absolute;
-  top: 15px;
-  right: 10px;
-}
-
-.card-check {
-  display: none;
-  position: absolute;
-  bottom: 30px;
-  right: 10px;
-
-  img {
-    width: 30px;
-    height: 30px;
-  }
-
-  &.active {
-    display: block;
-  }
-}
-
-.card-name {
-  position: absolute;
-  bottom: 40px;
-  left: 10px;
-}
-
-.card-container::-webkit-scrollbar-thumb {
-  background-image: linear-gradient(180deg, var(--concept-color) 0%, #708ad4 99%);
-  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
-  border-radius: 100px;
-  border: 3px solid transparent;
-  background-clip: content-box;
-}
-
-.card-container::-webkit-scrollbar {
-  width: 1px;
-}
-
-.card-container::-webkit-scrollbar-track {
-  background-color: #e4e4e4;
-  border-radius: 100px;
 }
