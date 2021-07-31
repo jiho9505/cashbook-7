@@ -1,6 +1,6 @@
 import { cardType } from '@src/static/constants';
 import handleEvent from '@src/utils/handleEvent';
-import { CheckButton, Option } from '@src/static/imageUrls';
+import { CheckButton, Xbox } from '@src/static/imageUrls';
 import './PayMethods.scss';
 
 export default class PayMethod {
@@ -52,7 +52,7 @@ export default class PayMethod {
                 <img src=${CheckButton}>
               </div>
               <div class='card-option'>
-                <img src=${Option}>
+                <img src=${Xbox}>
               </div>
               <div class='card-name'>
                 ${pay.payMethodName}
