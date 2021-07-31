@@ -72,4 +72,11 @@ export default class AccountHistoryModal {
       </div>
       `;
   }
+
+  createContentForm() {
+    return `
+        <span>내용</span>
+        <input class="history-form__content" type="text" />
+    `;
+  }
 }
