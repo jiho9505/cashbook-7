@@ -1,6 +1,6 @@
 import { cardType } from '@src/static/constants';
 import handleEvent from '@src/utils/handleEvent';
-import { CheckButton, Xbox } from '@src/static/imageUrls';
+import { CheckButton, ETC, Xbox } from '@src/static/imageUrls';
 import './PayMethods.scss';
 import { $ } from '@src/utils/helper';
 
@@ -18,10 +18,17 @@ export default class PayMethod {
     this.setState(state);
     this.render();
 
-    this.PayWrapper.addEventListener('click', () => {
-      if (this.mode === 'historyModal') return;
-      handleEvent.fire('createhistorymodal', {});
-    });
+    this.PayWrapper.addEventListener('click', this.onClickHandler.bind(this));
+  }
+
+  onClickHandler(e: MouseEvent) {
+    this.onClickAddButton(e);
+  }
+
+  onClickAddButton(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'pay') handleEvent.fire('createhistorymodal', {});
   }
 
   setState(state): void {
