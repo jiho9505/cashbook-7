@@ -35,3 +35,17 @@ export const changeIntoDateFormat = (data: number) => {
   const mm = currentDate.getMinutes();
   return `${m}월 ${d}일, ${hh.toString().padStart(2, '0')}:${mm} ${h < 12 ? 'am' : 'pm'}`;
 };
+
+export const createDOMWithSelector = (tag: string, ...selectors: string[]) => {
+  const $DOM: HTMLElement = document.createElement(tag);
+  selectors.forEach((selector) => {
+    if (selector[0] === '#') {
+      $DOM.id = selector.slice(1);
+    }
+
+    if (selector[0] === '.') {
+      $DOM.classList.add(selector.slice(1));
+    }
+  });
+  return $DOM;
+};
