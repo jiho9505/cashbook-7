@@ -36,4 +36,22 @@ export default class AccountHistoryModal {
         </div>
       `;
   }
+
+  createForm() {
+    return `
+      <div class="history-form">
+        <form>
+            <div class="history-form__date-money-container">
+                ${this.createDateForm}
+                ${this.createMoneyForm}
+            </div>
+            <div>
+                ${this.createContentForm}
+            </div>
+            ${this.createPayMethodForm}
+            ${this.createCategoryForm}
+        </form> 
+      </div>
+    `;
+  }
 }
