@@ -85,4 +85,13 @@ export default class AccountHistoryModal {
         <div class="history-form__pay-method"></div>
     `;
   }
+
+  createCategoryForm() {
+    return `
+      <div class="history-form__category">
+        <span>분류</span>
+        <div></div>
+      </div>
+    `;
+  }
 }
