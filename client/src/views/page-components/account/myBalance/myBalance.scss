@@ -1,14 +1,14 @@
-.account__balance-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.account__balance-text {
-  font-size: 30px;
-}
-
 .account__balance {
   font-size: 60px;
   margin-bottom: 40px;
+
+  .account__balance-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .account__balance-text {
+    font-size: 30px;
+  }
 }
