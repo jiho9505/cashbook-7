@@ -14,18 +14,37 @@
 
 .expense-by-all-category__title{
     display:block;
+    height:20px;
 }
 
-.expense-by-all-category__content{
+.expense-by-all-category__content {
     display:flex;
-    height:280px;
-    svg {
-        path.hide {
-            opacity:0;
-        }
+    width:100%;
+    height:calc(100% - 20px);
+    .content__chart,.content__summary { 
+        width:50%;
     }
-    .expense-by-all-category__sort{
-        flex:1;
+}
+
+.content__chart{
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    
+    svg {
+        width:225px; 
+        height:225px;
+        transform:rotate(-90deg);
+        paint-order: stroke;
+
+        path{
+            transition: transform 0.5s ease 0s;
+            cursor:pointer;
+        }
+        
+        path:hover{
+            transform: scale(1.2);
+        }
     }
 }
 
