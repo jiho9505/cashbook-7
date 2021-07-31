@@ -14,11 +14,11 @@ export default class AccountView {
   };
 
   constructor() {
-    const accountWrapper = createDOMWithSelector('div', '.account');
-
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
       if (e.detail.state.path !== '/account') return;
 
+      const accountWrapper = createDOMWithSelector('div', '.account');
+      $('.content-wrap').innerHTML = '';
       $('.content-wrap').appendChild(accountWrapper);
 
       new Balance({ parent: accountWrapper, state: this.state.balance });
