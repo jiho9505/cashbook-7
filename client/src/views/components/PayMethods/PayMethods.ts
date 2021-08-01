@@ -2,12 +2,14 @@ import { cardType } from '@src/static/constants';
 import handleEvent from '@src/utils/handleEvent';
 import { CheckButton, ETC, Xbox } from '@src/static/imageUrls';
 import './PayMethods.scss';
-import { $ } from '@src/utils/helper';
+import { $, removeOthersClassList } from '@src/utils/helper';
 
 export default class PayMethod {
   state: any;
   PayWrapper: HTMLElement;
   mode: string = 'Account';
+  currentMode: HTMLElement;
+  currentCardName: string = '';
 
   constructor({ parent, state }) {
     if (parent === $('.history-form__pay-method')) this.mode = 'historyModal';
@@ -18,7 +20,8 @@ export default class PayMethod {
     this.setState(state);
     this.render();
 
-    this.PayWrapper.addEventListener('click', this.onClickHandler.bind(this));
+    this.currentMode = document.querySelector('#' + this.mode);
+    this.currentMode.addEventListener('click', this.onClickHandler.bind(this));
   }
 
   onClickHandler(e: MouseEvent) {
@@ -30,7 +33,8 @@ export default class PayMethod {
   onClickAddButton(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
-    if (target.className === 'pay') handleEvent.fire('createhistorymodal', {});
+
+    if (target.className === 'pay') handleEvent.fire('createhistorymodal'); // 자신의 결제수단 데이터를 넘겨줄것 state는 없어도 됨
   }
 
   onClickCardChoice(e: MouseEvent) {
@@ -38,26 +42,16 @@ export default class PayMethod {
     if (!(target instanceof HTMLElement)) return;
     if (target.id === 'card') {
       const currentCardIdx = Number(target.dataset.idx);
-      const currentCardName = this.state[currentCardIdx].payMethodName;
-      console.log(currentCardName); // 필터의 기준
       const checkButton = target.querySelector('#checkbutton');
+      this.currentCardName = this.state[currentCardIdx].payMethodName;
+
       if (checkButton.classList.contains('active')) {
         checkButton.classList.remove('active');
         // 옵저버 (필터)
       } else {
         checkButton.classList.add('active');
         // 옵저버 (필터)
-        this.removeOthersClassList(currentCardIdx);
-      }
-    }
-  }
-
-  removeOthersClassList(currentCardIdx) {
-    const allCheckElement = document.querySelectorAll('#checkbutton');
-
-    for (let i = 0; i < allCheckElement.length; i++) {
-      if (i !== currentCardIdx) {
-        allCheckElement[i].classList.remove('active');
+        removeOthersClassList(currentCardIdx, this.currentMode, '#checkbutton');
       }
     }
   }
@@ -81,6 +75,7 @@ export default class PayMethod {
   /**
     Modal에서 나온 부분인지 Account 페이지에서 나온 부분인지 판단
    */
+
   isHistoryModal(): boolean {
     if (this.mode === 'historyModal') return true;
     return false;
@@ -88,13 +83,13 @@ export default class PayMethod {
 
   createPayMethod(): string {
     return `
-      <div>
+      <div id=${this.mode}>
         <div class='pay-container'>
           <span class='pay-text'>결제수단</span>
           ${this.isHistoryModal() ? `` : `<span class='pay'>+</span>`}
         </div>
         
-        <div class='card-container'>
+        <div class='card-container' id=${this.mode}>
           ${this.createCard()}
         </div>
       </div>`;
