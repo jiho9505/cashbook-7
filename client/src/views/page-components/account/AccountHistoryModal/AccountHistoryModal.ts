@@ -8,6 +8,8 @@ import { samplePay } from '@src/dummyData';
 const SlideOutTime: number = 1300;
 const DateInputMaxLength: number = 8;
 const MoneyInputMaxLength: number = 9;
+const MoneyInputMinLength: number = 0;
+const AlertShowTime: number = 2000;
 
 export default class AccountHistoryModal {
   state: any;
@@ -15,18 +17,25 @@ export default class AccountHistoryModal {
   payme: any;
   modal: any;
   modalWrapper;
+  dateInput;
+  moneyInput;
+  dateValueValidation: boolean = false;
+  moneyValueValidation: boolean = false;
+
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
       this.setState(e.detail.store);
-
       this.modalWrapper = createDOMWithSelector('div', '.account-history-wrapper');
       this.render();
 
       const payMethodForm = $('.history-form__pay-method');
+      const dateInput = $('.history-form__date');
+      const moneyInput = $('.history-form__money');
       this.payme = new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
       this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
       this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
-      // modal.addEventListener('focusout', this.focusoutEventHandler.bind(this))
+      dateInput.addEventListener('focusout', this.onFocusOutDateInputHandler.bind(this));
+      moneyInput.addEventListener('focusout', this.onFocusOutMoneyInputHandler.bind(this));
     });
   }
 
@@ -40,6 +49,68 @@ export default class AccountHistoryModal {
   onKeyUpHandler(e: KeyboardEvent) {
     this.onKeyUpDate(e);
     this.onKeyUpMoney(e);
+  }
+
+  onFocusOutDateInputHandler() {
+    this.onFocusOutDate();
+  }
+
+  onFocusOutMoneyInputHandler() {
+    this.onFocusOutMoney();
+  }
+
+  onFocusOutDate() {
+    const target = $('.history-form__date');
+    const ValidationLengthResult = this.checkDateInputLengthValidation(target, DateInputMaxLength);
+    const ValidationValueResult = this.checkDateInputValueValidation(target);
+
+    if (ValidationLengthResult || ValidationValueResult) {
+      this.showAlert(true, '.date-alert');
+      this.dateValueValidation = false;
+    } else {
+      this.dateValueValidation = true;
+    }
+  }
+
+  onFocusOutMoney() {
+    const target = $('.history-form__money');
+    const ValidationResult = this.checkMoneyInputLengthValidation(target, MoneyInputMinLength);
+
+    if (ValidationResult) {
+      this.showAlert(true, '.money-alert');
+      this.moneyValueValidation = false;
+    } else {
+      this.moneyValueValidation = true;
+    }
+  }
+
+  showAlert(ValidationResult, target) {
+    if (ValidationResult) {
+      $(target).classList.add('active');
+      setTimeout(() => {
+        $(target).classList.remove('active');
+      }, AlertShowTime);
+    }
+  }
+
+  checkDateInputLengthValidation(target, length) {
+    if (target.value.length !== length) return true;
+    return false;
+  }
+
+  /**
+   추후 윤년을 고려해야합니다..!
+   */
+  checkDateInputValueValidation(target) {
+    const month = target.value.slice(4, 6);
+    const day = target.value.slice(6, 8);
+    if (0 < Number(month) && 13 > Number(month) && 31 > Number(day) && 0 < Number(day)) return false;
+    return true;
+  }
+
+  checkMoneyInputLengthValidation(target, length) {
+    if (target.value.length === length) return true;
+    return false;
   }
 
   onKeyUpDate(e: KeyboardEvent) {
@@ -150,6 +221,7 @@ export default class AccountHistoryModal {
      <div class="history-form__date-container">
         <span>일자</span>
         <input class="history-form__date" type="text" />
+        <span class='date-alert'>유효한 날짜를 입력해주시기 바랍니다❗️</span>
     </div>
     `;
   }
@@ -160,6 +232,7 @@ export default class AccountHistoryModal {
         <span>금액</span>
         <input class="history-form__money" type="text" />
         <span class='Won'>₩</span>
+        <span class='money-alert'>금액를 입력해주시기 바랍니다❗️</span>
       </div>
       `;
   }
