@@ -1,7 +1,14 @@
 import { $, createDOMWithSelector } from '@src/utils/helper';
+import handleEvent from '@src/utils/handleEvent';
 import { matchCategoryAndImg } from '@src/static/constants';
+<<<<<<< HEAD:client/src/views/page-components/account-page/AccountHistory/AccountHistory.ts
 import './AccountHistory.scss';
 import { CheckActive, CheckNonActive } from '@src/static/image-urls';
+=======
+import { CheckActive, CheckNonActive } from '@src/static/imageUrls';
+>>>>>>> d8dc6f7 ([#16] feat : AddButton Click 이벤트 추가):client/src/views/page-components/account/AccountHistory/AccountHistory.ts
+
+import './AccountHistory.scss';
 
 export default class AccountHistory {
   state: any;
@@ -10,11 +17,23 @@ export default class AccountHistory {
     this.history = createDOMWithSelector('div', '.account-history');
 
     parent.appendChild(this.history);
-    this.setState(state);
+    this.setProperty(state);
     this.render();
+
+    this.history.addEventListener('click', this.onClickHandler.bind(this));
   }
 
-  setState(state): void {
+  onClickHandler(e: MouseEvent) {
+    this.onClickAddButton(e);
+  }
+
+  onClickAddButton(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'account-history__add') handleEvent.fire('createhistorymodal'); // 자신의 결제수단 데이터를 넘겨줄것 state는 없어도 됨
+  }
+
+  setProperty(state): void {
     this.state = state;
   }
 
@@ -59,8 +78,8 @@ export default class AccountHistory {
       <thead>
         <tr class='account-history-table__header' align='left'>
           <th class='account-history-table__content'>거래내용</th>
-          <th class='account-history-table__category'>카테고리</th>
-          <th class='account-history-table__date'>날짜</th>
+          <th class='account-history-table__category'><span>분류</span></th>
+          <th class='account-history-table__date'><span>날짜</span></th>
           <th class='account-history-table__price'>금액</th>
         </tr>
       </thead>`;
