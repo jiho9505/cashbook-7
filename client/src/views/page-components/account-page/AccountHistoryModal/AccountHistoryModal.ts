@@ -31,7 +31,7 @@ export default class AccountHistoryModal {
 
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
-      this.setState(e.detail); // undefined ( 애초에 가져올만한 정보는 결제수단목록뿐) !! 값 확인하기 !!
+      this.setProperty(e.detail); // undefined ( 애초에 가져올만한 정보는 결제수단목록뿐) !! 값 확인하기 !!
 
       this.modalWrapper = createDOMWithSelector('div', '.account-history-wrapper');
       this.render();
@@ -45,18 +45,12 @@ export default class AccountHistoryModal {
       this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
       this.dateInput.addEventListener('focusout', this.onFocusOutDateInputHandler.bind(this));
       this.moneyInput.addEventListener('focusout', this.onFocusOutMoneyInputHandler.bind(this));
-      this.dateInput.addEventListener('focusin', this.onFocusInDateInputHandler.bind(this));
-      this.moneyInput.addEventListener('focusin', this.onFocusInMoneyInputHandler.bind(this));
+      this.dateInput.addEventListener('focusin', this.onFocusInInputHandler.bind(this));
+      this.moneyInput.addEventListener('focusin', this.onFocusInInputHandler.bind(this));
     });
   }
 
-  onFocusInDateInputHandler(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
-    this.checkInputValueOnlyNumberRegex(target);
-  }
-
-  onFocusInMoneyInputHandler(e: MouseEvent) {
+  onFocusInInputHandler(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
     this.checkInputValueOnlyNumberRegex(target);
@@ -146,13 +140,15 @@ export default class AccountHistoryModal {
   formatDateValue() {
     const DateValue: string = this.dateInput.value;
     const DateArray = DateValue.split('');
-    // 4, 7
-    if (DateValue.length > 6) {
-      DateArray.splice(4, 0, '.');
-      DateArray.splice(7, 0, '.');
+    const firstIndexToPutDot = 4;
+    const secondIndexToPutDot = 6;
+
+    if (DateValue.length > secondIndexToPutDot) {
+      DateArray.splice(firstIndexToPutDot, 0, '.');
+      DateArray.splice(secondIndexToPutDot + 1, 0, '.');
       this.dateInput.value = DateArray.join('');
-    } else if (DateValue.length > 4) {
-      DateArray.splice(4, 0, '.');
+    } else if (DateValue.length > firstIndexToPutDot) {
+      DateArray.splice(firstIndexToPutDot, 0, '.');
       this.dateInput.value = DateArray.join('');
     }
   }
@@ -282,7 +278,7 @@ export default class AccountHistoryModal {
     }
   }
 
-  setState(state): void {
+  setProperty(state): void {
     this.state = state;
   }
 
