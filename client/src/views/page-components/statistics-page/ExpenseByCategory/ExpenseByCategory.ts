@@ -21,7 +21,10 @@ export default class ExpenseByCategory {
             ${this.getExpenseDelimiterDOM(this.data)}
           </div>
           <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg'></svg>
-          <div class='content__day-delimiter'></div>
+          <div class='content__day-delimiter'>
+            <span>5</span><span>10</span>
+            <span>15</span><span>20</span><span>25</span>
+          </div>
         </div>
       `;
 
