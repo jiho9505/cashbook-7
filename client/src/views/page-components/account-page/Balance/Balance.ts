@@ -8,11 +8,11 @@ export default class Balance {
     const balanceWrapper = createDOMWithSelector('div', '.account__balance-container');
 
     parent.appendChild(balanceWrapper);
-    this.setState(state);
+    this.setProperty(state);
     this.render();
   }
 
-  setState(state): void {
+  setProperty(state): void {
     this.state = state;
   }
 

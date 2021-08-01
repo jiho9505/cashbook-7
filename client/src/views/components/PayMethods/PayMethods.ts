@@ -17,7 +17,7 @@ export default class PayMethod {
     this.PayWrapper = document.createElement('div');
 
     parent.appendChild(this.PayWrapper);
-    this.setState(state);
+    this.setProperty(state);
     this.render();
 
     this.currentMode = document.querySelector('#' + this.mode);
@@ -33,8 +33,6 @@ export default class PayMethod {
   onClickAddButton(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
-
-    if (target.className === 'pay') handleEvent.fire('createhistorymodal'); // 자신의 결제수단 데이터를 넘겨줄것 state는 없어도 됨
   }
 
   onClickCardChoice(e: MouseEvent) {
@@ -63,7 +61,7 @@ export default class PayMethod {
   //   if (target.className === 'card-xbox-img') console.log('hi');
   // }
 
-  setState(state): void {
+  setProperty(state): void {
     this.state = state;
   }
 
