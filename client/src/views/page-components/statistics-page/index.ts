@@ -4,14 +4,14 @@ import { $ } from '@src/utils/helper';
 
 import './index.scss';
 import RecentlyAccountHistory from './RecentlyAccountHistory/RecentlyAccountHistory';
-import ExpenseByCategory from './ExpenseByCategory/ExpenseByCategory';
+import ExpenseByDay from './ExpenseByDay/ExpenseByDay';
 import ExpenseByAllCategory from './ExpenseByAllCategory/ExpenseByAllCategory';
 
 export default class StatisticsPageView {
   store = {
     expenseByAllCategory: [],
     recentlyAccountData: [],
-    expenseByCategory: {
+    expenseByDay: {
       life: [],
     },
   };
@@ -48,11 +48,11 @@ export default class StatisticsPageView {
       20000, 100000, 10000, 0, 30000, 25000, 60000, 300000, 0, 3500, 600, 80000, 70000,
     ];
     console.log(expenseByLife.length);
-    const expenseByCategory = {
+    const expenseByDay = {
       life: expenseByLife,
     };
 
-    return { expenseByAllCategory, recentlyAccountData, expenseByCategory };
+    return { expenseByAllCategory, recentlyAccountData, expenseByDay };
   }
 
   onClickDetailAccount(e: MouseEvent) {
@@ -67,6 +67,6 @@ export default class StatisticsPageView {
     $('.content-wrap').innerHTML = `<div class='content__statistics'></div>`;
     new ExpenseByAllCategory({ parent: $('.content__statistics'), state: this.store.expenseByAllCategory });
     new RecentlyAccountHistory({ parent: $('.content__statistics'), state: this.store.recentlyAccountData });
-    new ExpenseByCategory({ parent: $('.content__statistics'), state: this.store.expenseByCategory.life });
+    new ExpenseByDay({ parent: $('.content__statistics'), state: this.store.expenseByDay.life });
   }
 }

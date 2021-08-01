@@ -1,20 +1,20 @@
 import { $, createDOMWithSelector } from '@src/utils/helper';
-import './ExpenseByCategory.scss';
+import './ExpenseByDay.scss';
 
-export default class ExpenseByCategory {
-  $ExpenseByCategory: HTMLElement;
+export default class ExpenseByDay {
+  $ExpenseByDay: HTMLElement;
   data: number[];
 
   constructor({ parent, state }) {
-    this.$ExpenseByCategory = createDOMWithSelector('div', '.expense-by-category');
+    this.$ExpenseByDay = createDOMWithSelector('div', '.expense-by-category');
     this.data = state;
 
-    parent.appendChild(this.$ExpenseByCategory);
+    parent.appendChild(this.$ExpenseByDay);
     this.render();
   }
 
   render() {
-    this.$ExpenseByCategory.innerHTML = `
+    this.$ExpenseByDay.innerHTML = `
         <span>생활 카테고리 소비 추이</span>
         <div class='expense-by-category__content'>
           <div class='content__expense-delimiter'>
