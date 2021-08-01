@@ -29,12 +29,20 @@ export default class AccountHistory {
 
     this.history.addEventListener('click', this.onClickHandler.bind(this));
     category.addEventListener('mouseover', this.onMouseOverCategory.bind(this));
+    category.addEventListener('mouseout', this.onMouseOutCategory.bind(this));
   }
 
   onMouseOverCategory(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
     if (target.className === 'account-history-table__category-span') $('.category-container').classList.add('active');
+  }
+
+  onMouseOutCategory(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'account-history-table__category-span')
+      $('.category-container').classList.remove('active');
   }
 
   onClickHandler(e: MouseEvent) {
