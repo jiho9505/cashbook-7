@@ -39,3 +39,33 @@ export const matchCategoryAndImg = {
   '쇼핑/뷰티': SHOPPING,
   생활: LIFE,
 };
+
+export const PICTOGRAM = {
+  culture: CULTURE,
+  etc: ETC,
+  food: FOOD,
+  health: HEALTH,
+  life: LIFE,
+  shopping: SHOPPING,
+  traffic: TRAFFIC,
+};
+
+export const COLORS_BY_CATEGORY = {
+  culture: '#833471',
+  etc: '#9980FA',
+  food: '#A3CB38',
+  health: '#12CBC4',
+  life: '#5758BB',
+  shopping: '#FFC312',
+  traffic: '#006266',
+};
+
+export const NAME_BY_CATEGORY = {
+  culture: '문화/여가',
+  etc: '기타',
+  food: '식비',
+  health: '의료/건강',
+  life: '생활',
+  shopping: '쇼핑/뷰티',
+  traffic: '교통',
+};
