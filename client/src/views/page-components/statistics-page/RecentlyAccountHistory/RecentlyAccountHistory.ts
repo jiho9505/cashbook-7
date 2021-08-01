@@ -1,5 +1,6 @@
-import { PICTOGRAM } from '@src/static/statistics';
+import { PICTOGRAM } from '@src/static/constants';
 import { AccountData } from '@src/types';
+import handleEvent from '@src/utils/handleEvent';
 import { changeIntoDateFormat, createDOMWithSelector } from '@src/utils/helper';
 
 import './RecentlyAccountHistory.scss';
@@ -20,7 +21,9 @@ export default class RecentlyAccountHistory {
     this.$RecentlyAccountHistory.innerHTML = `
         <span class='recently-account-history__title'>최근 가계부 내역</span>
         <a href='/account' class='recently-account-history__detail'>자세히 보기 ></a>
-        ${this.getRecentlyAccountDOM()}
+        <div class='recently-account-wrap'>
+          ${this.getRecentlyAccountDOM()}
+        </div>
     `;
   }
 
@@ -33,17 +36,17 @@ export default class RecentlyAccountHistory {
 
     return `
         <div class='recently-account'>
-        <img src=${PICTOGRAM[data.category]}>
-            <div>
-                <span class='recently-account__title'>${data.title}</span>
-                <span class='recently-account__date'>${changeIntoDateFormat(data.date)}</span>
-            </div>
-            <span class='recently-account__date'>
-                ${!data.isIncome ? '-₩' : '₩'}
-                ${splitedMoney.splice(0, splitedMoney.length - 1).join(',')}<span class='hundred-won'>,${
+          <img src=${PICTOGRAM[data.category]}>
+              <div>
+                  <span class='recently-account__title'>${data.title}</span>
+                  <span class='recently-account__date'>${changeIntoDateFormat(data.date)}</span>
+              </div>
+              <span class='recently-account__date'>
+                  ${!data.isIncome ? '-₩' : '₩'}
+                  ${splitedMoney.splice(0, splitedMoney.length - 1).join(',')}<span class='hundred-won'>,${
       splitedMoney[splitedMoney.length - 1]
     }<span>
-            </span>
+              </span>
         </div>
     `;
   };

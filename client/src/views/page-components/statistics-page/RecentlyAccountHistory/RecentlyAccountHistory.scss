@@ -33,6 +33,13 @@
 
 
 // RecentlyAccount
+.recently-account-wrap{
+    height:calc(100% - 55px);
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
 .recently-account{
     display:flex;
     height: fit-content;
@@ -48,8 +55,8 @@
         span{
             display:block;
             text-align:start;
-            line-height:30px;
-            font-size:18px;
+            line-height:24px;
+            font-size:14px;
             font-weight: normal;
         }
 
