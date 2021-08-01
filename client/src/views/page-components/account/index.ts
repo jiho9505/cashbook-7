@@ -16,7 +16,7 @@ export default class AccountView {
   constructor() {
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
       if (e.detail.state.path !== '/account') return;
-
+      console.log('TEST', e.detail.info);
       const accountWrapper = createDOMWithSelector('div', '.account');
       $('.content-wrap').innerHTML = '';
       $('.content-wrap').appendChild(accountWrapper);

@@ -13,7 +13,7 @@ const alertShowTime: number = 2000;
 
 /**
     추가적으로 고려할 부분 : 
-    1.수입 지출! 수입은 용돈 버튼 있으면 이걸로 인식 & 나머지는 마지막 금액 포맷팅 '-' 추가할 것 (앞 정보에 의해서 type도 추가할 것)
+    1.수입 지출!
     2.윤년 고려!
  */
 export default class AccountHistoryModal {
@@ -31,7 +31,7 @@ export default class AccountHistoryModal {
 
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
-      this.setState(e.detail.store); // undefined ( 애초에 가져올만한 정보는 결제수단목록뿐)
+      this.setState(e.detail); // undefined ( 애초에 가져올만한 정보는 결제수단목록뿐) !! 값 확인하기 !!
 
       this.modalWrapper = createDOMWithSelector('div', '.account-history-wrapper');
       this.render();
@@ -87,7 +87,7 @@ export default class AccountHistoryModal {
       this.choicedCategoryName.length > 0 &&
       historyContent.value.length > 0
     ) {
-      this.checkIncomeOrExpend();
+      this.checkIncomeOrExpenditure();
 
       const submitArguments = {
         //   user:,
@@ -95,21 +95,20 @@ export default class AccountHistoryModal {
         category: this.choicedCategoryName,
         money: this.moneyInput.value as HTMLInputElement,
         date: this.dateInput.value as HTMLInputElement,
-        content: historyContent,
+        content: historyContent.value,
         type: this.type,
       };
       console.log('Form Success');
-      console.log('submitArguments: ', submitArguments.money);
 
       this.closeModal();
-      handleEvent.fire('createaccounthistory', submitArguments);
+      handleEvent.fire('createaccounthistory', { state: history.state, submitArguments });
       // 옵저버 발동
     } else {
       this.showAlert('.history-form__confirm-alert');
     }
   }
 
-  checkIncomeOrExpend() {
+  checkIncomeOrExpenditure() {
     if (this.choicedCategoryName === '용돈') {
       this.type = 'income';
     } else {
