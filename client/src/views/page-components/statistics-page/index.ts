@@ -9,8 +9,11 @@ import ExpenseByAllCategory from './ExpenseByAllCategory/ExpenseByAllCategory';
 
 export default class StatisticsPageView {
   store = {
-    expenseByCategory: [],
+    expenseByAllCategory: [],
     recentlyAccountData: [],
+    expenseByCategory: {
+      life: [],
+    },
   };
 
   constructor() {
@@ -30,7 +33,7 @@ export default class StatisticsPageView {
 
   fetchDatas() {
     // API Call
-    const expenseByCategory = [
+    const expenseByAllCategory = [
       { category: 'life', percent: 0.31 },
       { category: 'health', percent: 0.22 },
       { category: 'shopping', percent: 0.18 },
@@ -40,8 +43,16 @@ export default class StatisticsPageView {
       { category: 'etc', percent: 0.04 },
     ];
     const recentlyAccountData = dummyData.sort((p, n) => n.date - p.date).splice(0, 3);
+    const expenseByLife = [
+      20000, 100000, 10000, 0, 30000, 25000, 60000, 300000, 0, 3500, 600, 80000, 70000, 100000, 5000, 20000, 20000,
+      20000, 100000, 10000, 0, 30000, 25000, 60000, 300000, 0, 3500, 600, 80000, 70000,
+    ];
+    console.log(expenseByLife.length);
+    const expenseByCategory = {
+      life: expenseByLife,
+    };
 
-    return { expenseByCategory, recentlyAccountData };
+    return { expenseByAllCategory, recentlyAccountData, expenseByCategory };
   }
 
   onClickDetailAccount(e: MouseEvent) {
@@ -54,8 +65,8 @@ export default class StatisticsPageView {
 
   render() {
     $('.content-wrap').innerHTML = `<div class='content__statistics'></div>`;
-    new ExpenseByAllCategory({ parent: $('.content__statistics'), state: this.store.expenseByCategory });
+    new ExpenseByAllCategory({ parent: $('.content__statistics'), state: this.store.expenseByAllCategory });
     new RecentlyAccountHistory({ parent: $('.content__statistics'), state: this.store.recentlyAccountData });
-    new ExpenseByCategory({ parent: $('.content__statistics') });
+    new ExpenseByCategory({ parent: $('.content__statistics'), state: this.store.expenseByCategory.life });
   }
 }
