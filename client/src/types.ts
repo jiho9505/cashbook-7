@@ -19,3 +19,8 @@ export interface AccountData {
   amountOfMoney: string;
   isIncome: boolean;
 }
+
+export interface CategoryStatisticData {
+  category: string;
+  percent: number;
+}
