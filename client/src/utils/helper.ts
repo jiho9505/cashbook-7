@@ -49,3 +49,22 @@ export const createDOMWithSelector = (tag: string, ...selectors: string[]) => {
   });
   return $DOM;
 };
+
+/**
+ * 다른 클래스들의 active 속성을 지워주는 함수
+ * @param currentIdx
+ * @param element
+ */
+export const removeOthersClassList = (
+  currentIdx: number,
+  parentElement: Document | HTMLElement,
+  element: string
+): void => {
+  const allElement = parentElement.querySelectorAll(element);
+
+  for (let i = 0; i < allElement.length; i++) {
+    if (i !== currentIdx) {
+      allElement[i].classList.remove('active');
+    }
+  }
+};
