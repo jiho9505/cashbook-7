@@ -1,4 +1,4 @@
-import { $, createDOMWithSelector } from '@src/utils/helper';
+import { $, removeOthersClassList } from '@src/utils/helper';
 import './AccountHistoryModal.scss';
 import handleEvent from '@src/utils/handleEvent';
 import { categoryList, matchCategoryAndImg } from '@src/static/constants';
@@ -8,6 +8,7 @@ import { samplePay } from '@src/dummyData';
 export default class AccountHistoryModal {
   state: any;
   choicedCategoryIndex: number = 0;
+  payme: any;
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
       this.setState(e.detail.store);
@@ -15,7 +16,7 @@ export default class AccountHistoryModal {
       this.render();
       const modal = $('.account-history-modal');
       const payMethodForm = $('.history-form__pay-method');
-      new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
+      this.payme = new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
 
       modal.addEventListener('click', this.onClickHandler.bind(this));
       // modal.addEventListener('keyup', this.keyupEventHandler.bind(this))
@@ -33,12 +34,18 @@ export default class AccountHistoryModal {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
     if (target.id === 'category-item') {
-      if (target.classList.contains('active')) {
-        target.classList.remove('active');
+      const allCategoryElement = document.querySelectorAll('#category-outline');
+      const currentItemIndex = Number(target.dataset.idx);
+      const targetElement = allCategoryElement[currentItemIndex];
+
+      console.log('name', target.innerText); // 필터에 들어갈 대상
+      if (targetElement.classList.contains('active')) {
+        targetElement.classList.remove('active');
         // 옵저버 (필터)
       } else {
-        target.classList.add('active');
+        targetElement.classList.add('active');
         // 옵저버 (필터)
+        removeOthersClassList(currentItemIndex, document, '#category-outline');
       }
     }
   }
@@ -123,11 +130,11 @@ export default class AccountHistoryModal {
 
   createCategoryList() {
     return categoryList
-      .map((category) => {
+      .map((category, idx) => {
         return `
-            <div class="history-form__category-list" id='category-item'>
+            <div class="history-form__category-list" id='category-outline'>
                 <img src=${matchCategoryAndImg[category]}>
-                <span>${category}</span>
+                <span id='category-item' data-idx=${idx} >${category}</span>
             </div>
         `;
       })
