@@ -20,7 +20,7 @@ export default class ExpenseByCategory {
           <div class='content__expense-delimiter'>
             ${this.getExpenseDelimiterDOM(this.data)}
           </div>
-          <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg'></svg>
+          <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 961 287'></svg>
           <div class='content__day-delimiter'>
             <span>5</span><span>10</span>
             <span>15</span><span>20</span><span>25</span>
@@ -109,6 +109,8 @@ export default class ExpenseByCategory {
     $path.setAttribute('stroke', '#5758BB');
     $path.setAttribute('stroke-width', '3');
     $path.setAttribute('stroke-dasharray', `${$path.getTotalLength()}`);
+    //FIXME: 곡선 최고, 최저점일 경우 두께 때문에 차트 밖으로 벗어남... QA 때 수정
+    $path.setAttribute('style', `transform: scaleY(0.87) translateY(34px)`);
 
     const $animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
     $animate.setAttribute('attributeName', 'stroke-dashoffset');
@@ -152,7 +154,7 @@ export default class ExpenseByCategory {
     const p = prev || curr;
     const n = next || curr;
 
-    const smoothDegree = 0.3;
+    const smoothDegree = 0.25;
 
     const o = this.getOpposedLine(p, n);
 
@@ -188,7 +190,7 @@ export default class ExpenseByCategory {
     const { width: SVGWidth, height: SVGHeight } = $('.content__curved-chart').getBoundingClientRect();
     const maxDayOnMonth = 30;
 
-    const intervalX = SVGWidth / maxDayOnMonth;
+    const intervalX = SVGWidth / (maxDayOnMonth - 1);
     const intervalY = SVGHeight;
     const max = Math.max(...data);
     return data.reduce((acc, curr, idx) => [...acc, [idx * intervalX, (curr / max) * intervalY]], []);
