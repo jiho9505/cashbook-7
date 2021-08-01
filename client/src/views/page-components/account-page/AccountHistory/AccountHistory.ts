@@ -17,6 +17,7 @@ import './AccountHistory.scss';
 export default class AccountHistory {
   state: any;
   history: HTMLElement;
+
   constructor({ parent, state }) {
     this.history = createDOMWithSelector('div', '.account-history');
 
@@ -24,15 +25,17 @@ export default class AccountHistory {
     this.setProperty(state);
     this.render();
 
+    const category = this.history.querySelector('.account-history-table__category');
+
     this.history.addEventListener('click', this.onClickHandler.bind(this));
-    this.history.addEventListener('mouseover', this.onMouseOverHandler.bind(this));
+    category.addEventListener('mouseover', this.onMouseOverCategory.bind(this));
   }
 
-  onMouseOverHandler(e: MouseEvent) {
-    this.onMouseOverCategory(e);
+  onMouseOverCategory(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'account-history-table__category-span') $('.category-container').classList.add('active');
   }
-
-  onMouseOverCategory(e: MouseEvent) {}
 
   onClickHandler(e: MouseEvent) {
     this.onClickAddButton(e);
@@ -89,7 +92,7 @@ export default class AccountHistory {
       <thead>
         <tr class='account-history-table__header' align='left'>
           <th class='account-history-table__content'>거래내용</th>
-          <th class='account-history-table__category'><span>분류</span>${this.createChoiceCategoryBar()}</th>
+          <th class='account-history-table__category'><span class='account-history-table__category-span'>분류</span>${this.createChoiceCategoryBar()}</th>
           <th class='account-history-table__date'><span>날짜</span></th>
           <th class='account-history-table__price'>금액</th>
         </tr>
