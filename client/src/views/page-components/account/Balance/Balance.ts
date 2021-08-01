@@ -1,7 +1,7 @@
 import { $, createDOMWithSelector } from '@src/utils/helper';
-import './MyBalance.scss';
+import './Balance.scss';
 
-export default class MyBalance {
+export default class Balance {
   state: string;
 
   constructor({ parent, state }) {

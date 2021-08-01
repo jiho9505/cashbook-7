@@ -39,3 +39,5 @@ export const matchCategoryAndImg = {
   '쇼핑/뷰티': SHOPPING,
   생활: LIFE,
 };
+
+export const categoryList = ['문화', '의료/건강', '음식', '교통', '생활', '쇼핑/뷰티', '기타'];

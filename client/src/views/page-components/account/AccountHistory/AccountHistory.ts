@@ -1,6 +1,7 @@
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import { matchCategoryAndImg } from '@src/static/constants';
 import './AccountHistory.scss';
+import { CheckActive, CheckNonActive } from '@src/static/imageUrls';
 
 export default class AccountHistory {
   state: any;
@@ -32,8 +33,15 @@ export default class AccountHistory {
           <span class='account-history__add'>+</span>
         </div>
         <div class='account-history__header-right'>
-          <span>수입 ${this.state.income}</span>
-          <span>지출 ${this.state.expenditure}</span>
+          <div class='account-history__income'>
+            <img class='account-history__income-img' src= ${CheckActive}>
+            <span>수입 ${this.state.income}</span>
+          </div>
+          <div class='account-history__expenditure'>
+            <img class='account-history__expenditure-img' src= ${CheckActive}>
+            <span >지출 ${this.state.expenditure}</span>
+          </div>
+          
         </div>
       </div>`;
   }
