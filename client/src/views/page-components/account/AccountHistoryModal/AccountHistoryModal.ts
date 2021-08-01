@@ -159,6 +159,7 @@ export default class AccountHistoryModal {
       <div class="history-form__money-container">
         <span>금액</span>
         <input class="history-form__money" type="text" />
+        <span class='Won'>₩</span>
       </div>
       `;
   }

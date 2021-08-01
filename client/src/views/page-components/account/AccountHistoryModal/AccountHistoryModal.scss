@@ -82,6 +82,18 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    position: relative;
+
+    input {
+      text-align: right;
+    }
+
+    .Won {
+      position: absolute;
+      top: 54px;
+      left: 15px;
+      font-size: 18px;
+    }
   }
 
   .history-form__content-container {
