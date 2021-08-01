@@ -271,14 +271,12 @@ export default class AccountHistoryModal {
       const currentItemIndex = Number(target.dataset.idx);
       const targetElement = allCategoryElement[currentItemIndex];
 
-      this.choicedCategoryName = target.innerText; // 필터에 들어갈 대상
-
       if (targetElement.classList.contains('active')) {
         targetElement.classList.remove('active');
-        // 옵저버 (필터)
+        this.choicedCategoryName = '';
       } else {
         targetElement.classList.add('active');
-        // 옵저버 (필터)
+        this.choicedCategoryName = target.innerText;
         removeOthersClassList(currentItemIndex, document, '#category-outline');
       }
     }

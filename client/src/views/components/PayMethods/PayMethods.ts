@@ -43,14 +43,15 @@ export default class PayMethod {
     if (target.id === 'card') {
       const currentCardIdx = Number(target.dataset.idx);
       const checkButton = target.querySelector('#checkbutton');
-      this.currentCardName = this.state[currentCardIdx].payMethodName;
 
       if (checkButton.classList.contains('active')) {
         checkButton.classList.remove('active');
-        // 옵저버 (필터)
+        this.currentCardName = '';
+        // 모달이 아닐때 옵저버 (필터)
       } else {
         checkButton.classList.add('active');
-        // 옵저버 (필터)
+        this.currentCardName = this.state[currentCardIdx].payMethodName;
+        // 모달이 아닐때 옵저버 (필터)
         removeOthersClassList(currentCardIdx, this.currentMode, '#checkbutton');
       }
     }
