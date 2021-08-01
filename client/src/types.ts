@@ -24,3 +24,11 @@ export interface CategoryStatisticData {
   category: string;
   percent: number;
 }
+
+export interface ArcSVGCommandAttribute {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  isLargeArcFlag: number;
+}
