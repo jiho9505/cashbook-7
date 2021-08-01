@@ -1,9 +1,11 @@
 .recently-account-history{
+    position:relative;
     width:550px;
     height:325px;
-    border-radius:10px;
     padding:30px;
+    border-radius:10px;
     background-color: #fff;
+
     span {
         font-family: Raleway;
         font-weight: bold;
@@ -11,66 +13,61 @@
         color:var(--font-color);
     }
 
-    position:relative;
-
     .recently-account-history__title{
         display:block;
         margin-bottom:35px;
     }
 
-    .recently-account:not(:last-child){
-        margin-bottom:15px;
+    .recently-account-history__detail{
+        all:unset;
+        position:absolute;
+        right:35px;
+        top:35px;
+        cursor: pointer;
     }
-}
 
-.recently-account-history__detail{
-    all:unset;
-    position:absolute;
-    right:35px;
-    top:35px;
-    cursor: pointer;
-}
+    .recently-account-wrap{
+        height:calc(100% - 55px);
+        display:flex;
+        flex-direction: column;
+        justify-content: space-evenly;
 
-
-// RecentlyAccount
-.recently-account-wrap{
-    height:calc(100% - 55px);
-    display:flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-}
-
-.recently-account{
-    display:flex;
-    height: fit-content;
-    align-items:center;
-    padding: 0 10px;
-
-    img {
-        width:40px;
-    }
-    div{
-        margin-left:40px;
+        .recently-account{
+            display:flex;
+            height: fit-content;
+            align-items:center;
+            padding: 0 10px;
         
-        span{
-            display:block;
-            text-align:start;
-            line-height:24px;
-            font-size:14px;
-            font-weight: normal;
-        }
+            img {
+                width:40px;
+            }
 
-        .recently-account__title{
-            font-weight: bold;
-        }
-    }
-    span{
-        flex:3 160px;
-        font-size:20px;
-        text-align:end;
-        font-weight:bold;
-        .hundred-won{
-            font-weight: normal;
-        }
-    }
+            div{
+                margin-left:40px;
+                
+                span{
+                    display:block;
+                    text-align:start;
+                    line-height:24px;
+                    font-size:14px;
+                    font-weight: normal;
+                }
+        
+                .recently-account__title{
+                    font-weight: bold;
+                }
+            }
+
+            span{
+                flex:3 160px;
+                font-size:20px;
+                text-align:end;
+                font-weight:bold;
+                
+                .hundred-won{
+                    font-weight: normal;
+                }
+            }
+        }        
+    }    
 }
