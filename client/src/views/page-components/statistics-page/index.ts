@@ -8,14 +8,41 @@ import ExpenseByCategory from './ExpenseByCategory/ExpenseByCategory';
 import ExpenseByAllCategory from './ExpenseByAllCategory/ExpenseByAllCategory';
 
 export default class StatisticsPageView {
+  store = {
+    expenseByCategory: [],
+    recentlyAccountData: [],
+  };
+
   constructor() {
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
       if (e.detail.state.path !== '/statistics') return;
 
+      const fetchedData = this.fetchDatas();
+      this.setStore(fetchedData);
       this.render();
     });
   }
-  recentlyAccountData = dummyData.sort((p, n) => n.date - p.date).splice(0, 3);
+
+  setStore(nextStore) {
+    this.store = { ...this.store, ...nextStore };
+    // handleEvent.fire('statisticsStoreUpdated', { state: 'all' });
+  }
+
+  fetchDatas() {
+    // API Call
+    const expenseByCategory = [
+      { category: 'life', percent: 0.31 },
+      { category: 'health', percent: 0.22 },
+      { category: 'shopping', percent: 0.18 },
+      { category: 'traffic', percent: 0.11 },
+      { category: 'food', percent: 0.08 },
+      { category: 'culture', percent: 0.06 },
+      { category: 'etc', percent: 0.04 },
+    ];
+    const recentlyAccountData = dummyData.sort((p, n) => n.date - p.date).splice(0, 3);
+
+    return { expenseByCategory, recentlyAccountData };
+  }
 
   onClickDetailAccount(e: MouseEvent) {
     e.preventDefault();
@@ -27,8 +54,8 @@ export default class StatisticsPageView {
 
   render() {
     $('.content-wrap').innerHTML = `<div class='content__statistics'></div>`;
-    new ExpenseByAllCategory({ parent: $('.content__statistics') });
-    new RecentlyAccountHistory({ parent: $('.content__statistics'), state: this.recentlyAccountData });
+    new ExpenseByAllCategory({ parent: $('.content__statistics'), state: this.store.expenseByCategory });
+    new RecentlyAccountHistory({ parent: $('.content__statistics'), state: this.store.recentlyAccountData });
     new ExpenseByCategory({ parent: $('.content__statistics') });
   }
 }
