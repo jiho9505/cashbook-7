@@ -7,6 +7,7 @@ import { samplePay } from '@src/dummyData';
 
 const SlideOutTime: number = 1300;
 const DateInputMaxLength: number = 8;
+const MoneyInputMaxLength: number = 9;
 
 export default class AccountHistoryModal {
   state: any;
@@ -38,16 +39,28 @@ export default class AccountHistoryModal {
 
   onKeyUpHandler(e: KeyboardEvent) {
     this.onKeyUpDate(e);
-    // this.onKeyUpMoney(e);
+    this.onKeyUpMoney(e);
   }
 
   onKeyUpDate(e: KeyboardEvent) {
     const { target } = e;
     if (!(target instanceof HTMLInputElement)) return;
     if (target.className === 'history-form__date') {
-      this.checkInputValueOnlyNumberRegex(target);
-      this.checkInputMaxLengthRegex(target, DateInputMaxLength);
+      this.checkRegex(target, DateInputMaxLength);
     }
+  }
+
+  onKeyUpMoney(e: KeyboardEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLInputElement)) return;
+    if (target.className === 'history-form__money') {
+      this.checkRegex(target, MoneyInputMaxLength);
+    }
+  }
+
+  checkRegex(target, InputMaxLength) {
+    this.checkInputValueOnlyNumberRegex(target);
+    this.checkInputMaxLengthRegex(target, InputMaxLength);
   }
 
   checkInputValueOnlyNumberRegex(target) {
