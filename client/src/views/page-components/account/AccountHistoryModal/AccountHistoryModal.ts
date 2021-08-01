@@ -11,6 +11,11 @@ const moneyInputMaxLength: number = 9;
 const moneyInputMinLength: number = 0;
 const alertShowTime: number = 2000;
 
+/**
+    추가적으로 고려할 부분 : 
+    1.수입 지출! 수입은 용돈 버튼 있으면 이걸로 인식 & 나머지는 마지막 금액 포맷팅 '-' 추가할 것 (앞 정보에 의해서 type도 추가할 것)
+    2.윤년 고려!
+ */
 export default class AccountHistoryModal {
   state: any;
   choicedCategoryIndex: number = 0;
@@ -22,6 +27,7 @@ export default class AccountHistoryModal {
   dateValueValidation: boolean = false;
   moneyValueValidation: boolean = false;
   choicedCategoryName: string = '';
+  type: string = '';
 
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
@@ -81,6 +87,8 @@ export default class AccountHistoryModal {
       this.choicedCategoryName.length > 0 &&
       historyContent.value.length > 0
     ) {
+      this.checkIncomeOrExpend();
+
       const submitArguments = {
         //   user:,
         card: this.payMethod.currentCardName,
@@ -88,18 +96,27 @@ export default class AccountHistoryModal {
         money: this.moneyInput.value as HTMLInputElement,
         date: this.dateInput.value as HTMLInputElement,
         content: historyContent,
+        type: this.type,
       };
       console.log('Form Success');
-      console.log('submitArguments: ', submitArguments);
+      console.log('submitArguments: ', submitArguments.money);
 
       this.closeModal();
-      //   handleEvent.fire('', submitArguments);
+      handleEvent.fire('createaccounthistory', submitArguments);
       // 옵저버 발동
     } else {
       this.showAlert('.history-form__confirm-alert');
     }
   }
 
+  checkIncomeOrExpend() {
+    if (this.choicedCategoryName === '용돈') {
+      this.type = 'income';
+    } else {
+      this.type = 'expenditure';
+      this.moneyInput.value = '-' + this.moneyInput.value;
+    }
+  }
   onKeyUpHandler(e: KeyboardEvent) {
     this.onKeyUpDate(e);
     this.onKeyUpMoney(e);
@@ -185,9 +202,6 @@ export default class AccountHistoryModal {
     return false;
   }
 
-  /**
-   추후 윤년을 고려해야합니다..!
-   */
   checkDateInputValueValidation(target) {
     const month = target.value.slice(4, 6);
     const day = target.value.slice(6, 8);
