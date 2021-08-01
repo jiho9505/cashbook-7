@@ -14,24 +14,25 @@ const AlertShowTime: number = 2000;
 export default class AccountHistoryModal {
   state: any;
   choicedCategoryIndex: number = 0;
-  payme: any;
+  payMethod: any;
   modal: any;
   modalWrapper;
   dateInput;
   moneyInput;
   dateValueValidation: boolean = false;
   moneyValueValidation: boolean = false;
+  choicedCategoryName: string = '';
 
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
-      this.setState(e.detail.store);
+      this.setState(e.detail.store); // 아직 결과 확인X
       this.modalWrapper = createDOMWithSelector('div', '.account-history-wrapper');
       this.render();
 
       const payMethodForm = $('.history-form__pay-method');
       const dateInput = $('.history-form__date');
       const moneyInput = $('.history-form__money');
-      this.payme = new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
+      this.payMethod = new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
       this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
       this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
       dateInput.addEventListener('focusout', this.onFocusOutDateInputHandler.bind(this));
@@ -41,9 +42,35 @@ export default class AccountHistoryModal {
 
   onClickHandler(e: MouseEvent) {
     this.onClickCategory(e);
-    //   this.onClickPayMethod()
-    //   this.onClickSubmit()
     this.onClickOverlay(e);
+    this.onClickSubmitButton(e);
+  }
+
+  onClickSubmitButton(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'history-form__confirm') {
+      e.preventDefault();
+      this.checkAllValidation();
+    }
+  }
+
+  checkAllValidation() {
+    const historyContent: HTMLInputElement = document.querySelector('.history-form__content');
+
+    if (
+      this.payMethod.currentCardName.length > 0 &&
+      this.dateValueValidation &&
+      this.moneyValueValidation &&
+      this.choicedCategoryName.length > 0 &&
+      historyContent.value.length > 0
+    ) {
+      console.log('Form Success');
+      this.closeModal();
+      // 옵저버 발동
+    } else {
+      this.showAlert('.history-form__confirm-alert');
+    }
   }
 
   onKeyUpHandler(e: KeyboardEvent) {
@@ -65,7 +92,7 @@ export default class AccountHistoryModal {
     const ValidationValueResult = this.checkDateInputValueValidation(target);
 
     if (ValidationLengthResult || ValidationValueResult) {
-      this.showAlert(true, '.date-alert');
+      this.showAlert('.date-alert');
       this.dateValueValidation = false;
     } else {
       this.dateValueValidation = true;
@@ -77,20 +104,18 @@ export default class AccountHistoryModal {
     const ValidationResult = this.checkMoneyInputLengthValidation(target, MoneyInputMinLength);
 
     if (ValidationResult) {
-      this.showAlert(true, '.money-alert');
+      this.showAlert('.money-alert');
       this.moneyValueValidation = false;
     } else {
       this.moneyValueValidation = true;
     }
   }
 
-  showAlert(ValidationResult, target) {
-    if (ValidationResult) {
-      $(target).classList.add('active');
-      setTimeout(() => {
-        $(target).classList.remove('active');
-      }, AlertShowTime);
-    }
+  showAlert(target) {
+    $(target).classList.add('active');
+    setTimeout(() => {
+      $(target).classList.remove('active');
+    }, AlertShowTime);
   }
 
   checkDateInputLengthValidation(target, length) {
@@ -152,11 +177,15 @@ export default class AccountHistoryModal {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
     if (target.className === 'overlay') {
-      $('.history-form').classList.add('hide');
-      setTimeout(() => {
-        $('#root').removeChild(this.modalWrapper);
-      }, SlideOutTime);
+      this.closeModal();
     }
+  }
+
+  closeModal() {
+    $('.history-form').classList.add('hide');
+    setTimeout(() => {
+      $('#root').removeChild(this.modalWrapper);
+    }, SlideOutTime);
   }
 
   onClickCategory(e: MouseEvent) {
@@ -167,7 +196,8 @@ export default class AccountHistoryModal {
       const currentItemIndex = Number(target.dataset.idx);
       const targetElement = allCategoryElement[currentItemIndex];
 
-      console.log('name', target.innerText); // 필터에 들어갈 대상
+      this.choicedCategoryName = target.innerText; // 필터에 들어갈 대상
+
       if (targetElement.classList.contains('active')) {
         targetElement.classList.remove('active');
         // 옵저버 (필터)
@@ -220,7 +250,7 @@ export default class AccountHistoryModal {
     return `
      <div class="history-form__date-container">
         <span>일자</span>
-        <input class="history-form__date" type="text" />
+        <input placeholder='ex> 20210101' class="history-form__date" type="text" />
         <span class='date-alert'>유효한 날짜를 입력해주시기 바랍니다❗️</span>
     </div>
     `;
@@ -278,33 +308,8 @@ export default class AccountHistoryModal {
     return `
         <div class="history-form__confirm-container" >
             <button class="history-form__confirm" >등록하기</button>
+            <span class='history-form__confirm-alert'>❗️모든 값을 제대로 입력해주셔야 합니다❗️</span>
         </div>
       `;
   }
 }
-
-/*
-    	this.$target.addEventListener('keyup', (e) => {
-			if (e.target.id === 'id' || e.target.id === 'location') {
-				e.target.id === 'id' ? this.checkIdRegex(e) : '';
-				e.target.id === 'location' ? this.checkLocationRegex(e) : '';
-				this.activateButton();
-			}
-		});
-	}
-
-	activateButton() {
-		if (this.$id.value.length > 0 && this.$location.value.length > 0) {
-			this.button.$target.classList.remove('disable');
-		} else {
-			this.button.$target.classList.add('disable');
-		}
-	}
-	
-
-	checkIdRegex(e) {
-		const regex = /[^a-z,A-Z,0-9|]/g;
-		e.target.value = e.target.value.replace(regex, '');
-		e.target.value = e.target.value.slice(0, 20);
-	}
-*/
