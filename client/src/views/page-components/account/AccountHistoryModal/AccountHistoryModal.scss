@@ -1,3 +1,26 @@
+@keyframes slidein {
+  from {
+    transform: translateX(600px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(600px);
+    opacity: 0;
+  }
+}
+
 .account-history-modal {
   position: fixed;
   z-index: 1;
@@ -31,6 +54,10 @@
   flex-direction: column;
   align-items: center;
 
+  &.hide {
+    animation-duration: 2s;
+    animation-name: slideOut;
+  }
   .history-form__date-money-container {
     display: flex;
     gap: 20px;
@@ -128,20 +155,3 @@
     }
   }
 }
-
-@keyframes slidein {
-  from {
-    transform: translateX(600px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0px);
-    opacity: 1;
-  }
-}
-
-// width: 115px;
-// height: 62px;
-// left: 1374px;
-// top: 750px;
