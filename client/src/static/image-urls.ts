@@ -1,7 +1,5 @@
 const BASE_URL = 'https://cashbook-7.s3.ap-northeast-2.amazonaws.com/';
 
-// https://cashbook-7.s3.ap-northeast-2.amazonaws.com/header/logo.svg
-
 // header
 export const Account = BASE_URL + 'header' + '/account.svg';
 export const AccountActive = BASE_URL + 'header' + '/account_active.svg';
