@@ -17,11 +17,48 @@ export default class ExpenseByCategory {
     this.$ExpenseByCategory.innerHTML = `
         <span>생활 카테고리 소비 추이</span>
         <div class='expense-by-category__content'>
-          <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg' viewBox='0 -35 995 317'></svg>
+          <div class='content__expense-delimiter'>
+            ${this.getExpenseDelimiterDOM(this.data)}
+          </div>
+          <svg class='content__curved-chart' xmlns='http://www.w3.org/2000/svg'></svg>
+          <div class='content__day-delimiter'></div>
         </div>
       `;
 
     $('.content__curved-chart').appendChild(this.getSvgChartPath());
+  }
+
+  /**
+   * content__expense-delimiter 내에 사용될 <span> 데이터를 생성합니다.
+   * 데이터는 차트의 수직선에 해당하는 내용입니다.
+   */
+  getExpenseDelimiterDOM(data: number[]): string {
+    const hData = this.getHorizontalDataInterval(data);
+    const DOM = hData
+      .reverse()
+      .reduce((acc, curr) => [...acc, `<span>₩${curr}</span>`], [])
+      .join('');
+    return DOM;
+  }
+
+  /**
+   * 수평선에 사용할 데이터를 구합니다.
+   * 최고, 최저값을 구해 5등분합니다.
+   */
+  getHorizontalDataInterval(data: number[]): number[] {
+    const intervalAmount = 5;
+
+    const max = Math.max(...data);
+    const min = Math.min(...data);
+    const intervalValue = Math.floor((max - min) / (intervalAmount - 1));
+
+    const distributedData = [...new Array(intervalAmount).keys()].reduce((acc, _, idx) => {
+      if (idx === 0) return [min];
+      if (idx === intervalAmount - 1) return [...acc, max];
+      return [...acc, intervalValue * idx];
+    }, []);
+
+    return distributedData;
   }
 
   /**
@@ -118,25 +155,5 @@ export default class ExpenseByCategory {
     const intervalY = SVGHeight;
     const max = Math.max(...data);
     return data.reduce((acc, curr, idx) => [...acc, [idx * intervalX, (curr / max) * intervalY]], []);
-  }
-
-  /**
-   * 수평선에 사용할 데이터를 구합니다.
-   * 최고, 최저값을 구해 5등분합니다.
-   */
-  getHorizontalDataInterval(data: number[]): number[] {
-    const intervalAmount = 5;
-
-    const max = Math.max(...data);
-    const min = Math.min(...data);
-    const intervalValue = Math.floor((max - min) / (intervalAmount - 1));
-
-    const distributedData = [...new Array(intervalAmount).keys()].reduce((acc, curr, idx) => {
-      if (idx === 0) return [min];
-      if (idx === intervalAmount - 1) return [...acc, max];
-      return [...acc, intervalValue * idx];
-    }, []);
-
-    return distributedData;
   }
 }

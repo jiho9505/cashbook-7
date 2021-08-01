@@ -9,20 +9,47 @@
     background-color: #fff;
 
     span {
+        display:block;
         font-family: Raleway;
         font-weight: bold;
         font-size: 20px;
-        height:40px;
+        height:60px;
         color:var(--font-color);
     }
 
     .expense-by-category__content{
-        height:calc(100% - 40px);
-        padding: 40px;
-        svg {
+        $expense-delimiter-width: 10%;
+        $day-delimiter-height: 10%;
+
+        display:grid;
+        grid-template-columns: 1fr 9fr;
+        grid-template-rows:6fr 1fr;
+        height:calc(100% - 60px);
+        
+        .content__expense-delimiter{
+            display:flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align:right;
+            
+            span{
+                height:fit-content;
+                margin-right:15px;
+                font-weight:normal;
+                font-size:15px;
+            }
+        }
+
+        .content__curved-chart{
             width:100%;
             height:100%;
             transform:rotateX(180deg);
+        }
+
+        .content__day-delimiter{
+            grid-column:2;
+            grid-row:2;
+            background-color:black;
         }
     }
 }
