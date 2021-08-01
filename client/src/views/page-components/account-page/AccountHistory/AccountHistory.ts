@@ -1,10 +1,14 @@
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import handleEvent from '@src/utils/handleEvent';
+<<<<<<< HEAD:client/src/views/page-components/account-page/AccountHistory/AccountHistory.ts
 import { matchCategoryAndImg } from '@src/static/constants';
 <<<<<<< HEAD:client/src/views/page-components/account-page/AccountHistory/AccountHistory.ts
 import './AccountHistory.scss';
 import { CheckActive, CheckNonActive } from '@src/static/image-urls';
 =======
+=======
+import { matchCategoryAndImg, categoryList } from '@src/static/constants';
+>>>>>>> 3c88c2a ([#16] feat : Category Bar 구현):client/src/views/page-components/account/AccountHistory/AccountHistory.ts
 import { CheckActive, CheckNonActive } from '@src/static/imageUrls';
 >>>>>>> d8dc6f7 ([#16] feat : AddButton Click 이벤트 추가):client/src/views/page-components/account/AccountHistory/AccountHistory.ts
 
@@ -21,7 +25,14 @@ export default class AccountHistory {
     this.render();
 
     this.history.addEventListener('click', this.onClickHandler.bind(this));
+    this.history.addEventListener('mouseover', this.onMouseOverHandler.bind(this));
   }
+
+  onMouseOverHandler(e: MouseEvent) {
+    this.onMouseOverCategory(e);
+  }
+
+  onMouseOverCategory(e: MouseEvent) {}
 
   onClickHandler(e: MouseEvent) {
     this.onClickAddButton(e);
@@ -78,11 +89,31 @@ export default class AccountHistory {
       <thead>
         <tr class='account-history-table__header' align='left'>
           <th class='account-history-table__content'>거래내용</th>
-          <th class='account-history-table__category'><span>분류</span></th>
+          <th class='account-history-table__category'><span>분류</span>${this.createChoiceCategoryBar()}</th>
           <th class='account-history-table__date'><span>날짜</span></th>
           <th class='account-history-table__price'>금액</th>
         </tr>
       </thead>`;
+  }
+
+  createChoiceCategoryBar(): string {
+    return `
+      <div class="category-container">
+       ${this.createCategoryList()}
+      </div>
+    `;
+  }
+
+  createCategoryList() {
+    return categoryList
+      .map((category, idx) => {
+        return `
+            <div class="category-list active">
+                <img src=${matchCategoryAndImg[category]}>
+            </div>
+        `;
+      })
+      .join('');
   }
 
   createTableContent(): string {
