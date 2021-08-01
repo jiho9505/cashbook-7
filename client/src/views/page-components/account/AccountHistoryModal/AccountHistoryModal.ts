@@ -5,11 +5,11 @@ import { categoryList, matchCategoryAndImg } from '@src/static/constants';
 import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import { samplePay } from '@src/dummyData';
 
-const SlideOutTime: number = 1300;
-const DateInputMaxLength: number = 8;
-const MoneyInputMaxLength: number = 9;
-const MoneyInputMinLength: number = 0;
-const AlertShowTime: number = 2000;
+const slideOutTime: number = 1300;
+const dateInputMaxLength: number = 8;
+const moneyInputMaxLength: number = 9;
+const moneyInputMinLength: number = 0;
+const alertShowTime: number = 2000;
 
 export default class AccountHistoryModal {
   state: any;
@@ -25,19 +25,35 @@ export default class AccountHistoryModal {
 
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
-      this.setState(e.detail.store); // 아직 결과 확인X
+      this.setState(e.detail.store); // undefined ( 애초에 가져올만한 정보는 결제수단목록뿐)
+
       this.modalWrapper = createDOMWithSelector('div', '.account-history-wrapper');
       this.render();
 
       const payMethodForm = $('.history-form__pay-method');
-      const dateInput = $('.history-form__date');
-      const moneyInput = $('.history-form__money');
+      this.dateInput = $('.history-form__date');
+      this.moneyInput = $('.history-form__money');
+
       this.payMethod = new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
       this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
       this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
-      dateInput.addEventListener('focusout', this.onFocusOutDateInputHandler.bind(this));
-      moneyInput.addEventListener('focusout', this.onFocusOutMoneyInputHandler.bind(this));
+      this.dateInput.addEventListener('focusout', this.onFocusOutDateInputHandler.bind(this));
+      this.moneyInput.addEventListener('focusout', this.onFocusOutMoneyInputHandler.bind(this));
+      this.dateInput.addEventListener('focusin', this.onFocusInDateInputHandler.bind(this));
+      this.moneyInput.addEventListener('focusin', this.onFocusInMoneyInputHandler.bind(this));
     });
+  }
+
+  onFocusInDateInputHandler(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    this.checkInputValueOnlyNumberRegex(target);
+  }
+
+  onFocusInMoneyInputHandler(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    this.checkInputValueOnlyNumberRegex(target);
   }
 
   onClickHandler(e: MouseEvent) {
@@ -65,8 +81,19 @@ export default class AccountHistoryModal {
       this.choicedCategoryName.length > 0 &&
       historyContent.value.length > 0
     ) {
+      const submitArguments = {
+        //   user:,
+        card: this.payMethod.currentCardName,
+        category: this.choicedCategoryName,
+        money: this.moneyInput.value as HTMLInputElement,
+        date: this.dateInput.value as HTMLInputElement,
+        content: historyContent,
+      };
       console.log('Form Success');
+      console.log('submitArguments: ', submitArguments);
+
       this.closeModal();
+      //   handleEvent.fire('', submitArguments);
       // 옵저버 발동
     } else {
       this.showAlert('.history-form__confirm-alert');
@@ -88,7 +115,7 @@ export default class AccountHistoryModal {
 
   onFocusOutDate() {
     const target = $('.history-form__date');
-    const ValidationLengthResult = this.checkDateInputLengthValidation(target, DateInputMaxLength);
+    const ValidationLengthResult = this.checkDateInputLengthValidation(target, dateInputMaxLength);
     const ValidationValueResult = this.checkDateInputValueValidation(target);
 
     if (ValidationLengthResult || ValidationValueResult) {
@@ -97,11 +124,26 @@ export default class AccountHistoryModal {
     } else {
       this.dateValueValidation = true;
     }
+    this.formatDateValue();
+  }
+
+  formatDateValue() {
+    const DateValue: string = this.dateInput.value;
+    const DateArray = DateValue.split('');
+    // 4, 7
+    if (DateValue.length > 6) {
+      DateArray.splice(4, 0, '.');
+      DateArray.splice(7, 0, '.');
+      this.dateInput.value = DateArray.join('');
+    } else if (DateValue.length > 4) {
+      DateArray.splice(4, 0, '.');
+      this.dateInput.value = DateArray.join('');
+    }
   }
 
   onFocusOutMoney() {
     const target = $('.history-form__money');
-    const ValidationResult = this.checkMoneyInputLengthValidation(target, MoneyInputMinLength);
+    const ValidationResult = this.checkMoneyInputLengthValidation(target, moneyInputMinLength);
 
     if (ValidationResult) {
       this.showAlert('.money-alert');
@@ -109,13 +151,33 @@ export default class AccountHistoryModal {
     } else {
       this.moneyValueValidation = true;
     }
+    this.formatMoneyValue();
+  }
+
+  formatMoneyValue() {
+    const MoneyValue: string = this.moneyInput.value;
+    const MoneyArray = MoneyValue.split('');
+    const MoneyLength = MoneyValue.length;
+
+    if (MoneyLength > 3) {
+      let count = 1;
+      for (let i = MoneyLength - 1; i > 0; i--) {
+        if (count % 3 === 0) {
+          MoneyArray.splice(i, 0, ',');
+        }
+        count++;
+      }
+    }
+
+    const result = MoneyArray.join('');
+    this.moneyInput.value = result;
   }
 
   showAlert(target) {
     $(target).classList.add('active');
     setTimeout(() => {
       $(target).classList.remove('active');
-    }, AlertShowTime);
+    }, alertShowTime);
   }
 
   checkDateInputLengthValidation(target, length) {
@@ -142,7 +204,7 @@ export default class AccountHistoryModal {
     const { target } = e;
     if (!(target instanceof HTMLInputElement)) return;
     if (target.className === 'history-form__date') {
-      this.checkRegex(target, DateInputMaxLength);
+      this.checkRegex(target, dateInputMaxLength);
     }
   }
 
@@ -150,7 +212,7 @@ export default class AccountHistoryModal {
     const { target } = e;
     if (!(target instanceof HTMLInputElement)) return;
     if (target.className === 'history-form__money') {
-      this.checkRegex(target, MoneyInputMaxLength);
+      this.checkRegex(target, moneyInputMaxLength);
     }
   }
 
@@ -185,7 +247,7 @@ export default class AccountHistoryModal {
     $('.history-form').classList.add('hide');
     setTimeout(() => {
       $('#root').removeChild(this.modalWrapper);
-    }, SlideOutTime);
+    }, slideOutTime);
   }
 
   onClickCategory(e: MouseEvent) {
