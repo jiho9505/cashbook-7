@@ -167,7 +167,7 @@ export default class AccountHistoryModal {
   createContentForm() {
     return `
         <span>내용</span>
-        <input class="history-form__content" type="text" />
+        <input class="history-form__content" type="text" maxlength='18' />
     `;
   }
 
