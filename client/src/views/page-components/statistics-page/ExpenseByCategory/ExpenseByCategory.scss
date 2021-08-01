@@ -20,6 +20,11 @@
     .expense-by-category__content{
         $expense-delimiter-width: 10%;
         $day-delimiter-height: 10%;
+        @mixin delimiter-font-set {
+            height:fit-content;
+            font-weight:normal;
+            font-size:15px;
+        }
 
         display:grid;
         grid-template-columns: 1fr 9fr;
@@ -33,10 +38,8 @@
             text-align:right;
             
             span{
-                height:fit-content;
+                @include delimiter-font-set;
                 margin-right:15px;
-                font-weight:normal;
-                font-size:15px;
             }
         }
 
@@ -49,7 +52,12 @@
         .content__day-delimiter{
             grid-column:2;
             grid-row:2;
-            background-color:black;
+            display:flex;
+            justify-content: space-evenly;
+            span {
+                @include delimiter-font-set;
+                margin-top:15px;
+            }
         }
     }
 }
