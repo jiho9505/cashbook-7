@@ -51,20 +51,19 @@ export const createDOMWithSelector = (tag: string, ...selectors: string[]) => {
 };
 
 /**
+ * 카테고리와 카드 클릭시 사용된다.
  * 다른 클래스들의 active 속성을 지워주는 함수
- * @param currentIdx
- * @param element
  */
-export const removeOthersClassList = (
+export const removeActiveAttributeOnClass = (
   currentIdx: number,
   parentElement: Document | HTMLElement,
   element: string
 ): void => {
   const allElement = parentElement.querySelectorAll(element);
 
-  for (let i = 0; i < allElement.length; i++) {
-    if (i !== currentIdx) {
-      allElement[i].classList.remove('active');
+  [...allElement].forEach((ele, idx) => {
+    if (idx !== currentIdx) {
+      ele.classList.remove('active');
     }
-  }
+  });
 };

@@ -1,6 +1,5 @@
 import { Store } from '@src/types';
 import evt from '@src/utils/handleEvent';
-import { version } from 'typescript';
 
 class Model {
   store: Store = {};

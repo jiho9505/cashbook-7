@@ -2,7 +2,7 @@ import { cardType } from '@src/static/constants';
 import handleEvent from '@src/utils/handleEvent';
 import { CheckButton, ETC, Xbox } from '@src/static/imageUrls';
 import './PayMethods.scss';
-import { $, removeOthersClassList } from '@src/utils/helper';
+import { $, removeActiveAttributeOnClass } from '@src/utils/helper';
 
 export default class PayMethod {
   state: any;
@@ -52,7 +52,7 @@ export default class PayMethod {
         checkButton.classList.add('active');
         this.currentCardName = this.state[currentCardIdx].payMethodName;
         // 모달이 아닐때 옵저버 (필터)
-        removeOthersClassList(currentCardIdx, this.currentMode, '#checkbutton');
+        removeActiveAttributeOnClass(currentCardIdx, this.currentMode, '#checkbutton');
       }
     }
   }

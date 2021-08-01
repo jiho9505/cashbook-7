@@ -1,4 +1,4 @@
-import { $, createDOMWithSelector, removeOthersClassList } from '@src/utils/helper';
+import { $, createDOMWithSelector, removeActiveAttributeOnClass } from '@src/utils/helper';
 import './AccountHistoryModal.scss';
 import handleEvent from '@src/utils/handleEvent';
 import { categoryList, matchCategoryAndImg } from '@src/static/constants';
@@ -159,9 +159,9 @@ export default class AccountHistoryModal {
 
   onFocusOutMoney() {
     const target = $('.history-form__money');
-    const ValidationResult = this.checkMoneyInputLengthValidation(target, moneyInputMinLength);
+    const isResultValid = this.checkMoneyInputLengthValidation(target, moneyInputMinLength);
 
-    if (ValidationResult) {
+    if (isResultValid) {
       this.showAlert('.money-alert');
       this.moneyValueValidation = false;
     } else {
@@ -171,28 +171,28 @@ export default class AccountHistoryModal {
   }
 
   formatMoneyValue() {
-    const MoneyValue: string = this.moneyInput.value;
-    const MoneyArray = MoneyValue.split('');
-    const MoneyLength = MoneyValue.length;
+    const moneyValue: string = this.moneyInput.value;
+    const moneyArray = moneyValue.split('');
+    const moneyLength = moneyValue.length;
 
-    if (MoneyLength > 3) {
+    if (moneyLength > 3) {
       let count = 1;
-      for (let i = MoneyLength - 1; i > 0; i--) {
+      for (let i = moneyLength - 1; i > 0; i--) {
         if (count % 3 === 0) {
-          MoneyArray.splice(i, 0, ',');
+          moneyArray.splice(i, 0, ',');
         }
         count++;
       }
     }
 
-    const result = MoneyArray.join('');
+    const result = moneyArray.join('');
     this.moneyInput.value = result;
   }
 
-  showAlert(target) {
-    $(target).classList.add('active');
+  showAlert(targetClassName) {
+    $(targetClassName).classList.add('active');
     setTimeout(() => {
-      $(target).classList.remove('active');
+      $(targetClassName).classList.remove('active');
     }, alertShowTime);
   }
 
@@ -277,7 +277,7 @@ export default class AccountHistoryModal {
       } else {
         targetElement.classList.add('active');
         this.choicedCategoryName = target.innerText;
-        removeOthersClassList(currentItemIndex, document, '#category-outline');
+        removeActiveAttributeOnClass(currentItemIndex, document, '#category-outline');
       }
     }
   }
