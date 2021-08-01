@@ -20,6 +20,9 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  .account-history__income-img {
+    cursor: pointer;
+  }
 }
 
 .account-history__expenditure {
@@ -30,6 +33,10 @@
   span {
     color: #ef5d5d;
   }
+
+  .account-history__expenditure-img {
+    cursor: pointer;
+  }
 }
 
 .account-history__text {
@@ -38,6 +45,7 @@
 
 .account-history__add {
   font-size: 50px;
+  cursor: pointer;
 }
 
 .account-history-table {
@@ -70,10 +78,18 @@
 
   .account-history-table__category {
     width: 15%;
+
+    span {
+      cursor: pointer;
+    }
   }
 
   .account-history-table__date {
     width: 25%;
+
+    span {
+      cursor: pointer;
+    }
   }
 
   .account-history-table__price {
