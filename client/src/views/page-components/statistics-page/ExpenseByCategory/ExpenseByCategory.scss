@@ -39,7 +39,8 @@
             
             span{
                 @include delimiter-font-set;
-                margin-right:15px;
+                margin-right:10px;
+                line-height:2px;
             }
         }
 
@@ -56,7 +57,7 @@
             justify-content: space-evenly;
             span {
                 @include delimiter-font-set;
-                margin-top:15px;
+                margin-top:10px;
             }
         }
     }

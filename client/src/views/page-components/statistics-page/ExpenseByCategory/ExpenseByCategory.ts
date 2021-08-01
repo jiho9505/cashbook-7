@@ -28,7 +28,9 @@ export default class ExpenseByCategory {
         </div>
       `;
 
-    $('.content__curved-chart').appendChild(this.getSvgChartPath());
+    // svg의 높이를 알아야 하는 로직이 있어, render 함수 아래에서 호출합니다.
+    $('.content__curved-chart').innerHTML = this.getChartBaseLineDOM();
+    $('.content__curved-chart').appendChild(this.getCurvedChartPath());
   }
 
   /**
@@ -49,15 +51,15 @@ export default class ExpenseByCategory {
    * 최고, 최저값을 구해 5등분합니다.
    */
   getHorizontalDataInterval(data: number[]): number[] {
-    const intervalAmount = 5;
+    const INTERVAL_AMOUNT = 5;
 
     const max = Math.max(...data);
     const min = Math.min(...data);
-    const intervalValue = Math.floor((max - min) / (intervalAmount - 1));
+    const intervalValue = Math.floor((max - min) / (INTERVAL_AMOUNT - 1));
 
-    const distributedData = [...new Array(intervalAmount).keys()].reduce((acc, _, idx) => {
+    const distributedData = [...new Array(INTERVAL_AMOUNT).keys()].reduce((acc, _, idx) => {
       if (idx === 0) return [min];
-      if (idx === intervalAmount - 1) return [...acc, max];
+      if (idx === INTERVAL_AMOUNT - 1) return [...acc, max];
       return [...acc, intervalValue * idx];
     }, []);
 
@@ -65,14 +67,46 @@ export default class ExpenseByCategory {
   }
 
   /**
+   * 모든 기준선 DOM을 생성합니다.
+   */
+  getChartBaseLineDOM() {
+    const { height: SVGHeight } = $('.content__curved-chart').getBoundingClientRect();
+    const BASELINE_AMOUNT = 5;
+    const baselineInterval = SVGHeight / (BASELINE_AMOUNT - 1);
+
+    const $DOM = [...new Array(BASELINE_AMOUNT).keys()].reduce((acc, _, idx) => {
+      return [...acc, this.getBaseLineDOM(baselineInterval * idx)];
+    }, []);
+
+    return $DOM.join('');
+  }
+
+  /**
+   * 기준선에 해당하는 DOM을 생성합니다.
+   * 아래와 같은 형태로 생성됩니다.
+   *   <line x1='0' y1='0' x2='961' y2='0' stroke='#9C9C9C' stroke-opacity='.2'/>
+   */
+  getBaseLineDOM(pos: number) {
+    const $baseline = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    $baseline.setAttribute('x1', '0');
+    $baseline.setAttribute('y1', `${pos}`);
+    $baseline.setAttribute('x2', '961');
+    $baseline.setAttribute('y2', `${pos}`);
+    $baseline.setAttribute('stroke', '#9c9c9c');
+    $baseline.setAttribute('stroke-opacity', '.2');
+
+    return $baseline.outerHTML;
+  }
+
+  /**
    * 곡선 차트를 위한 Path를 가져오는 함수입니다.
    * animation 효과를 위해 path 내에 animate 태그를 추가합니다.
    */
-  getSvgChartPath() {
+  getCurvedChartPath() {
     const $path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     $path.setAttribute('d', this.getPathDAttribute(this.data));
     $path.setAttribute('fill', 'none');
-    $path.setAttribute('stroke', '#3E2B75');
+    $path.setAttribute('stroke', '#5758BB');
     $path.setAttribute('stroke-width', '3');
     $path.setAttribute('stroke-dasharray', `${$path.getTotalLength()}`);
 
@@ -154,7 +188,7 @@ export default class ExpenseByCategory {
     const { width: SVGWidth, height: SVGHeight } = $('.content__curved-chart').getBoundingClientRect();
     const maxDayOnMonth = 30;
 
-    const intervalX = SVGWidth / (maxDayOnMonth - 6);
+    const intervalX = SVGWidth / maxDayOnMonth;
     const intervalY = SVGHeight;
     const max = Math.max(...data);
     return data.reduce((acc, curr, idx) => [...acc, [idx * intervalX, (curr / max) * intervalY]], []);
