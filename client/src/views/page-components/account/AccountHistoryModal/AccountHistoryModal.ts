@@ -1,24 +1,28 @@
-import { $, removeOthersClassList } from '@src/utils/helper';
+import { $, createDOMWithSelector, removeOthersClassList } from '@src/utils/helper';
 import './AccountHistoryModal.scss';
 import handleEvent from '@src/utils/handleEvent';
 import { categoryList, matchCategoryAndImg } from '@src/static/constants';
 import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import { samplePay } from '@src/dummyData';
 
+const SlideOutTime: number = 1300;
+
 export default class AccountHistoryModal {
   state: any;
   choicedCategoryIndex: number = 0;
   payme: any;
+  modal: any;
+  modalWrapper;
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
       this.setState(e.detail.store);
 
+      this.modalWrapper = createDOMWithSelector('div', '.account-history-wrapper');
       this.render();
-      const modal = $('.account-history-modal');
+
       const payMethodForm = $('.history-form__pay-method');
       this.payme = new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
-
-      modal.addEventListener('click', this.onClickHandler.bind(this));
+      this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
       // modal.addEventListener('keyup', this.keyupEventHandler.bind(this))
       // modal.addEventListener('focusout', this.focusoutEventHandler.bind(this))
     });
@@ -28,6 +32,18 @@ export default class AccountHistoryModal {
     this.onClickCategory(e);
     //   this.onClickPayMethod()
     //   this.onClickSubmit()
+    this.onClickOverlay(e);
+  }
+
+  onClickOverlay(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'overlay') {
+      $('.history-form').classList.add('hide');
+      setTimeout(() => {
+        $('#root').removeChild(this.modalWrapper);
+      }, SlideOutTime);
+    }
   }
 
   onClickCategory(e: MouseEvent) {
@@ -55,7 +71,8 @@ export default class AccountHistoryModal {
   }
 
   render(): void {
-    $('#root').innerHTML += this.createModal();
+    this.modalWrapper.innerHTML = this.createModal();
+    $('#root').appendChild(this.modalWrapper);
   }
 
   createModal() {
