@@ -68,7 +68,6 @@ export default class ExpenseByAllCategory {
   }
 
   getCategorySummary(data: CategoryStatisticData[]) {
-    console.log(data);
     return data.map((d) => this.categorySummary(d)).join('');
   }
 
