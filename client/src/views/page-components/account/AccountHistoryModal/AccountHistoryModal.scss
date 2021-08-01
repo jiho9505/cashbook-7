@@ -69,6 +69,10 @@
       border: none;
       padding: 20px;
       font-size: 17px;
+
+      &::placeholder {
+        color: #ccc;
+      }
     }
   }
 
@@ -76,6 +80,20 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    position: relative;
+
+    .date-alert {
+      position: absolute;
+      top: 90px;
+      left: 25px;
+      font-size: 12px;
+      color: #ef5d5d;
+      display: none;
+
+      &.active {
+        display: block;
+      }
+    }
   }
 
   .history-form__money-container {
@@ -93,6 +111,19 @@
       top: 54px;
       left: 15px;
       font-size: 18px;
+    }
+
+    .money-alert {
+      position: absolute;
+      top: 90px;
+      left: 40px;
+      font-size: 12px;
+      color: #ef5d5d;
+      display: none;
+
+      &.active {
+        display: block;
+      }
     }
   }
 
@@ -157,6 +188,8 @@
     display: flex;
     justify-content: center;
     margin-top: 15px;
+    position: relative;
+
     .history-form__confirm {
       width: 200.26px;
       height: 44.29px;
@@ -164,6 +197,19 @@
       border-radius: 25px;
       border: none;
       color: white;
+    }
+
+    .history-form__confirm-alert {
+      position: absolute;
+      top: 60px;
+      left: 150px;
+      font-size: 13px;
+      color: #ef5d5d;
+      display: none;
+
+      &.active {
+        display: block;
+      }
     }
   }
 }
