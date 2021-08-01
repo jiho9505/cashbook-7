@@ -1,4 +1,4 @@
-import { COLORS_BY_CATEGORY } from '@src/static/constants';
+import { COLORS_BY_CATEGORY, NAME_BY_CATEGORY } from '@src/static/constants';
 import { CategoryStatisticData } from '@src/types';
 import { createDOMWithSelector } from '@src/utils/helper';
 
@@ -6,11 +6,11 @@ import './ExpenseByAllCategory.scss';
 
 export default class ExpenseByAllCategory {
   $ExpenseByAllCategory: HTMLElement;
-  $CategoryStatisticData: CategoryStatisticData[];
+  categoryStatisticData: CategoryStatisticData[];
 
   constructor({ parent, state }) {
     this.$ExpenseByAllCategory = createDOMWithSelector('div', '.expense-by-all-category');
-    this.$CategoryStatisticData = state;
+    this.categoryStatisticData = state;
 
     parent.appendChild(this.$ExpenseByAllCategory);
     this.render();
@@ -22,11 +22,11 @@ export default class ExpenseByAllCategory {
         <div class='expense-by-all-category__content'>
           <div class='content__chart'>
             <svg viewBox='-1.5 -1.5 3 3'>
-            ${this.getDoughnutChartPath(this.$CategoryStatisticData)}
+              ${this.getDoughnutChartPath(this.categoryStatisticData)}
             </svg>
           </div>
           <div class='content__summary'>
-          
+            ${this.getCategorySummary(this.categoryStatisticData)}
           </div>
         <div>
       `;
@@ -65,5 +65,20 @@ export default class ExpenseByAllCategory {
     const y = Math.sin(2 * Math.PI * percent);
 
     return [x, y];
+  }
+
+  getCategorySummary(data: CategoryStatisticData[]) {
+    console.log(data);
+    return data.map((d) => this.categorySummary(d)).join('');
+  }
+
+  categorySummary(data: CategoryStatisticData) {
+    return `
+      <div class='category-summary'>
+        <div class='category-summary__color' style='background-color: ${COLORS_BY_CATEGORY[data.category]}'></div>
+        <span class='category-summary__name'>${NAME_BY_CATEGORY[data.category]}</span>
+        <span class='category-summary__percent'>${data.percent * 100}%</span>
+      </div>
+    `;
   }
 }
