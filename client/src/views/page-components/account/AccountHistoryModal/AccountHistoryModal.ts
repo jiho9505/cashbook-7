@@ -6,6 +6,7 @@ import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import { samplePay } from '@src/dummyData';
 
 const SlideOutTime: number = 1300;
+const DateInputMaxLength: number = 8;
 
 export default class AccountHistoryModal {
   state: any;
@@ -23,7 +24,7 @@ export default class AccountHistoryModal {
       const payMethodForm = $('.history-form__pay-method');
       this.payme = new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
       this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
-      // modal.addEventListener('keyup', this.keyupEventHandler.bind(this))
+      this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
       // modal.addEventListener('focusout', this.focusoutEventHandler.bind(this))
     });
   }
@@ -35,6 +36,34 @@ export default class AccountHistoryModal {
     this.onClickOverlay(e);
   }
 
+  onKeyUpHandler(e: KeyboardEvent) {
+    this.onKeyUpDate(e);
+    // this.onKeyUpMoney(e);
+  }
+
+  onKeyUpDate(e: KeyboardEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLInputElement)) return;
+    if (target.className === 'history-form__date') {
+      this.checkInputValueOnlyNumberRegex(target);
+      this.checkInputMaxLengthRegex(target, DateInputMaxLength);
+    }
+  }
+
+  checkInputValueOnlyNumberRegex(target) {
+    const regex = /[^0-9|]/g;
+    target.value = target.value.replace(regex, '');
+  }
+
+  checkInputMaxLengthRegex(target, maxLength) {
+    target.value = target.value.slice(0, maxLength);
+  }
+
+  /**
+     overlay 이벤트 구현
+     overlay는 모달 밖 검은색 배경을 의미한다.
+     - 클릭시 애니메이션 활성화 및 removeChild
+   */
   onClickOverlay(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
@@ -166,3 +195,29 @@ export default class AccountHistoryModal {
       `;
   }
 }
+
+/*
+    	this.$target.addEventListener('keyup', (e) => {
+			if (e.target.id === 'id' || e.target.id === 'location') {
+				e.target.id === 'id' ? this.checkIdRegex(e) : '';
+				e.target.id === 'location' ? this.checkLocationRegex(e) : '';
+				this.activateButton();
+			}
+		});
+	}
+
+	activateButton() {
+		if (this.$id.value.length > 0 && this.$location.value.length > 0) {
+			this.button.$target.classList.remove('disable');
+		} else {
+			this.button.$target.classList.add('disable');
+		}
+	}
+	
+
+	checkIdRegex(e) {
+		const regex = /[^a-z,A-Z,0-9|]/g;
+		e.target.value = e.target.value.replace(regex, '');
+		e.target.value = e.target.value.slice(0, 20);
+	}
+*/
