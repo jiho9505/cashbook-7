@@ -5,26 +5,6 @@ export const $ = (
   return parentNode.querySelector(selector);
 };
 
-export const Container = ({
-  tagName = 'div', //
-  id = undefined,
-  className = undefined,
-  attribute = undefined,
-  child = undefined,
-}) => {
-  const Node = document.createElement(tagName);
-  if (id) Node.setAttribute('id', id);
-  if (className) Node.setAttribute('class', className);
-  if (attribute instanceof Array && attribute.length !== 0) {
-    attribute.forEach(([key, val]) => {
-      Node.setAttribute(key, val);
-    });
-  }
-  Node.innerHTML = getChildHTML(child);
-
-  return Node.outerHTML;
-};
-
 const getChildHTML = (child: string | string[]) => {
   if (!child) return '';
   if (!Array.isArray(child)) return child;
