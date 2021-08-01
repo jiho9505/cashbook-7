@@ -1,8 +1,9 @@
 import { $, createDOMWithSelector, removeActiveAttributeOnClass } from '@src/utils/helper';
-import './AccountHistoryModal.scss';
 import handleEvent from '@src/utils/handleEvent';
 import { categoryList, matchCategoryAndImg } from '@src/static/constants';
 import PayMethods from '@src/views/components/PayMethods/PayMethods';
+import ResultMessage from '@src/views/components/ResultMessage/ResultMessage';
+import './AccountHistoryModal.scss';
 import { samplePay } from '@src/dummyData';
 
 const slideOutTime: number = 1300;
@@ -95,6 +96,7 @@ export default class AccountHistoryModal {
       console.log('Form Success');
 
       this.closeModal();
+      new ResultMessage('내역이 추가되었습니다❗️');
       handleEvent.fire('createaccounthistory', { state: history.state, submitArguments });
       // 옵저버 발동
     } else {
