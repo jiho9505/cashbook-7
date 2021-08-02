@@ -2,6 +2,11 @@ import { Coord, Expense, HTMLText } from '@src/types';
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import './ExpenseByDay.scss';
 
+type OpposedLineType = {
+  length: number;
+  angle: number;
+};
+
 export default class ExpenseByDay {
   $ExpenseByDay: HTMLElement;
   data: Expense[];
@@ -149,7 +154,7 @@ export default class ExpenseByDay {
    *
    * 만약 prev나 next가 없는 점, 즉 시작, 끝점일 경우 current로 replace 합니다.
    */
-  getControlPoint(prev: Coord[], curr: Coord[], next: Coord[], isEndControlPoint?: boolean) {
+  getControlPoint(prev: Coord[], curr: Coord[], next: Coord[], isEndControlPoint?: boolean): Coord[] {
     const p = prev || curr;
     const n = next || curr;
 
@@ -171,7 +176,7 @@ export default class ExpenseByDay {
    * 이전 점과 다음 점을 이은 선의 길이와 각도,
    * opposedLine을 구합니다.
    */
-  getOpposedLine(pointA: Coord[], pointB: Coord[]) {
+  getOpposedLine(pointA: Coord[], pointB: Coord[]): OpposedLineType {
     const xLength = pointB[0] - pointA[0];
     const yLength = pointB[1] - pointA[1];
 
@@ -185,7 +190,7 @@ export default class ExpenseByDay {
    * x좌표는 array의 index 값이며 (날짜 - 1),
    * y좌표는 (현재값 / 최대값) * 높이 입니다.
    */
-  getCoordinates(data: Expense[]) {
+  getCoordinates(data: Expense[]): Coord[][] {
     const { width: SVGWidth, height: SVGHeight } = $('.content__curved-chart').getBoundingClientRect();
     const maxDayOnMonth = 30;
 
