@@ -63,8 +63,6 @@ export default class AccountHistory {
 
   // 조언을 구해보자..!
   // onMouseOutHandler(e: MouseEvent) {
-  //   const { target } = e;
-  //   if (!(target instanceof HTMLElement)) return;
   //   console.log(target.closest('.category-container'));
   //   if (target.closest('.account-history-table__category')) {
   //     $('.category-container').classList.remove('active');
@@ -74,19 +72,19 @@ export default class AccountHistory {
   // }
 
   onClickHandler(e: MouseEvent) {
-    this.onClickAddButton(e);
-    this.onClickCategoryItem(e);
-    this.onClickDateButton(e);
-    this.onClickTypeButton(e);
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    this.onClickAddButton(target);
+    this.onClickCategoryItem(target);
+    this.onClickDateButton(target);
+    this.onClickTypeButton(target);
   }
 
   /**
    * TODO:
    * type button도 필터 후 default 설정 필요
    */
-  onClickTypeButton(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
+  onClickTypeButton(target) {
     const incomeType: HTMLImageElement = $('.account-history__income-img') as HTMLImageElement;
     const expenditureType: HTMLImageElement = $('.account-history__expenditure-img') as HTMLImageElement;
     if (target.className === 'account-history__income-img') {
@@ -100,16 +98,12 @@ export default class AccountHistory {
     }
   }
 
-  onClickCategoryItem(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
+  onClickCategoryItem(target) {
     if (target.className === 'category-list-img') console.log('item Click');
     // handleEvent.fire('changefilter');
   }
 
-  onClickDateButton(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
+  onClickDateButton(target) {
     this.onClickWholeDateButton(target);
     this.onClickSpecificDateButton(target);
   }
@@ -148,9 +142,7 @@ export default class AccountHistory {
     }
   }
 
-  onClickAddButton(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
+  onClickAddButton(target) {
     if (target.className === 'account-history__add') handleEvent.fire('createhistorymodal'); // 자신의 결제수단 데이터를 넘겨줄것 state는 없어도 됨
   }
 
