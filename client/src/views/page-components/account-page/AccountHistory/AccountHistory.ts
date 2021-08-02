@@ -51,7 +51,7 @@ export default class AccountHistory {
     if (target.className === 'account-history-table__category-span') {
       $('.category-container').classList.remove('active');
     } else if (target.className === 'account-history-table__date-span') {
-      // $('.category-container').classList.remove('active');
+      // $('.category-container').classList.add('active');
     }
   }
 
@@ -125,6 +125,36 @@ export default class AccountHistory {
     `;
   }
 
+  createDateChoiceBar(): string {
+    return `
+      <div class="date-container">
+        ${this.createWholeDateChoice()}
+        ${this.createSpecificDateChoice()}
+        <div>
+        </div>
+      </div>
+    `;
+  }
+
+  createWholeDateChoice(): string {
+    return `
+      <div class="date__whole">
+        <img src=${CheckActive}>
+        <span>전체</span>
+      </div>`;
+  }
+
+  createSpecificDateChoice(): string {
+    return `
+      <div class="date__specific">
+        <img src=${CheckNonActive}>
+        <span>특정 날짜 선택</span>
+        <div>
+          <input type='text'>
+        </div>
+      </div>
+    `;
+  }
   createCategoryList() {
     return categoryList
       .map((category, idx) => {
