@@ -5,19 +5,19 @@ import { changeIntoDateFormat, createDOMWithSelector } from '@src/utils/helper';
 import './RecentlyAccountHistory.scss';
 
 export default class RecentlyAccountHistory {
-  $RecentlyAccountHistory: HTMLElement;
+  $recentlyAccountHistory: HTMLElement;
   recentlyAccountHistoryList: AccountData[];
 
   constructor({ parent, state }) {
-    this.$RecentlyAccountHistory = createDOMWithSelector('div', '.recently-account-history');
+    this.$recentlyAccountHistory = createDOMWithSelector('div', '.recently-account-history');
     this.recentlyAccountHistoryList = state;
 
-    parent.appendChild(this.$RecentlyAccountHistory);
+    parent.appendChild(this.$recentlyAccountHistory);
     this.render();
   }
 
   render() {
-    this.$RecentlyAccountHistory.innerHTML = `
+    this.$recentlyAccountHistory.innerHTML = `
         <span class='recently-account-history__title'>최근 가계부 내역</span>
         <a href='/account' class='recently-account-history__detail'>자세히 보기 ></a>
         <div class='recently-account-wrap'>
