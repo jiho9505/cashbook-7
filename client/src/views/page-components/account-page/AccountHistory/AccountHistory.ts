@@ -29,7 +29,7 @@ export default class AccountHistory {
 
     this.history.addEventListener('click', this.onClickHandler.bind(this));
     this.history.addEventListener('mouseover', this.onMouseOverHandler.bind(this));
-    this.history.addEventListener('mouseout', this.onMouseOutHandler.bind(this));
+    // this.history.addEventListener('mouseout', this.onMouseOutHandler.bind(this));
   }
 
   /**
@@ -45,18 +45,68 @@ export default class AccountHistory {
     }
   }
 
-  onMouseOutHandler(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
-    if (target.className === 'account-history-table__category-span') {
-      $('.category-container').classList.remove('active');
-    } else if (target.className === 'account-history-table__date-span') {
-      $('.date-container').classList.remove('active');
-    }
-  }
+  // 조언을 구해보자..!
+  // onMouseOutHandler(e: MouseEvent) {
+  //   const { target } = e;
+  //   if (!(target instanceof HTMLElement)) return;
+  //   console.log(target.closest('.category-container'));
+  //   if (target.closest('.category-container')) {
+  //     $('.category-container').classList.remove('active');
+  //   } else if (target.className === 'date-container active') {
+  //     $('.date-container').classList.remove('active');
+  //   }
+  // }
 
   onClickHandler(e: MouseEvent) {
     this.onClickAddButton(e);
+    this.onClickCategoryItem(e);
+    this.onClickDateButton(e);
+  }
+
+  onClickCategoryItem(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'category-list-img') console.log('item Click');
+    // handleEvent.fire('changefilter');
+  }
+
+  onClickDateButton(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    this.onClickWholeDateButton(target);
+    this.onClickSpecificDateButton(target);
+  }
+
+  onClickWholeDateButton(target) {
+    if (target.className === 'date__whole-part') {
+      this.changeButtonImage('whole');
+      $('.date__input').classList.remove('active');
+      console.log('whole data');
+      // handleEvent.fire('changefilter');
+    }
+  }
+
+  /**
+   * 특정한 날짜로 리렌더링되면 특정날짜버튼이 default가 될듯.. 흠
+   */
+  onClickSpecificDateButton(target) {
+    if (target.className === 'date__specific-part') {
+      this.changeButtonImage('specific');
+      $('.date__input').classList.add('active');
+    }
+  }
+
+  changeButtonImage(mode: string) {
+    const wholeDateButtonImage: HTMLImageElement = document.querySelector('#whole-date-img');
+    const SpecificDateButtonImage: HTMLImageElement = document.querySelector('#specific-date-img');
+
+    if (mode === 'whole') {
+      wholeDateButtonImage.src = CheckActive;
+      SpecificDateButtonImage.src = CheckNonActive;
+    } else if (mode === 'specific') {
+      wholeDateButtonImage.src = CheckNonActive;
+      SpecificDateButtonImage.src = CheckActive;
+    }
   }
 
   onClickAddButton(e: MouseEvent) {
@@ -139,28 +189,29 @@ export default class AccountHistory {
   createWholeDateChoice(): string {
     return `
       <div class="date__whole">
-        <img src=${CheckActive}>
-        <span>전체</span>
+        <img class="date__whole-part" id='whole-date-img' src=${CheckActive}>
+        <span class="date__whole-part">전체</span>
       </div>`;
   }
 
   createSpecificDateChoice(): string {
     return `
       <div class="date__specific">
-        <img src=${CheckNonActive}>
-        <span>특정 날짜 선택</span>
-        <div>
+        <img class="date__specific-part"  id='specific-date-img' src=${CheckNonActive}>
+        <span class="date__specific-part">특정 날짜 선택</span>
+        <div class="date__input">
           <input type='text'>
         </div>
       </div>
     `;
   }
+
   createCategoryList() {
     return categoryList
       .map((category, idx) => {
         return `
-            <div class="category-list active">
-                <img src=${matchCategoryAndImg[category]}>
+            <div class="category-list">
+                <img class="category-list-img" src=${matchCategoryAndImg[category]}>
             </div>
         `;
       })
