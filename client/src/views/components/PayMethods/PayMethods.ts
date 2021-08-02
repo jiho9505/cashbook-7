@@ -27,7 +27,6 @@ export default class PayMethod {
   }
 
   setProperty(state, filter): void {
-    console.log('filter: ', filter);
     this.state = state;
     this.filter = filter;
   }
@@ -117,6 +116,7 @@ export default class PayMethod {
       .map((pay, idx) => {
         let isInitialChoicedButton = '';
         this.filter.card === idx + 1 ? (isInitialChoicedButton = 'active') : '';
+
         return `
             <div class='card ${objToChangeCardNameFromKoreanToEng[pay.payMethodName]}' id='card' data-idx=${idx}>
               <div class='card-price'>

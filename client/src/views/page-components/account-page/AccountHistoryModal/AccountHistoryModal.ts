@@ -2,8 +2,6 @@ import { $, createDOMWithSelector, removeActiveAttributeOnClass } from '@src/uti
 import handleEvent from '@src/utils/handleEvent';
 import {
   categoryList,
-  objToChangeCardEnglishNameToNum,
-  objToChangeCardNameFromKoreanToEng,
   objToChangeCategoryEnglishNameToNum,
   objToChangeCategoryNameFromKoreanToEng,
   matchCategoryAndImg,
@@ -47,6 +45,7 @@ export default class AccountHistoryModal {
       this.dateInput = $('.history-form__date');
       this.moneyInput = $('.history-form__money');
       this.payMethod = new PayMethods({ parent: payMethodForm, state: CardsForModal, filter: {} });
+
       this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
       this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
       this.modalWrapper.addEventListener('focusout', this.onFocusOutInputHandler.bind(this));
