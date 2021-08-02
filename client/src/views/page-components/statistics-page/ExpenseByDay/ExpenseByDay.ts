@@ -109,7 +109,6 @@ export default class ExpenseByDay {
     $path.setAttribute('stroke', '#5758BB');
     $path.setAttribute('stroke-width', '3');
     $path.setAttribute('stroke-dasharray', `${$path.getTotalLength()}`);
-    //FIXME: 곡선 최고, 최저점일 경우 두께 때문에 차트 밖으로 벗어남... QA 때 수정
     $path.setAttribute('style', `transform: scaleY(0.87) translateY(34px)`);
 
     const $animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
@@ -117,7 +116,6 @@ export default class ExpenseByDay {
     $animate.setAttribute('from', `${$path.getTotalLength()}`);
     $animate.setAttribute('to', '0');
     $animate.setAttribute('dur', '1.5');
-    $animate.setAttribute('fill', 'freeze');
     $path.appendChild($animate);
 
     return $path;
