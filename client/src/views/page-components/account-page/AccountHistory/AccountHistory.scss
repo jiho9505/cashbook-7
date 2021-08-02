@@ -87,7 +87,7 @@
     .category-container {
       position: absolute;
       top: -160px;
-      left: -220px;
+      left: -240px;
       width: 239px;
       height: 155px;
       background-color: white;
@@ -129,6 +129,7 @@
 
   .account-history-table__date {
     width: 25%;
+    position: relative;
 
     span {
       cursor: pointer;
@@ -137,5 +138,33 @@
 
   .account-history-table__price {
     width: 25%;
+  }
+}
+
+.date-container {
+  position: absolute;
+  width: 183px;
+  height: 112px;
+  left: -160px;
+  top: -120px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 30px 30px 0px 30px;
+  padding: 10px 0 0 20px;
+
+  input {
+    width: 122px;
+    height: 30px;
+    left: 1119px;
+    top: 550px;
+    border: none;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 20px 20px 0px 20px;
+    margin-top: 5px;
+    margin-left: 30px;
+    display: none;
+    &.active {
+      display: block;
+    }
   }
 }
