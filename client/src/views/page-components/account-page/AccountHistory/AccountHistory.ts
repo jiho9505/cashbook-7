@@ -1,20 +1,7 @@
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import handleEvent from '@src/utils/handleEvent';
-<<<<<<< HEAD:client/src/views/page-components/account-page/AccountHistory/AccountHistory.ts
-import { matchCategoryAndImg } from '@src/static/constants';
-<<<<<<< HEAD:client/src/views/page-components/account-page/AccountHistory/AccountHistory.ts
-import './AccountHistory.scss';
-import { CheckActive, CheckNonActive } from '@src/static/image-urls';
-=======
-=======
 import { matchCategoryAndImg, categoryList } from '@src/static/constants';
-<<<<<<< HEAD:client/src/views/page-components/account-page/AccountHistory/AccountHistory.ts
->>>>>>> 3c88c2a ([#16] feat : Category Bar 구현):client/src/views/page-components/account/AccountHistory/AccountHistory.ts
-import { CheckActive, CheckNonActive } from '@src/static/imageUrls';
->>>>>>> d8dc6f7 ([#16] feat : AddButton Click 이벤트 추가):client/src/views/page-components/account/AccountHistory/AccountHistory.ts
-=======
-import { CheckActive, CheckNonActive, TRASHCAN } from '@src/static/imageUrls';
->>>>>>> 0bb0e20 (filter change 옵저버 적용 및 중간 저장용):client/src/views/page-components/account/AccountHistory/AccountHistory.ts
+import { CheckActive, CheckNonActive, TRASHCAN } from '@src/static/image-urls';
 
 import './AccountHistory.scss';
 import ConfirmWindow from '@src/views/components/Confirm/Confirm';
