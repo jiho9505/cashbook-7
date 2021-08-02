@@ -12,6 +12,8 @@ type Category =
   | 'etc';
 
 export type HTMLText = string;
+export type Coord = number;
+export type Expense = number;
 
 export interface AccountData {
   title: string;
