@@ -69,3 +69,4 @@ export const NAME_BY_CATEGORY = {
   shopping: '쇼핑/뷰티',
   traffic: '교통',
 };
+export const categoryList = ['문화', '의료/건강', '음식', '교통', '생활', '쇼핑/뷰티', '기타'];

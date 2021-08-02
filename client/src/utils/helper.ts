@@ -35,3 +35,21 @@ export const createDOMWithSelector = (tag: string, ...selectors: string[]) => {
   });
   return $DOM;
 };
+
+/**
+ * 카테고리와 카드 클릭시 사용된다.
+ * 다른 클래스들의 active 속성을 지워주는 함수
+ */
+export const removeActiveAttributeOnClass = (
+  currentIdx: number,
+  parentElement: Document | HTMLElement,
+  element: string
+): void => {
+  const allElement = parentElement.querySelectorAll(element);
+
+  [...allElement].forEach((ele, idx) => {
+    if (idx !== currentIdx) {
+      ele.classList.remove('active');
+    }
+  });
+};

@@ -3,6 +3,7 @@ import AccountView from './views/page-components/account-page';
 import CalendarView from './views/calendar';
 import Header from './views/components/Header';
 import StatisticsPageView from './views/page-components/statistics-page';
+import AccountHistoryModal from './views/page-components/account-page/AccountHistoryModal/AccountHistoryModal';
 
 export default class Router {
   constructor() {
@@ -10,6 +11,7 @@ export default class Router {
     new AccountView();
     new StatisticsPageView();
     new CalendarView();
+    new AccountHistoryModal();
 
     window.addEventListener('popstate', (e) => {
       if (e.state === null) return;
