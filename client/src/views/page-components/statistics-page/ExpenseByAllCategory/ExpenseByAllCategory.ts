@@ -1,5 +1,5 @@
 import { COLORS_BY_CATEGORY, NAME_BY_CATEGORY } from '@src/static/constants';
-import { ArcSVGCommandAttribute, CategoryStatisticData, HTMLText } from '@src/types';
+import { ArcSVGCommandAttribute, CategoryStatisticData, Coord, HTMLText } from '@src/types';
 import { createDOMWithSelector } from '@src/utils/helper';
 
 import './ExpenseByAllCategory.scss';
@@ -98,7 +98,7 @@ export default class ExpenseByAllCategory {
    * viewBox의 원 반지름이 1이므로,
    * x 는 cos theta, y는 sin theta 입니다.
    */
-  getCoordinatesForPercent(percent: number): number[] {
+  getCoordinatesForPercent(percent: number): Coord[] {
     const x = Math.cos(2 * Math.PI * percent);
     const y = Math.sin(2 * Math.PI * percent);
 

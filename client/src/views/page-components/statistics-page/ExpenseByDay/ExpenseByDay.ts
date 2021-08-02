@@ -1,10 +1,10 @@
-import { HTMLText } from '@src/types';
+import { Coord, Expense, HTMLText } from '@src/types';
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import './ExpenseByDay.scss';
 
 export default class ExpenseByDay {
   $ExpenseByDay: HTMLElement;
-  data: number[];
+  data: Expense[];
 
   constructor({ parent, state }) {
     this.$ExpenseByDay = createDOMWithSelector('div', '.expense-by-category');
@@ -38,7 +38,7 @@ export default class ExpenseByDay {
    * content__expense-delimiter 내에 사용될 <span> 데이터를 생성합니다.
    * 데이터는 차트의 수직선에 해당하는 내용입니다.
    */
-  getExpenseDelimiterDOM(data: number[]): HTMLText {
+  getExpenseDelimiterDOM(data: Expense[]): HTMLText {
     const chartHorizontalDatas = this.getHorizontalDataInterval(data);
     const DOM = chartHorizontalDatas
       .reverse()
@@ -51,7 +51,7 @@ export default class ExpenseByDay {
    * 수평선에 사용할 데이터를 구합니다.
    * 최고, 최저값을 구해 5등분합니다.
    */
-  getHorizontalDataInterval(data: number[]): number[] {
+  getHorizontalDataInterval(data: Expense[]): Expense[] {
     const INTERVAL_AMOUNT = 5;
 
     const max = Math.max(...data);
@@ -87,7 +87,7 @@ export default class ExpenseByDay {
    * 아래와 같은 형태로 생성됩니다.
    *   <line x1='0' y1='0' x2='961' y2='0' stroke='#9C9C9C' stroke-opacity='.2'/>
    */
-  getBaseLineDOM(pos: number): HTMLText {
+  getBaseLineDOM(pos: Coord): HTMLText {
     const $baseline = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     $baseline.setAttribute('x1', '0');
     $baseline.setAttribute('y1', `${pos}`);
@@ -127,7 +127,7 @@ export default class ExpenseByDay {
    * 곡선 구현을 위해 C 속성을 사용하였습니다.
    * 만약, 시작점일 경우 M 속성을 사용합니다.
    */
-  getPathDAttribute(data: number[]): HTMLText {
+  getPathDAttribute(data: Expense[]): HTMLText {
     const coords = this.getCoordinates(data);
 
     const d = coords.reduce((acc, curr, idx, arr) => {
@@ -149,7 +149,7 @@ export default class ExpenseByDay {
    *
    * 만약 prev나 next가 없는 점, 즉 시작, 끝점일 경우 current로 replace 합니다.
    */
-  getControlPoint(prev: number[], curr: number[], next: number[], isEndControlPoint?: boolean) {
+  getControlPoint(prev: Coord[], curr: Coord[], next: Coord[], isEndControlPoint?: boolean) {
     const p = prev || curr;
     const n = next || curr;
 
@@ -171,7 +171,7 @@ export default class ExpenseByDay {
    * 이전 점과 다음 점을 이은 선의 길이와 각도,
    * opposedLine을 구합니다.
    */
-  getOpposedLine(pointA: number[], pointB: number[]) {
+  getOpposedLine(pointA: Coord[], pointB: Coord[]) {
     const xLength = pointB[0] - pointA[0];
     const yLength = pointB[1] - pointA[1];
 
@@ -185,7 +185,7 @@ export default class ExpenseByDay {
    * x좌표는 array의 index 값이며 (날짜 - 1),
    * y좌표는 (현재값 / 최대값) * 높이 입니다.
    */
-  getCoordinates(data: number[]) {
+  getCoordinates(data: Expense[]) {
     const { width: SVGWidth, height: SVGHeight } = $('.content__curved-chart').getBoundingClientRect();
     const maxDayOnMonth = 30;
 
