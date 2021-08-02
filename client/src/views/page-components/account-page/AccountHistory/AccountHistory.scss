@@ -161,10 +161,26 @@
     display: block;
   }
 
-  .date__input {
+  .date__input-container {
     display: none;
+    position: relative;
     &.active {
       display: block;
+    }
+
+    .date__input {
+      text-align: right;
+      padding: 10px;
+      font-size: 15px;
+    }
+
+    .date__fix-date {
+      position: absolute;
+      left: 65px;
+      top: 14px;
+      color: black;
+      font-size: 15px;
+      cursor: default;
     }
   }
 
