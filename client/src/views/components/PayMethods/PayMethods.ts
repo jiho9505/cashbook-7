@@ -3,7 +3,7 @@ import handleEvent from '@src/utils/handleEvent';
 import { CheckButton, ETC, Xbox } from '@src/static/image-urls';
 import './PayMethods.scss';
 import { $, removeActiveAttributeOnClass } from '@src/utils/helper';
-import Confirm from '../Confirm/Confirm';
+import ConfirmWindow from '../Confirm/Confirm';
 
 export default class PayMethod {
   state: any;
@@ -35,7 +35,7 @@ export default class PayMethod {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
     if (target.className === 'card-xbox-img')
-      new Confirm({
+      new ConfirmWindow({
         onClick: this.onClickConfirmWindowHandler.bind(this),
         addText: '( 삭제 시 내역 데이터도 삭제됩니다❗️)',
       });

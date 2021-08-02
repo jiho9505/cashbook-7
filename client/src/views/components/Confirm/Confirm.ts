@@ -1,7 +1,7 @@
 import './Confirm.scss';
 import { $, createDOMWithSelector } from '@src/utils/helper';
 
-export default class Confirm {
+export default class ConfirmWindow {
   $confirm: HTMLDivElement | HTMLElement;
   addedText: string;
   onClick;
