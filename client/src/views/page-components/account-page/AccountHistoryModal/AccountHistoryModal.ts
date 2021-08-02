@@ -264,7 +264,7 @@ export default class AccountHistoryModal {
   onClickCategory(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
-    if (target.id === 'category-item') {
+    if (target.className === 'category-item') {
       const allCategoryElement = document.querySelectorAll('#category-outline');
       const currentItemIndex = Number(target.dataset.idx);
       const targetElement = allCategoryElement[currentItemIndex];
@@ -367,8 +367,8 @@ export default class AccountHistoryModal {
       .map((category, idx) => {
         return `
             <div class="history-form__category-list" id='category-outline'>
-                <img src=${matchCategoryAndImg[category]}>
-                <span id='category-item' data-idx=${idx} >${category}</span>
+                <img class='category-item' data-idx=${idx} src=${matchCategoryAndImg[category]}>
+                <span class='category-item' data-idx=${idx} >${category}</span>
             </div>
         `;
       })
