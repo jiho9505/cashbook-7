@@ -8,15 +8,23 @@ import { CheckActive, CheckNonActive } from '@src/static/image-urls';
 =======
 =======
 import { matchCategoryAndImg, categoryList } from '@src/static/constants';
+<<<<<<< HEAD:client/src/views/page-components/account-page/AccountHistory/AccountHistory.ts
 >>>>>>> 3c88c2a ([#16] feat : Category Bar 구현):client/src/views/page-components/account/AccountHistory/AccountHistory.ts
 import { CheckActive, CheckNonActive } from '@src/static/imageUrls';
 >>>>>>> d8dc6f7 ([#16] feat : AddButton Click 이벤트 추가):client/src/views/page-components/account/AccountHistory/AccountHistory.ts
+=======
+import { CheckActive, CheckNonActive, TRASHCAN } from '@src/static/imageUrls';
+>>>>>>> 0bb0e20 (filter change 옵저버 적용 및 중간 저장용):client/src/views/page-components/account/AccountHistory/AccountHistory.ts
 
 import './AccountHistory.scss';
+import ConfirmWindow from '@src/views/components/Confirm/Confirm';
 
 export default class AccountHistory {
   state: any;
   history: HTMLElement;
+  prevCategoryName: string = '';
+  isIncomeButtonActive: boolean = true;
+  isExpenditureButtonActive: boolean = true;
 
   constructor({ parent, state }) {
     this.history = createDOMWithSelector('div', '.account-history');
@@ -26,9 +34,8 @@ export default class AccountHistory {
     this.render();
 
     this.history.addEventListener('click', this.onClickHandler.bind(this));
-    this.history.addEventListener('mouseover', this.onMouseOverHandler.bind(this));
-    // this.history.addEventListener('mouseout', this.onMouseOutHandler.bind(this));
     this.history.addEventListener('focusout', this.onFoucsOutHandler.bind(this));
+    $('#root').addEventListener('click', this.onClickModalHandler.bind(this));
   }
 
   /**
@@ -43,33 +50,12 @@ export default class AccountHistory {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
     if (target.className === 'date__input') {
+      const dateInput: HTMLInputElement = target as HTMLInputElement;
       console.log('filter Change - input');
-      // handleEvent.fire('changefilter');
+      const day = dateInput.value;
+      handleEvent.fire('filterchange', { day });
     }
   }
-
-  /**
-   * 전체에 이벤트를 거니 마우스 움직일때마다 검사하는게 성능에 괜찮은지 궁금하네요!
-   */
-  onMouseOverHandler(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
-    if (target.className === 'account-history-table__category-span') {
-      $('.category-container').classList.add('active');
-    } else if (target.className === 'account-history-table__date-span') {
-      $('.date-container').classList.add('active');
-    }
-  }
-
-  // 조언을 구해보자..!
-  // onMouseOutHandler(e: MouseEvent) {
-  //   console.log(target.closest('.category-container'));
-  //   if (target.closest('.account-history-table__category')) {
-  //     $('.category-container').classList.remove('active');
-  //   } else if (target.className === 'date-container active') {
-  //     $('.date-container').classList.remove('active');
-  //   }
-  // }
 
   onClickHandler(e: MouseEvent) {
     const { target } = e;
@@ -78,6 +64,83 @@ export default class AccountHistory {
     this.onClickCategoryItem(target);
     this.onClickDateButton(target);
     this.onClickTypeButton(target);
+    this.onClickTrashCanImage(target);
+    this.onClickCategoryName(target);
+    this.onClickDateName(target);
+  }
+
+  onClickModalHandler(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    this.onClickExceptCategoryArea(target);
+    this.onClickExceptDateArea(target);
+  }
+
+  /**
+   * TODO:
+   * 이거 추후에 모달 컴포넌트로 만들게요.. 예외처리가 너무 많네요 ㅠㅠ
+   */
+  onClickExceptCategoryArea(target) {
+    if (
+      target.className !== 'category-container active' &&
+      target.className !== 'account-history-table__category-span'
+    ) {
+      $('.category-container').classList.remove('active');
+    }
+  }
+
+  /**
+   * TODO:
+   * 이거 추후에 모달 컴포넌트로 만들게요.. 예외처리가 너무 많네요 ㅠㅠ
+   */
+  onClickExceptDateArea(target) {
+    if (
+      target.className !== 'date-container active' &&
+      target.className !== 'account-history-table__date-span' &&
+      target.className !== 'date__specific-part' &&
+      target.className !== 'date__input-container active' &&
+      target.className !== 'date__specific' &&
+      target.className !== 'date__whole' &&
+      target.className !== 'date__fix-date' &&
+      target.className !== 'date__input-container active' &&
+      target.className !== 'date__input'
+    ) {
+      $('.date-container').classList.remove('active');
+    }
+  }
+
+  onClickCategoryName(target) {
+    if (target.className === 'account-history-table__category-span') {
+      $('.category-container').classList.contains('active')
+        ? $('.category-container').classList.remove('active')
+        : $('.category-container').classList.add('active');
+    }
+  }
+
+  onClickDateName(target) {
+    if (target.className === 'account-history-table__date-span') {
+      $('.date-container').classList.add('active');
+    }
+  }
+
+  onClickTrashCanImage(target) {
+    if (target.className === 'account-history-table__trashcan')
+      new ConfirmWindow({
+        onClick: this.onClickConfirmWindowHandler.bind(this),
+        addText: '',
+      });
+  }
+
+  onClickConfirmWindowHandler(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+
+    if (target.className === 'confirm__overlay' || target.className === 'confirm__cancel') {
+      $('#root').removeChild($('.confirm'));
+    } else if (target.className === 'confirm__delete') {
+      $('#root').removeChild($('.confirm')); // 바로 리렌더링되면 삭제 안해줘도 될듯
+      console.log('Observer - delete');
+    }
   }
 
   /**
@@ -88,19 +151,46 @@ export default class AccountHistory {
     const incomeType: HTMLImageElement = $('.account-history__income-img') as HTMLImageElement;
     const expenditureType: HTMLImageElement = $('.account-history__expenditure-img') as HTMLImageElement;
     if (target.className === 'account-history__income-img') {
-      incomeType.src === CheckActive ? (incomeType.src = CheckNonActive) : (incomeType.src = CheckActive);
-      console.log('filter change - income');
+      // isIncomeButtonActive isExpenditureButtonActive
+      if (incomeType.src === CheckActive) {
+        incomeType.src = CheckNonActive;
+        this.isIncomeButtonActive = false;
+      } else {
+        incomeType.src = CheckActive;
+        this.isIncomeButtonActive = true;
+      }
+      const type = this.getType();
+      handleEvent.fire('filterchange', { type });
     } else if (target.className === 'account-history__expenditure-img') {
-      expenditureType.src === CheckActive
-        ? (expenditureType.src = CheckNonActive)
-        : (expenditureType.src = CheckActive);
+      if (expenditureType.src === CheckActive) {
+        expenditureType.src = CheckNonActive;
+        this.isExpenditureButtonActive = false;
+      } else {
+        expenditureType.src = CheckActive;
+        this.isExpenditureButtonActive = true;
+      }
+      const type = this.getType();
+      handleEvent.fire('filterchange', { type });
       console.log('filter change - expenditure');
     }
   }
 
+  getType() {
+    if (this.isIncomeButtonActive && this.isExpenditureButtonActive) return '';
+    else if (this.isIncomeButtonActive) return 'income';
+    else if (this.isExpenditureButtonActive) return 'expenditure';
+    else return 'not-choice';
+  }
+
   onClickCategoryItem(target) {
-    if (target.className === 'category-list-img') console.log('item Click');
-    // handleEvent.fire('changefilter');
+    if (target.className === 'category-list-img') {
+      if (this.prevCategoryName === target.dataset.name) {
+        handleEvent.fire('filterchange', { category: '' });
+        return;
+      }
+      this.prevCategoryName = target.dataset.name;
+      handleEvent.fire('filterchange', { category: target.dataset.name });
+    }
   }
 
   onClickDateButton(target) {
@@ -112,7 +202,7 @@ export default class AccountHistory {
     if (target.className === 'date__whole-part') {
       this.changeButtonImage('whole');
       $('.date__input-container').classList.remove('active');
-      console.log('filter Change - whole data');
+      handleEvent.fire('filterchange', { day: '' });
       // handleEvent.fire('changefilter');
     }
   }
@@ -258,7 +348,7 @@ export default class AccountHistory {
       .map((category, idx) => {
         return `
             <div class="category-list">
-                <img class="category-list-img" src=${matchCategoryAndImg[category]}>
+                <img class="category-list-img" src=${matchCategoryAndImg[category]} data-name=${category}>
             </div>
         `;
       })
@@ -295,6 +385,9 @@ export default class AccountHistory {
                 </td>
                 <td>
                     <span>${item.price}</span>
+                </td>
+                <td>
+                    <img class='account-history-table__trashcan' src=${TRASHCAN}></img>
                 </td>
             </tr>
         `;

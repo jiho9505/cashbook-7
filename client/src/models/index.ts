@@ -3,12 +3,21 @@ import evt from '@src/utils/handleEvent';
 
 class Model {
   store: Store = {};
+  filter = {};
 
   constructor() {
     evt.subscribe('statechange', this.fetchData.bind(this));
     // evt.fire('createhistorymodal', {});
     // evt.subscribe('historymodalgetdata', this.getModalData.bind(this));
     evt.subscribe('createaccounthistory', this.createAccountHistory.bind(this));
+    evt.subscribe('filterchange', this.fetchFilterdData.bind(this));
+  }
+
+  fetchFilterdData(e: CustomEvent) {
+    const newData = e.detail;
+    this.filter = { ...this.filter, ...newData };
+    console.log('filter', this.filter);
+    // day는 Number 사용
   }
 
   fetchData(e: CustomEvent) {

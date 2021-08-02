@@ -68,12 +68,12 @@ export default class PayMethod {
       if (checkButton.classList.contains('active')) {
         checkButton.classList.remove('active');
         this.currentCardName = '';
-        // 모달이 아닐때 옵저버 (필터)
+        !this.isHistoryModal() && handleEvent.fire('filterchange', { card: '' });
       } else {
         checkButton.classList.add('active');
         this.currentCardName = this.state[currentCardIdx].payMethodName;
-        // 모달이 아닐때 옵저버 (필터)
         removeActiveAttributeOnClass(currentCardIdx, this.currentMode, '#checkbutton');
+        !this.isHistoryModal() && handleEvent.fire('filterchange', { card: this.currentCardName });
       }
     }
   }
