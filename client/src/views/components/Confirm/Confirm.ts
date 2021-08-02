@@ -4,18 +4,15 @@ import { $, createDOMWithSelector } from '@src/utils/helper';
 export default class ConfirmWindow {
   $confirm: HTMLDivElement | HTMLElement;
   addedText: string;
-  onClick;
+  onClick: EventListener;
+
   constructor({ onClick, addText }) {
-    //
     this.$confirm = createDOMWithSelector('div', '.confirm');
     this.addedText = addText;
-    // 채팅 구현시 render() 빼서 재사용
     this.render();
 
     $('#root').appendChild(this.$confirm);
     this.onClick = onClick;
-    // this.onClick = onClick;
-    // this.$confirmButton = document.querySelector('.confirm__delete');
 
     this.$confirm.addEventListener('click', (e) => {
       this.onClick(e);
