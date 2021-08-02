@@ -1,0 +1,101 @@
+.expense-by-all-category{
+    width:550px;
+    height:325px;
+    border-radius:10px;
+    padding:30px;
+    background-color: #fff;
+    $category-title-height: 20px;
+
+    span {
+        font-family: Raleway;
+        font-weight: bold;
+        font-size: 20px;
+        color:var(--font-color);
+    }
+
+    .expense-by-all-category__title{
+        display:block;
+        height: $category-title-height;
+    }
+
+    .expense-by-all-category__content {
+        display:flex;
+        width:100%;
+        height:calc(100% - #{$category-title-height});
+        
+        .content__chart,.content__summary { 
+            width:50%;
+        }
+
+        .content__chart{
+            display:flex;
+            justify-content: center;
+            align-items:center;
+            padding-top:30px;
+            
+            svg {
+                width:225px; 
+                height:225px;
+                transform:rotate(-90deg);
+        
+                path{
+                    transition: transform 0.5s ease 0s;
+                    cursor:pointer;
+                }
+                
+                path:hover{
+                    transform: scale(1.2);
+                }
+            }
+        }
+
+        .content__summary{
+            height:100%;
+            padding-top:25px;
+            display:flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .category-summary{
+                display:flex;
+                align-items: center;
+                width:180px;
+                height:20px;
+                span{
+                    font-weight:normal;
+                    font-size:16px;
+                }
+            
+                .category-summary__color{
+                    display:inline-block;
+                    width:20px;
+                    height:20px;
+                    border-radius:50%;
+                    margin-right:20px;
+                }
+                .category-summary__name{
+                    display:inline-block;
+                    width:100px;
+                    height:20px;
+                    line-height:20px;
+                }
+                .category-summary__percent{
+                    display:inline-block;
+                    width:calc(100% - 140px);
+                    text-align:right;
+                    height:20px;
+                    line-height:20px;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+

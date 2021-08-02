@@ -11,6 +11,10 @@ type Category =
   | 'culture'
   | 'etc';
 
+export type HTMLText = string;
+export type Coord = number;
+export type Expense = number;
+
 export interface AccountData {
   title: string;
   date: number;
@@ -18,4 +22,17 @@ export interface AccountData {
   method: string;
   amountOfMoney: string;
   isIncome: boolean;
+}
+
+export interface CategoryStatisticData {
+  category: string;
+  percent: number;
+}
+
+export interface ArcSVGCommandAttribute {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  isLargeArcFlag: number;
 }

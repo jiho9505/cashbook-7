@@ -1,7 +1,7 @@
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import { matchCategoryAndImg } from '@src/static/constants';
 import './AccountHistory.scss';
-import { CheckActive, CheckNonActive } from '@src/static/imageUrls';
+import { CheckActive, CheckNonActive } from '@src/static/image-urls';
 
 export default class AccountHistory {
   state: any;

@@ -1,9 +1,11 @@
+import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import handleEvent from '@src/utils/handleEvent';
 import { $, createDOMWithSelector } from '@src/utils/helper';
-import '@src/views/page-components/account/index.scss';
-import Balance from './Balance/Balance';
-import PayMethods from '@src/views/components/PayMethods/PayMethods';
+
+import './index.scss';
 import AccountHistory from './AccountHistory/AccountHistory';
+import Balance from './Balance/Balance';
+
 import { sampleBalance, samplePay, sampleHistory } from '@src/dummyData';
 
 export default class AccountView {

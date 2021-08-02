@@ -1,17 +1,15 @@
-import HomeView from '@src/views/home';
 import handleEvent from './utils/handleEvent';
-import AccountView from './views/page-components/Account';
+import AccountView from './views/page-components/account-page';
 import CalendarView from './views/calendar';
-import HeaderView from './views/header';
-import StatisticsView from './views/statistics';
-import AccountHistoryModal from './views/page-components/account/AccountHistoryModal/AccountHistoryModal';
+import Header from './views/components/Header';
+import StatisticsPageView from './views/page-components/statistics-page';
+import AccountHistoryModal from './views/page-components/account-page/AccountHistoryModal/AccountHistoryModal';
 
 export default class Router {
   constructor() {
-    new HeaderView();
-    new HomeView();
+    new Header();
     new AccountView();
-    new StatisticsView();
+    new StatisticsPageView();
     new CalendarView();
     new AccountHistoryModal();
 

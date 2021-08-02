@@ -1,6 +1,6 @@
 import { cardType } from '@src/static/constants';
 import handleEvent from '@src/utils/handleEvent';
-import { CheckButton, ETC, Xbox } from '@src/static/imageUrls';
+import { CheckButton, ETC, Xbox } from '@src/static/image-urls';
 import './PayMethods.scss';
 import { $, removeActiveAttributeOnClass } from '@src/utils/helper';
 
