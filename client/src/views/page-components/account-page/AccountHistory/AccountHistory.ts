@@ -50,7 +50,7 @@ export default class AccountHistory {
   //   const { target } = e;
   //   if (!(target instanceof HTMLElement)) return;
   //   console.log(target.closest('.category-container'));
-  //   if (target.closest('.category-container')) {
+  //   if (target.closest('.account-history-table__category')) {
   //     $('.category-container').classList.remove('active');
   //   } else if (target.className === 'date-container active') {
   //     $('.date-container').classList.remove('active');
@@ -80,7 +80,7 @@ export default class AccountHistory {
   onClickWholeDateButton(target) {
     if (target.className === 'date__whole-part') {
       this.changeButtonImage('whole');
-      $('.date__input').classList.remove('active');
+      $('.date__input-container').classList.remove('active');
       console.log('whole data');
       // handleEvent.fire('changefilter');
     }
@@ -92,7 +92,9 @@ export default class AccountHistory {
   onClickSpecificDateButton(target) {
     if (target.className === 'date__specific-part') {
       this.changeButtonImage('specific');
-      $('.date__input').classList.add('active');
+      $('.date__input-container').classList.add('active');
+      const input = $('.date__input') as HTMLInputElement;
+      input.focus();
     }
   }
 
@@ -167,14 +169,6 @@ export default class AccountHistory {
       </thead>`;
   }
 
-  createCategoryChoiceBar(): string {
-    return `
-      <div class="category-container">
-       ${this.createCategoryList()}
-      </div>
-    `;
-  }
-
   createDateChoiceBar(): string {
     return `
       <div class="date-container">
@@ -199,9 +193,24 @@ export default class AccountHistory {
       <div class="date__specific">
         <img class="date__specific-part"  id='specific-date-img' src=${CheckNonActive}>
         <span class="date__specific-part">특정 날짜 선택</span>
-        <div class="date__input">
-          <input type='text'>
+        <div class="date__input-container">
+          <span class="date__fix-date">${history.state.year}.${this.zeroFill()}${history.state.month}.</span>
+          <input class="date__input" type='text' maxlength=2>
         </div>
+      </div>
+    `;
+  }
+
+  zeroFill() {
+    if (history.state.month < 10) {
+      return `0`;
+    }
+  }
+
+  createCategoryChoiceBar(): string {
+    return `
+      <div class="category-container">
+       ${this.createCategoryList()}
       </div>
     `;
   }
