@@ -41,7 +41,7 @@ export default class AccountHistory {
     if (target.className === 'account-history-table__category-span') {
       $('.category-container').classList.add('active');
     } else if (target.className === 'account-history-table__date-span') {
-      // $('.category-container').classList.add('active');
+      $('.date-container').classList.add('active');
     }
   }
 
@@ -51,7 +51,7 @@ export default class AccountHistory {
     if (target.className === 'account-history-table__category-span') {
       $('.category-container').classList.remove('active');
     } else if (target.className === 'account-history-table__date-span') {
-      // $('.category-container').classList.add('active');
+      $('.date-container').classList.remove('active');
     }
   }
 
