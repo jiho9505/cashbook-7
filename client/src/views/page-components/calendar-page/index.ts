@@ -1,7 +1,8 @@
 import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
+import Calendar from './Calendar/Calendar';
 
-export default class CalendarView {
+export default class CalendarPageView {
   constructor() {
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
       if (e.detail.state.path !== '/calendar') return;
@@ -10,6 +11,8 @@ export default class CalendarView {
   }
 
   render() {
-    $('.content-wrap').innerHTML = `<h1>Calendar!!!</h1>`;
+    $('.content-wrap').innerHTML = `<div class='content__calendar'></div>`;
+
+    new Calendar({ parent: $('.content__calendar') });
   }
 }
