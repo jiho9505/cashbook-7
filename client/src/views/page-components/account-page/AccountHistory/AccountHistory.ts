@@ -194,14 +194,23 @@ export default class AccountHistory {
         <img class="date__specific-part"  id='specific-date-img' src=${CheckNonActive}>
         <span class="date__specific-part">특정 날짜 선택</span>
         <div class="date__input-container">
-          <span class="date__fix-date">${history.state.year}.${this.zeroFill()}${history.state.month}.</span>
+          ${this.createFixedDate()}
           <input class="date__input" type='text' maxlength=2>
         </div>
       </div>
     `;
   }
 
-  zeroFill() {
+  /**
+   * 현재 년,월에 맞는 고정 Date를 보여준다
+   */
+  createFixedDate(): string {
+    return `
+      <span class="date__fix-date">${history.state.year}.${this.zeroFill()}${history.state.month}.</span>
+    `;
+  }
+
+  zeroFill(): string {
     if (history.state.month < 10) {
       return `0`;
     }
