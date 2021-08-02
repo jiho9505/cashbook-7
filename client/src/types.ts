@@ -11,6 +11,8 @@ type Category =
   | 'culture'
   | 'etc';
 
+export type HTMLText = string;
+
 export interface AccountData {
   title: string;
   date: number;
