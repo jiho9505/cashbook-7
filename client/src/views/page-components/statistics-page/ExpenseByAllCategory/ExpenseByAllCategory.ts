@@ -70,6 +70,7 @@ export default class ExpenseByAllCategory {
   ) {
     const targetRad = 2 * Math.PI * percent;
     const targetRestRad = 2 * Math.PI * (1 - percent);
+    const animationDuration = 0.2;
 
     const $path = document.createElementNS('http://www.w3.org/1999/svg', 'path');
     $path.setAttribute('d', `M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY} L 0 0`);
@@ -81,10 +82,10 @@ export default class ExpenseByAllCategory {
 
     const $animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
     $animate.setAttribute('attributeName', 'stroke-dashoffset');
-    $animate.setAttribute('begin', `${0.2 * idx}`);
+    $animate.setAttribute('begin', `${animationDuration * idx}`);
     $animate.setAttribute('from', `${targetRad}`);
     $animate.setAttribute('to', '0.025');
-    $animate.setAttribute('dur', '0.2');
+    $animate.setAttribute('dur', `${animationDuration}`);
     $animate.setAttribute('fill', 'freeze');
     $path.appendChild($animate);
 
