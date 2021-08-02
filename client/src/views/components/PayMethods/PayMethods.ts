@@ -3,6 +3,7 @@ import handleEvent from '@src/utils/handleEvent';
 import { CheckButton, ETC, Xbox } from '@src/static/image-urls';
 import './PayMethods.scss';
 import { $, removeActiveAttributeOnClass } from '@src/utils/helper';
+import Confirm from '../Confirm/Confirm';
 
 export default class PayMethod {
   state: any;
@@ -27,7 +28,29 @@ export default class PayMethod {
   onClickHandler(e: MouseEvent) {
     this.onClickAddButton(e);
     this.onClickCardChoice(e);
-    // this.onClickXbox(e);
+    this.onClickXbox(e);
+  }
+
+  onClickXbox(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'card-xbox-img')
+      new Confirm({
+        onClick: this.onClickConfirmWindowHandler.bind(this),
+        addText: '( 삭제 시 내역 데이터도 삭제됩니다❗️)',
+      });
+  }
+
+  onClickConfirmWindowHandler(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+
+    if (target.className === 'confirm__overlay' || target.className === 'confirm__cancel') {
+      $('#root').removeChild($('.confirm'));
+    } else if (target.className === 'confirm__delete') {
+      $('#root').removeChild($('.confirm')); // 바로 리렌더링되면 삭제 안해줘도 될듯
+      console.log('Observer - delete');
+    }
   }
 
   onClickAddButton(e: MouseEvent) {
@@ -55,12 +78,6 @@ export default class PayMethod {
     }
   }
 
-  // onClickXbox(e: MouseEvent) {
-  //   const { target } = e;
-  //   if (!(target instanceof HTMLElement)) return;
-  //   if (target.className === 'card-xbox-img') console.log('hi');
-  // }
-
   setProperty(state): void {
     this.state = state;
   }
@@ -74,7 +91,6 @@ export default class PayMethod {
   /**
     Modal에서 나온 부분인지 Account 페이지에서 나온 부분인지 판단
    */
-
   isHistoryModal(): boolean {
     if (this.mode === 'historyModal') return true;
     return false;
