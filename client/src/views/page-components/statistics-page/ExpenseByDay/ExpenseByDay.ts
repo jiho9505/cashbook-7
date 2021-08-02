@@ -191,8 +191,8 @@ export default class ExpenseByDay {
     const maxDayOnMonth = 30;
 
     const intervalX = SVGWidth / (maxDayOnMonth - 1);
-    const intervalY = SVGHeight;
+
     const max = Math.max(...data);
-    return data.reduce((acc, curr, idx) => [...acc, [idx * intervalX, (curr / max) * intervalY]], []);
+    return data.reduce((acc, curr, idx) => [...acc, [idx * intervalX, (curr / max) * SVGHeight]], []);
   }
 }
