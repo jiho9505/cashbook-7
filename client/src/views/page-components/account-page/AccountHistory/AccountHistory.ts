@@ -13,6 +13,8 @@ export default class AccountHistory {
   isIncomeButtonActive: boolean = true;
   isExpenditureButtonActive: boolean = true;
   filter;
+  isIncomeButtonSrc = CheckActive;
+  isExpenditureButtonSrc = CheckActive;
 
   constructor({ parent, state, filter }) {
     this.history = createDOMWithSelector('div', '.account-history');
@@ -24,6 +26,18 @@ export default class AccountHistory {
     this.history.addEventListener('click', this.onClickHandler.bind(this));
     this.history.addEventListener('focusout', this.onFoucsOutHandler.bind(this));
     $('#root').addEventListener('click', this.onClickModalHandler.bind(this));
+  }
+
+  setProperty(state, filter): void {
+    this.state = state;
+    this.filter = filter;
+  }
+
+  render(): void {
+    $('.account-history').innerHTML = `
+        ${this.createHistoryHeader()}
+        ${this.createHistoryContent()}
+        `;
   }
 
   /**
@@ -224,19 +238,9 @@ export default class AccountHistory {
     if (target.className === 'account-history__add') handleEvent.fire('createhistorymodal'); // 자신의 결제수단 데이터를 넘겨줄것 state는 없어도 됨
   }
 
-  setProperty(state, filter): void {
-    this.state = state;
-    this.filter = filter;
-  }
-
-  render(): void {
-    $('.account-history').innerHTML = `
-        ${this.createHistoryHeader()}
-        ${this.createHistoryContent()}
-        `;
-  }
-
   createHistoryHeader(): string {
+    this.checkTypeToChangeSrc();
+
     return `
       <div class='account-history__header'>
         <div class='account-history__header-left'>
@@ -245,16 +249,40 @@ export default class AccountHistory {
         </div>
         <div class='account-history__header-right'>
           <div class='account-history__income'>
-            <img class='account-history__income-img' src= ${CheckActive}>
+            <img class='account-history__income-img' src= ${this.isIncomeButtonSrc}>
             <span>수입 ${this.state.income}</span>
           </div>
           <div class='account-history__expenditure'>
-            <img class='account-history__expenditure-img' src= ${CheckActive}>
+            <img class='account-history__expenditure-img' src= ${this.isExpenditureButtonSrc}>
             <span >지출 ${this.state.expenditure}</span>
           </div>
           
         </div>
       </div>`;
+  }
+
+  checkTypeToChangeSrc() {
+    if (this.filter.type === 'income') {
+      this.isIncomeButtonSrc = CheckActive;
+      this.isExpenditureButtonSrc = CheckNonActive;
+      this.isIncomeButtonActive = true;
+      this.isExpenditureButtonActive = false;
+    } else if (this.filter.type === 'expenditure') {
+      this.isIncomeButtonSrc = CheckNonActive;
+      this.isExpenditureButtonSrc = CheckActive;
+      this.isIncomeButtonActive = false;
+      this.isExpenditureButtonActive = true;
+    } else if (this.filter.type === '') {
+      this.isIncomeButtonSrc = CheckActive;
+      this.isExpenditureButtonSrc = CheckActive;
+      this.isIncomeButtonActive = true;
+      this.isExpenditureButtonActive = true;
+    } else if (this.filter.type === 'not-choice') {
+      this.isIncomeButtonSrc = CheckNonActive;
+      this.isExpenditureButtonSrc = CheckNonActive;
+      this.isIncomeButtonActive = false;
+      this.isExpenditureButtonActive = false;
+    }
   }
 
   createHistoryContent(): string {
