@@ -25,11 +25,27 @@ export default class AccountHistory {
     this.setProperty(state);
     this.render();
 
-    const category = this.history.querySelector('.account-history-table__category');
-
     this.history.addEventListener('click', this.onClickHandler.bind(this));
     this.history.addEventListener('mouseover', this.onMouseOverHandler.bind(this));
     // this.history.addEventListener('mouseout', this.onMouseOutHandler.bind(this));
+    this.history.addEventListener('focusout', this.onFoucsOutHandler.bind(this));
+  }
+
+  /**
+   * 생각해볼만한것 ---
+   * focusout읋 할때 전체를 클릭하면 focusout 먼저, 그 후 전체 클릭이벤트 발동.
+   * 즉 동작에 문제 없음
+   * TODO:
+   * 현재 년,월 기준으로 날짜를 입력할때 유효성검사!
+   * 이상한 날짜 입력하면 border를 빨간색으로 흔들어주자!
+   */
+  onFoucsOutHandler(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'date__input') {
+      console.log('filter Change - input');
+      // handleEvent.fire('changefilter');
+    }
   }
 
   /**
@@ -61,6 +77,27 @@ export default class AccountHistory {
     this.onClickAddButton(e);
     this.onClickCategoryItem(e);
     this.onClickDateButton(e);
+    this.onClickTypeButton(e);
+  }
+
+  /**
+   * TODO:
+   * type button도 필터 후 default 설정 필요
+   */
+  onClickTypeButton(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    const incomeType: HTMLImageElement = $('.account-history__income-img') as HTMLImageElement;
+    const expenditureType: HTMLImageElement = $('.account-history__expenditure-img') as HTMLImageElement;
+    if (target.className === 'account-history__income-img') {
+      incomeType.src === CheckActive ? (incomeType.src = CheckNonActive) : (incomeType.src = CheckActive);
+      console.log('filter change - income');
+    } else if (target.className === 'account-history__expenditure-img') {
+      expenditureType.src === CheckActive
+        ? (expenditureType.src = CheckNonActive)
+        : (expenditureType.src = CheckActive);
+      console.log('filter change - expenditure');
+    }
   }
 
   onClickCategoryItem(e: MouseEvent) {
@@ -81,13 +118,13 @@ export default class AccountHistory {
     if (target.className === 'date__whole-part') {
       this.changeButtonImage('whole');
       $('.date__input-container').classList.remove('active');
-      console.log('whole data');
+      console.log('filter Change - whole data');
       // handleEvent.fire('changefilter');
     }
   }
 
   /**
-   * 특정한 날짜로 리렌더링되면 특정날짜버튼이 default가 될듯.. 흠
+   * 특정한 날짜로 리렌더링되면 특정날짜버튼이 default가 되게 해야할듯.. 흠
    */
   onClickSpecificDateButton(target) {
     if (target.className === 'date__specific-part') {
