@@ -39,8 +39,8 @@ export default class ExpenseByDay {
    * 데이터는 차트의 수직선에 해당하는 내용입니다.
    */
   getExpenseDelimiterDOM(data: number[]): HTMLText {
-    const hData = this.getHorizontalDataInterval(data);
-    const DOM = hData
+    const chartHorizontalDatas = this.getHorizontalDataInterval(data);
+    const DOM = chartHorizontalDatas
       .reverse()
       .reduce((acc, curr) => [...acc, `<span>₩${curr}</span>`], [])
       .join('');
