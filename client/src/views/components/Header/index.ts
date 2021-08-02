@@ -1,7 +1,7 @@
+import { PATHS } from '@src/static/constants';
 import { Logo, Logout } from '@src/static/image-urls';
 import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
-import { PATHS } from '@src/static/constants';
 
 import './index.scss';
 
