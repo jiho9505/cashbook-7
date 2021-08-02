@@ -28,21 +28,31 @@ export default class AccountHistory {
     const category = this.history.querySelector('.account-history-table__category');
 
     this.history.addEventListener('click', this.onClickHandler.bind(this));
-    category.addEventListener('mouseover', this.onMouseOverCategory.bind(this));
-    category.addEventListener('mouseout', this.onMouseOutCategory.bind(this));
+    this.history.addEventListener('mouseover', this.onMouseOverHandler.bind(this));
+    this.history.addEventListener('mouseout', this.onMouseOutHandler.bind(this));
   }
 
-  onMouseOverCategory(e: MouseEvent) {
+  /**
+   * 전체에 이벤트를 거니 마우스 움직일때마다 검사하는게 성능에 괜찮은지 궁금하네요!
+   */
+  onMouseOverHandler(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
-    if (target.className === 'account-history-table__category-span') $('.category-container').classList.add('active');
+    if (target.className === 'account-history-table__category-span') {
+      $('.category-container').classList.add('active');
+    } else if (target.className === 'account-history-table__date-span') {
+      // $('.category-container').classList.add('active');
+    }
   }
 
-  onMouseOutCategory(e: MouseEvent) {
+  onMouseOutHandler(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
-    if (target.className === 'account-history-table__category-span')
+    if (target.className === 'account-history-table__category-span') {
       $('.category-container').classList.remove('active');
+    } else if (target.className === 'account-history-table__date-span') {
+      // $('.category-container').classList.remove('active');
+    }
   }
 
   onClickHandler(e: MouseEvent) {
@@ -100,14 +110,14 @@ export default class AccountHistory {
       <thead>
         <tr class='account-history-table__header' align='left'>
           <th class='account-history-table__content'>거래내용</th>
-          <th class='account-history-table__category'><span class='account-history-table__category-span'>분류</span>${this.createChoiceCategoryBar()}</th>
-          <th class='account-history-table__date'><span>날짜</span></th>
+          <th class='account-history-table__category'><span class='account-history-table__category-span'>분류</span>${this.createCategoryChoiceBar()}</th>
+          <th class='account-history-table__date'><span class='account-history-table__date-span'>날짜</span>${this.createDateChoiceBar()}</th>
           <th class='account-history-table__price'>금액</th>
         </tr>
       </thead>`;
   }
 
-  createChoiceCategoryBar(): string {
+  createCategoryChoiceBar(): string {
     return `
       <div class="category-container">
        ${this.createCategoryList()}
