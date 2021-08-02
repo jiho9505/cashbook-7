@@ -11,18 +11,30 @@ export default class PayMethod {
   mode: string = 'Account';
   currentMode: HTMLElement;
   currentCardName: string = '';
+  filter: any;
 
-  constructor({ parent, state }) {
+  constructor({ parent, state, filter }) {
     if (parent === $('.history-form__pay-method')) this.mode = 'historyModal';
 
     this.PayWrapper = document.createElement('div');
 
     parent.appendChild(this.PayWrapper);
-    this.setProperty(state);
+    this.setProperty(state, filter);
     this.render();
 
     this.currentMode = document.querySelector('#' + this.mode);
     this.currentMode.addEventListener('click', this.onClickHandler.bind(this));
+  }
+
+  setProperty(state, filter): void {
+    this.state = state;
+    this.filter = filter;
+  }
+
+  render(): void {
+    this.PayWrapper.innerHTML = `
+        ${this.createPayMethod()}
+        `;
   }
 
   onClickHandler(e: MouseEvent) {
@@ -78,16 +90,6 @@ export default class PayMethod {
     }
   }
 
-  setProperty(state): void {
-    this.state = state;
-  }
-
-  render(): void {
-    this.PayWrapper.innerHTML = `
-        ${this.createPayMethod()}
-        `;
-  }
-
   /**
     Modal에서 나온 부분인지 Account 페이지에서 나온 부분인지 판단
    */
@@ -113,15 +115,18 @@ export default class PayMethod {
   createCard(): string {
     return this.state
       .map((pay, idx) => {
+        let isInitialChoicedButton = '';
+        this.filter.card === pay.payMethodName ? (isInitialChoicedButton = 'active') : (isInitialChoicedButton = '');
         return `
             <div class='card ${cardType[pay.payMethodName]}' id='card' data-idx=${idx}>
               <div class='card-price'>
                 ${this.isHistoryModal() ? `` : `${pay.payMethodMoney}`}
               </div>
 
-              <div class='card-check' id='checkbutton'>
+              <div class='card-check ${isInitialChoicedButton}' id='checkbutton'>
                 <img src=${CheckButton}>
               </div>
+              
               <div class='card-xbox'>
                 ${this.isHistoryModal() ? `` : `<img class='card-xbox-img' src=${Xbox}>`}
               </div>

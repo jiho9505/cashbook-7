@@ -18,6 +18,7 @@ class Model {
     this.filter = { ...this.filter, ...newData };
     console.log('filter', this.filter);
     // day는 Number 사용
+    evt.fire('storeupdated', { state: history.state, filter: this.filter });
   }
 
   fetchData(e: CustomEvent) {

@@ -13,19 +13,30 @@ export default class AccountView {
     balance: sampleBalance,
     payMethods: samplePay,
     accountHistory: sampleHistory,
+    filter: {},
   };
 
   constructor() {
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
       if (e.detail.state.path !== '/account') return;
-      console.log('TEST', e.detail.info);
+      this.setProperty(e);
+
       const accountWrapper = createDOMWithSelector('div', '.account');
       $('.content-wrap').innerHTML = '';
       $('.content-wrap').appendChild(accountWrapper);
 
       new Balance({ parent: accountWrapper, state: this.state.balance });
-      new PayMethods({ parent: accountWrapper, state: this.state.payMethods });
-      new AccountHistory({ parent: accountWrapper, state: this.state.accountHistory });
+      new PayMethods({ parent: accountWrapper, state: this.state.payMethods, filter: this.state.filter });
+      new AccountHistory({ parent: accountWrapper, state: this.state.accountHistory, filter: this.state.filter });
     });
+  }
+
+  setProperty(e) {
+    if (e.detail) {
+      if (e.detail.filter) {
+        this.state.filter = e.detail.filter;
+      }
+    }
+    // state도 세팅
   }
 }

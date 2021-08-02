@@ -12,12 +12,13 @@ export default class AccountHistory {
   prevCategoryName: string = '';
   isIncomeButtonActive: boolean = true;
   isExpenditureButtonActive: boolean = true;
+  filter;
 
-  constructor({ parent, state }) {
+  constructor({ parent, state, filter }) {
     this.history = createDOMWithSelector('div', '.account-history');
 
     parent.appendChild(this.history);
-    this.setProperty(state);
+    this.setProperty(state, filter);
     this.render();
 
     this.history.addEventListener('click', this.onClickHandler.bind(this));
@@ -223,8 +224,9 @@ export default class AccountHistory {
     if (target.className === 'account-history__add') handleEvent.fire('createhistorymodal'); // 자신의 결제수단 데이터를 넘겨줄것 state는 없어도 됨
   }
 
-  setProperty(state): void {
+  setProperty(state, filter): void {
     this.state = state;
+    this.filter = filter;
   }
 
   render(): void {

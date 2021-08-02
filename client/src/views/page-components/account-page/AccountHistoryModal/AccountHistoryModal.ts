@@ -41,7 +41,7 @@ export default class AccountHistoryModal {
       this.dateInput = $('.history-form__date');
       this.moneyInput = $('.history-form__money');
 
-      this.payMethod = new PayMethods({ parent: payMethodForm, state: samplePay }); // 결제수단의 정보 갖고있어야함!
+      this.payMethod = new PayMethods({ parent: payMethodForm, state: samplePay, filter: {} }); // 결제수단의 정보 갖고있어야함!
       this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
       this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
       this.dateInput.addEventListener('focusout', this.onFocusOutDateInputHandler.bind(this));
