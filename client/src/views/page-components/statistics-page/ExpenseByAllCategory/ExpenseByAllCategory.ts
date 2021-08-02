@@ -1,5 +1,5 @@
 import { COLORS_BY_CATEGORY, NAME_BY_CATEGORY } from '@src/static/constants';
-import { ArcSVGCommandAttribute, CategoryStatisticData } from '@src/types';
+import { ArcSVGCommandAttribute, CategoryStatisticData, HTMLText } from '@src/types';
 import { createDOMWithSelector } from '@src/utils/helper';
 
 import './ExpenseByAllCategory.scss';
@@ -37,7 +37,7 @@ export default class ExpenseByAllCategory {
    * 해당 데이터를 DoughnutChartPath의 DOM으로 변환합니다.
    *
    */
-  getDoughnutChartPaths(data: CategoryStatisticData[]) {
+  getDoughnutChartPaths(data: CategoryStatisticData[]): HTMLText {
     let accumulatedPercent = 0;
     const paths = data
       .map(({ percent, category }, idx) => {
@@ -67,7 +67,7 @@ export default class ExpenseByAllCategory {
     { percent, category }: CategoryStatisticData,
     { startX, startY, endX, endY, isLargeArcFlag }: ArcSVGCommandAttribute,
     idx: number
-  ) {
+  ): HTMLText {
     const targetRad = 2 * Math.PI * percent;
     const targetRestRad = 2 * Math.PI * (1 - percent);
     const animationDuration = 0.2;
@@ -108,7 +108,7 @@ export default class ExpenseByAllCategory {
   /**
    * 카테고리 요약 section에 넣기 위한 DOM 들을 생성합니다.
    */
-  getCategorySummariesDOM(data: CategoryStatisticData[]): string {
+  getCategorySummariesDOM(data: CategoryStatisticData[]): HTMLText {
     return data.map((d) => this.getCategorySummary(d)).join('');
   }
 
@@ -116,7 +116,7 @@ export default class ExpenseByAllCategory {
    * 카테고리 요약본이 담겨 있는 HTML string 입니다.
    * 색상, 카테고리 이름, 퍼센티지로 구성됩니다.
    */
-  getCategorySummary(data: CategoryStatisticData): string {
+  getCategorySummary(data: CategoryStatisticData): HTMLText {
     return `
       <div class='category-summary'>
         <div class='category-summary__color' style='background-color: ${COLORS_BY_CATEGORY[data.category]}'></div>

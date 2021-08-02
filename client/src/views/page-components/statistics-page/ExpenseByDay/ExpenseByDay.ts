@@ -1,3 +1,4 @@
+import { HTMLText } from '@src/types';
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import './ExpenseByDay.scss';
 
@@ -37,7 +38,7 @@ export default class ExpenseByDay {
    * content__expense-delimiter 내에 사용될 <span> 데이터를 생성합니다.
    * 데이터는 차트의 수직선에 해당하는 내용입니다.
    */
-  getExpenseDelimiterDOM(data: number[]): string {
+  getExpenseDelimiterDOM(data: number[]): HTMLText {
     const hData = this.getHorizontalDataInterval(data);
     const DOM = hData
       .reverse()
@@ -69,7 +70,7 @@ export default class ExpenseByDay {
   /**
    * 모든 기준선 DOM을 생성합니다.
    */
-  getChartBaseLineDOM() {
+  getChartBaseLineDOM(): HTMLText {
     const { height: SVGHeight } = $('.content__curved-chart').getBoundingClientRect();
     const BASELINE_AMOUNT = 5;
     const baselineInterval = SVGHeight / (BASELINE_AMOUNT - 1);
@@ -86,7 +87,7 @@ export default class ExpenseByDay {
    * 아래와 같은 형태로 생성됩니다.
    *   <line x1='0' y1='0' x2='961' y2='0' stroke='#9C9C9C' stroke-opacity='.2'/>
    */
-  getBaseLineDOM(pos: number) {
+  getBaseLineDOM(pos: number): HTMLText {
     const $baseline = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     $baseline.setAttribute('x1', '0');
     $baseline.setAttribute('y1', `${pos}`);
@@ -102,7 +103,7 @@ export default class ExpenseByDay {
    * 곡선 차트를 위한 Path를 가져오는 함수입니다.
    * animation 효과를 위해 path 내에 animate 태그를 추가합니다.
    */
-  getCurvedChartPath() {
+  getCurvedChartPath(): SVGPathElement {
     const $path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     $path.setAttribute('d', this.getPathDAttribute(this.data));
     $path.setAttribute('fill', 'none');
@@ -126,7 +127,7 @@ export default class ExpenseByDay {
    * 곡선 구현을 위해 C 속성을 사용하였습니다.
    * 만약, 시작점일 경우 M 속성을 사용합니다.
    */
-  getPathDAttribute(data: number[]): string {
+  getPathDAttribute(data: number[]): HTMLText {
     const coords = this.getCoordinates(data);
 
     const d = coords.reduce((acc, curr, idx, arr) => {
