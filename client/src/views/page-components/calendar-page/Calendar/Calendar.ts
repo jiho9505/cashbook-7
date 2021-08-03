@@ -1,27 +1,12 @@
-import { HTMLText } from '@src/types';
-import { $, createDOMWithSelector } from '@src/utils/helper';
+import { Date, Day, DayInfos, HTMLText, Offset, TargetDateInfos } from '@src/types';
+import { createDOMWithSelector } from '@src/utils/helper';
 
 import './Calendar.scss';
-
-type Year = number;
-type Month = number;
-type Date = number;
-type Day = number;
-type Offset = number;
-type TargetDateInfos = {
-  year: Year;
-  month: Month;
-};
-
-type DayInfos = {
-  day: Day;
-  isCurrentMonthDate: false;
-};
 
 const ALL_DAY_ON_CALENDAR = 42;
 const SAMPLE_DAY_OBJECT = {
   year: 2021,
-  month: 8,
+  month: 3,
 };
 
 export default class CalendarView {
@@ -30,15 +15,32 @@ export default class CalendarView {
 
   constructor({ parent }) {
     this.$CalendarTable = createDOMWithSelector('table', '.calendar__table');
-    this.$tbody = createDOMWithSelector('tbody', '.calendar__table__tbody');
-    this.$CalendarTable.appendChild(this.$tbody);
 
     parent.appendChild(this.$CalendarTable);
     this.render();
   }
 
   render() {
-    this.$tbody.innerHTML = this.getFullDateOnCalendarDOM(SAMPLE_DAY_OBJECT);
+    this.$CalendarTable.innerHTML = `
+      <thead>
+        ${this.getDayDOM()}
+      <thead>
+      <tbody>
+        ${this.getFullDateOnCalendarDOM(SAMPLE_DAY_OBJECT)}
+      <tbody>
+    `;
+  }
+
+  /**
+   * 캘린더 상단에 요일 표기를 위한 DOM을 반환합니다.
+   */
+  getDayDOM(): HTMLText {
+    return `
+      <tr>
+        <td>SUN</td><td>MON</td><td>TUE</td>
+        <td>WED</td><td>THU</td><td>FRI</td><td>SAT</td>
+      </tr>
+    `;
   }
 
   /**
@@ -88,7 +90,8 @@ export default class CalendarView {
 
     week.forEach(({ day, isCurrentMonthDate }) => {
       const $td = createDOMWithSelector('td');
-      $td.setAttribute('data-is-current-month', isCurrentMonthDate ? 'true' : 'false');
+
+      if (!isCurrentMonthDate) $td.classList.add('not-current-month-date');
       $td.innerText = `${day}`;
       $tr.appendChild($td);
     });
