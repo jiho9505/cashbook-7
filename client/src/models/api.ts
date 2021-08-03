@@ -1,26 +1,41 @@
 const API_ENDPOINT = '/api';
 
 const getData = async (url) => {
-  const res = await fetch(`${API_ENDPOINT}` + `${url}`);
-  return await res.json();
+  try {
+    const res = await fetch(`${API_ENDPOINT}` + `${url}`);
+    if (!res.ok) throw new Error('error occur');
+    return await res.json();
+  } catch (e) {
+    throw e;
+  }
 };
 
 const postData = async (url, data) => {
-  const res = await fetch(`${API_ENDPOINT}` + `${url}`, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  return await res.json();
+  try {
+    const res = await fetch(`${API_ENDPOINT}` + `${url}`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!res.ok) throw new Error('error occur');
+    return await res.json();
+  } catch (e) {
+    throw e;
+  }
 };
 
 const deleteData = async (url) => {
-  const res = await fetch(`${API_ENDPOINT}` + `${url}`, {
-    method: 'DELETE',
-  });
-  return await res.json();
+  try {
+    const res = await fetch(`${API_ENDPOINT}` + `${url}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) throw new Error('error occur');
+    return await res.json();
+  } catch (e) {
+    throw e;
+  }
 };
 
 /*
