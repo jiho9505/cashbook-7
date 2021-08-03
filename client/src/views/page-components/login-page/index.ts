@@ -11,11 +11,20 @@ export default class LoginView {
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
       if (e.detail.state.path !== '/') return;
       this.loginWrapper = createDOMWithSelector('div', '.login');
-      $('body').innerHTML = '';
-      $('body').appendChild(this.loginWrapper);
+      $('.content-wrap').innerHTML = '';
+      $('.content-wrap').appendChild(this.loginWrapper);
 
       this.render();
+      this.loginWrapper.addEventListener('click', this.onClickLoginButtonHandler.bind(this));
     });
+  }
+
+  onClickLoginButtonHandler(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.closest('.login__button')) {
+      handleEvent.fire('requestlogin');
+    }
   }
 
   render(): void {
