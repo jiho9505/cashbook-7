@@ -21,7 +21,6 @@ class Model {
     evt.subscribe('statepop', this.statePop.bind(this));
     evt.subscribe('requestGithubLogin', this.requestGithubLogin.bind(this));
     evt.subscribe('statechange', this.fetchData.bind(this));
-
     evt.subscribe('storeupdated', this.storeData.bind(this));
     evt.subscribe('createaccounthistory', this.createAccountHistory.bind(this));
     evt.subscribe('filterchange', this.fetchFilterdData.bind(this));
