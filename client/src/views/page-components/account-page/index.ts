@@ -13,7 +13,12 @@ export default class AccountView {
     balance: sampleBalance,
     payMethods: samplePay,
     accountHistory: sampleHistory,
-    filter: {},
+    filter: {
+      category: '',
+      type: '',
+      day: '',
+      card: '',
+    },
   };
 
   constructor() {
