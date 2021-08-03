@@ -53,6 +53,10 @@
 
         li{
             cursor:pointer;
+
+            &:hover{
+                filter:invert(420%) sepia(1%) saturate(200%) hue-rotate(210deg) brightness(116%) contrast(100%);
+            }
         }
 
         li.upper-arrow{
