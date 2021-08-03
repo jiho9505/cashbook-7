@@ -1,7 +1,3 @@
-export interface Store {
-  categories?: Category[];
-}
-
 export type Filter = {
   category: string;
   type: string;
