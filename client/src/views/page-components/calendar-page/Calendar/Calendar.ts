@@ -123,15 +123,15 @@ export default class CalendarView {
     const splitedPoint1: Day = calendarWithOffset.findIndex((offset) => offset === 0);
     const prevMonthDays: DayInfos[] = calendarWithOffset
       .splice(0, splitedPoint1 + 1)
-      .reduce((acc, day) => [...acc, { day: day + lastDateOnPrevMonth, isCurrentMonthDate: false }], []);
+      .reduce((acc, offset) => [...acc, { day: offset + lastDateOnPrevMonth, isCurrentMonthDate: false }], []);
 
     const splitedPoint2: Day = calendarWithOffset.findIndex((offset) => offset === lastDateOnCurrentMonth);
     const nextMonthDays: DayInfos[] = calendarWithOffset
       .splice(splitedPoint2 + 1)
-      .reduce((acc, day) => [...acc, { day: day - lastDateOnCurrentMonth, isCurrentMonthDate: false }], []);
+      .reduce((acc, offset) => [...acc, { day: offset - lastDateOnCurrentMonth, isCurrentMonthDate: false }], []);
 
     const currentMonthDays: DayInfos[] = calendarWithOffset //
-      .reduce((acc, day) => [...acc, { day, isCurrentMonthDate: true }], []);
+      .reduce((acc, offset) => [...acc, { day: offset, isCurrentMonthDate: true }], []);
 
     return [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
   }
