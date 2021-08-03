@@ -9,12 +9,15 @@ import ConfirmWindow from '@src/views/components/Confirm/Confirm';
 export default class AccountHistory {
   state: any;
   history: HTMLElement;
-  prevCategoryName: string = '';
+
   isIncomeButtonActive: boolean = true;
   isExpenditureButtonActive: boolean = true;
-  filter;
   isIncomeButtonSrc = CheckActive;
   isExpenditureButtonSrc = CheckActive;
+
+  filter;
+  prevChoicedCategoryName: string = '';
+  prevChoicedDay: any = '';
 
   constructor({ parent, state, filter }) {
     this.history = createDOMWithSelector('div', '.account-history');
@@ -32,7 +35,8 @@ export default class AccountHistory {
     this.state = state;
     this.filter = filter;
 
-    this.prevCategoryName = filter.category;
+    this.prevChoicedDay = filter.day;
+    this.prevChoicedCategoryName = filter.category;
   }
 
   render(): void {
@@ -188,7 +192,7 @@ export default class AccountHistory {
 
   onClickCategoryItem(target) {
     if (target.className === 'category-list-img') {
-      if (this.prevCategoryName === target.dataset.name) {
+      if (this.prevChoicedCategoryName === target.dataset.name) {
         handleEvent.fire('filterchange', { category: '' });
         return;
       }
@@ -203,10 +207,7 @@ export default class AccountHistory {
 
   onClickWholeDateButton(target) {
     if (target.className === 'date__whole-part') {
-      this.changeButtonImage('whole');
-      $('.date__input-container').classList.remove('active');
       handleEvent.fire('filterchange', { day: '' });
-      // handleEvent.fire('changefilter');
     }
   }
 
@@ -215,24 +216,19 @@ export default class AccountHistory {
    */
   onClickSpecificDateButton(target) {
     if (target.className === 'date__specific-part') {
-      this.changeButtonImage('specific');
+      this.changeButtonImage();
       $('.date__input-container').classList.add('active');
       const input = $('.date__input') as HTMLInputElement;
       input.focus();
     }
   }
 
-  changeButtonImage(mode: string) {
+  changeButtonImage() {
     const wholeDateButtonImage: HTMLImageElement = document.querySelector('#whole-date-img');
     const SpecificDateButtonImage: HTMLImageElement = document.querySelector('#specific-date-img');
 
-    if (mode === 'whole') {
-      wholeDateButtonImage.src = CheckActive;
-      SpecificDateButtonImage.src = CheckNonActive;
-    } else if (mode === 'specific') {
-      wholeDateButtonImage.src = CheckNonActive;
-      SpecificDateButtonImage.src = CheckActive;
-    }
+    wholeDateButtonImage.src = CheckNonActive;
+    SpecificDateButtonImage.src = CheckActive;
   }
 
   onClickAddButton(target) {
@@ -318,21 +314,39 @@ export default class AccountHistory {
   }
 
   createWholeDateChoice(): string {
+    let wholeDateSrc = '';
+    if (this.prevChoicedDay === '') {
+      wholeDateSrc = CheckActive;
+    } else {
+      wholeDateSrc = CheckNonActive;
+    }
+
     return `
       <div class="date__whole">
-        <img class="date__whole-part" id='whole-date-img' src=${CheckActive}>
+        <img class="date__whole-part" id='whole-date-img' src=${wholeDateSrc}>
         <span class="date__whole-part">전체</span>
       </div>`;
   }
 
   createSpecificDateChoice(): string {
+    let specificDateSrc = '';
+    let AddedInputClassName = '';
+    let initInputValue = '';
+    if (this.prevChoicedDay === '') {
+      specificDateSrc = CheckNonActive;
+    } else {
+      specificDateSrc = CheckActive;
+      AddedInputClassName = 'active';
+      initInputValue = this.prevChoicedDay;
+    }
+
     return `
       <div class="date__specific">
-        <img class="date__specific-part"  id='specific-date-img' src=${CheckNonActive}>
+        <img class="date__specific-part"  id='specific-date-img' src=${specificDateSrc}>
         <span class="date__specific-part">특정 날짜 선택</span>
-        <div class="date__input-container">
+        <div class="date__input-container ${AddedInputClassName}">
           ${this.createFixedDate()}
-          <input class="date__input" type='text' maxlength=2>
+          <input class="date__input" type='text' maxlength=2 value=${initInputValue}>
         </div>
       </div>
     `;
@@ -365,7 +379,7 @@ export default class AccountHistory {
     return categoryList
       .map((category, idx) => {
         let AddedCategoryClassName: string = '';
-        if (this.prevCategoryName === category) {
+        if (this.prevChoicedCategoryName === category) {
           AddedCategoryClassName = 'active';
         }
         return `
