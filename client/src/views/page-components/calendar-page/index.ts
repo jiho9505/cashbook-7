@@ -1,6 +1,6 @@
 import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
-import Calendar from './Calendar/Calendar';
+import CalendarView from './Calendar/Calendar';
 
 export default class CalendarPageView {
   constructor() {
@@ -13,6 +13,6 @@ export default class CalendarPageView {
   render() {
     $('.content-wrap').innerHTML = `<div class='content__calendar'></div>`;
 
-    new Calendar({ parent: $('.content__calendar') });
+    new CalendarView({ parent: $('.content__calendar') });
   }
 }
