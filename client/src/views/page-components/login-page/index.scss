@@ -1,8 +1,11 @@
 .login {
-  position: relative;
+  position: fixed;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
   display: flex;
+  overflow: hidden;
 
   .login__logo {
     position: absolute;
@@ -68,7 +71,7 @@
       right: 0px;
       width: 0px;
       height: 0px;
-      border-top: 1080px solid transparent;
+      border-top: 900px solid transparent;
       border-right: 180px solid white;
       background: transparent;
     }
