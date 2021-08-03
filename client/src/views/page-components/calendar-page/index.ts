@@ -2,6 +2,8 @@ import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
 import CalendarView from './Calendar/Calendar';
 
+import './index.scss';
+
 export default class CalendarPageView {
   constructor() {
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
