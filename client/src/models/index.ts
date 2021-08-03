@@ -24,6 +24,7 @@ class Model {
     evt.subscribe('createaccounthistory', this.createAccountHistory.bind(this));
     evt.subscribe('filterchange', this.fetchFilterdData.bind(this));
     evt.subscribe('deleteaboutaccount', this.deleteAboutAccount.bind(this));
+
     // evt.subscribe('historymodalgetdata', this.getModalData.bind(this));
   }
 
@@ -52,6 +53,7 @@ class Model {
 
   async deleteAboutAccount(e: CustomEvent) {
     await api.delete(`/account-history?id=${e.detail.id}`, this.store.accessToken);
+
     evt.fire('storeupdated', { state: history.state, filter: this.filter });
   }
 
