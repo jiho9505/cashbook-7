@@ -24,6 +24,7 @@ const postData = async (url, data, accessToken) => {
       body: JSON.stringify(data),
       headers: {
         Authorization: `Bearer ${accessToken}`,
+
         'Content-Type': 'application/json',
       },
     });
