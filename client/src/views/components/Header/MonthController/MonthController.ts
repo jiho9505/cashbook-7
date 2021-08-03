@@ -1,5 +1,5 @@
 import { Arrow, MonthControlImage } from '@src/static/image-urls';
-import { HTMLText, Month, Year } from '@src/types';
+import { Direction, HTMLText, Month, Year } from '@src/types';
 import handleEvent from '@src/utils/handleEvent';
 import { $, createDOMWithSelector, monthText } from '@src/utils/helper';
 
@@ -18,6 +18,38 @@ export default class MonthController {
     this.currentMonth = month;
 
     this.render();
+
+    $('.arrow-wrapper').addEventListener('click', (e: Event) => {
+      if (!(e.target instanceof HTMLElement)) return;
+
+      if (e.target.closest('.upper-arrow')) this.changeMonth('up');
+      if (e.target.closest('.down-arrow')) this.changeMonth('down');
+    });
+  }
+
+  changeMonth(type: Direction) {
+    let nextYear: Year = this.currentYear;
+    let nextMonth: Month = this.currentMonth;
+
+    if (type === 'up' && this.currentMonth === 12) {
+      nextYear = this.currentYear + 1;
+      nextMonth = 1;
+    }
+
+    if (type === 'up' && this.currentMonth !== 12) {
+      nextMonth = this.currentMonth + 1;
+    }
+
+    if (type === 'down' && this.currentMonth === 1) {
+      nextYear = this.currentYear - 1;
+      nextMonth = 12;
+    }
+
+    if (type === 'down' && this.currentMonth !== 1) {
+      nextMonth = this.currentMonth - 1;
+    }
+
+    handleEvent.fire('storeupdated', { state: { ...history.state, year: nextYear, month: nextMonth } });
   }
 
   render() {
