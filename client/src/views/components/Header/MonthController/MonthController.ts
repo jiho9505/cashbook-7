@@ -27,6 +27,10 @@ export default class MonthController {
     });
   }
 
+  /**
+   * 조건에 맞게 년도, 월을 변경합니다.
+   * 변경된 년도, 월을 storeupdated 이벤트로 담아 보냅니다.
+   */
   changeMonth(type: Direction) {
     let nextYear: Year = this.currentYear;
     let nextMonth: Month = this.currentMonth;
