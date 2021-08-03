@@ -31,6 +31,8 @@ export default class AccountHistory {
   setProperty(state, filter): void {
     this.state = state;
     this.filter = filter;
+
+    this.prevCategoryName = filter.category;
   }
 
   render(): void {
@@ -190,7 +192,6 @@ export default class AccountHistory {
         handleEvent.fire('filterchange', { category: '' });
         return;
       }
-      this.prevCategoryName = target.dataset.name;
       handleEvent.fire('filterchange', { category: target.dataset.name });
     }
   }
@@ -354,7 +355,7 @@ export default class AccountHistory {
 
   createCategoryChoiceBar(): string {
     return `
-      <div class="category-container">
+      <div class="category-container ">
        ${this.createCategoryList()}
       </div>
     `;
@@ -363,8 +364,12 @@ export default class AccountHistory {
   createCategoryList() {
     return categoryList
       .map((category, idx) => {
+        let AddedCategoryClassName: string = '';
+        if (this.prevCategoryName === category) {
+          AddedCategoryClassName = 'active';
+        }
         return `
-            <div class="category-list">
+            <div class="category-list ${AddedCategoryClassName}">
                 <img class="category-list-img" src=${matchCategoryAndImg[category]} data-name=${category}>
             </div>
         `;
