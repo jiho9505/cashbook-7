@@ -58,6 +58,7 @@ export const api = {
   get: async (url, accessToken = '') => {
     try {
       const data = await getData(url, accessToken);
+
       return {
         success: true,
         data: data,
@@ -73,6 +74,7 @@ export const api = {
   post: async (url, datas, accessToken) => {
     try {
       const data = await postData(url, datas, accessToken);
+
       return {
         success: true,
         data: data,
@@ -88,6 +90,7 @@ export const api = {
   delete: async (url, accessToken) => {
     try {
       const data = await deleteData(url, accessToken);
+
       return {
         success: true,
         data: data,
