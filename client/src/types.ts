@@ -43,3 +43,20 @@ export interface ArcSVGCommandAttribute {
   endY: number;
   isLargeArcFlag: number;
 }
+
+// Calendar
+
+export type Year = number;
+export type Month = number;
+export type Date = number;
+export type Day = number;
+export type DayInfos = {
+  day: Day;
+  isCurrentMonthDate: false;
+};
+
+export type Offset = number;
+export type TargetDateInfos = {
+  year: Year;
+  month: Month;
+};
