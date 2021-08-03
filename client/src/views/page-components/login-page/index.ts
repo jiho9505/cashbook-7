@@ -20,9 +20,22 @@ export default class LoginView {
 
   render(): void {
     this.loginWrapper.innerHTML = `
-    <div class="login__logo">
-      <img src=${Logo}> 
-    </div>
+    ${this.createLogo()}
+    ${this.createLeftPartInPage()}
+    ${this.createRightPartInPage()}
+    `;
+  }
+
+  createLogo() {
+    return `
+      <div class="login__logo">
+        <img src=${Logo}> 
+      </div>
+    `;
+  }
+
+  createLeftPartInPage() {
+    return `
     <div class="login__left-part">
       <img src=${LoginBg}>
       <div class="login__guide">
@@ -33,18 +46,29 @@ export default class LoginView {
       </div>
       <div class='triangle'></div>
     </div>
-  
+    `;
+  }
+
+  createRightPartInPage() {
+    return `
     <div class="login__right-part">
         <div class="login__welcome">
           <div>Sign In<br> to <span class='highlight'>woowahan</span> ledger</div>
         </div>
-        <div class="login__button-container">
-          <button class="login__button"> 
-              <img src=${GithubIcon}>
-              <span>Sign up with Github</span>
-          </button>
-        </div>
+        ${this.createLoginButton()}
+        
     </div>
+    `;
+  }
+
+  createLoginButton() {
+    return `
+      <div class="login__button-container">
+        <button class="login__button"> 
+            <img src=${GithubIcon}>
+            <span>Sign up with Github</span>
+        </button>
+      </div>
     `;
   }
 }
