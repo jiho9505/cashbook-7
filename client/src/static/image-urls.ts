@@ -7,7 +7,6 @@ export const DownArrow = BASE_URL + 'header' + '/arrow.svg';
 export const Calendar = BASE_URL + 'header' + '/calendar.svg';
 export const Logout = BASE_URL + 'header' + '/logout.svg';
 export const MonthControlImage = BASE_URL + 'header' + '/month-controller.svg';
-
 export const SimplifiedLogo = BASE_URL + 'header' + '/simplified-logo.svg';
 export const Statistic = BASE_URL + 'header' + '/statistic.svg';
 
