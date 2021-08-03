@@ -42,6 +42,15 @@ class Model {
     const newData = e.detail;
     this.filter = { ...this.filter, ...newData };
     evt.fire('storeupdated', { state: history.state, filter: this.filter });
+    evt.subscribe('requestlogin', this.requestLogin.bind(this));
+  }
+
+  requestLogin(e: CustomEvent) {
+    /*
+      본인 확인 절차를 밟는다.
+    */
+    history.state.path = '/account';
+    evt.fire('statechange', history.state);
   }
 
   storeData(e: CustomEvent) {
