@@ -1,7 +1,7 @@
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import handleEvent from '@src/utils/handleEvent';
 import { matchCategoryAndImg, categoryList } from '@src/static/constants';
-import { CheckActive, CheckNonActive, TRASHCAN } from '@src/static/image-urls';
+import { CheckActive, CheckNonActive, TrashCan } from '@src/static/image-urls';
 
 import './AccountHistory.scss';
 import ConfirmWindow from '@src/views/components/Confirm/Confirm';
@@ -102,15 +102,17 @@ export default class AccountHistory {
    */
   onClickExceptDateArea(target) {
     if (
-      target.className !== 'date-container active' &&
-      target.className !== 'account-history-table__date-span' &&
-      target.className !== 'date__specific-part' &&
-      target.className !== 'date__input-container active' &&
-      target.className !== 'date__specific' &&
-      target.className !== 'date__whole' &&
-      target.className !== 'date__fix-date' &&
-      target.className !== 'date__input-container active' &&
-      target.className !== 'date__input'
+      ![
+        'date-container active',
+        'account-history-table__date-span',
+        'date__specific-part',
+        'date__input-container active',
+        'date__specific',
+        'date__whole',
+        'date__fix-date',
+        'date__input-container active',
+        'date__input',
+      ].includes(target.className)
     ) {
       $('.date-container').classList.remove('active');
     }
@@ -133,11 +135,16 @@ export default class AccountHistory {
   onClickTrashCanImage(target) {
     if (target.className === 'account-history-table__trashcan')
       new ConfirmWindow({
-        onClick: this.onClickConfirmWindowHandler.bind(this),
+        onClickConfirmWindowHandler: this.onClickConfirmWindowHandler.bind(this),
         addText: '',
       });
   }
 
+  /**
+   * TODO:
+   * target.className === 'confirm__delete일 때
+   *  history Id 넘겨줘야하고 history Id는 target.dataset에 넣어놓으면 됨
+   */
   onClickConfirmWindowHandler(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
@@ -146,20 +153,14 @@ export default class AccountHistory {
       $('#root').removeChild($('.confirm'));
     } else if (target.className === 'confirm__delete') {
       $('#root').removeChild($('.confirm'));
-      // history Id 넘겨주기 target.dataset에 넣어놓으면 됨
       handleEvent.fire('deleteaboutaccount', {});
     }
   }
 
-  /**
-   * TODO:
-   * type button도 필터 후 default 설정 필요
-   */
   onClickTypeButton(target) {
     const incomeType: HTMLImageElement = $('.account-history__income-img') as HTMLImageElement;
     const expenditureType: HTMLImageElement = $('.account-history__expenditure-img') as HTMLImageElement;
     if (target.className === 'account-history__income-img') {
-      // isIncomeButtonActive isExpenditureButtonActive
       if (incomeType.src === CheckActive) {
         incomeType.src = CheckNonActive;
         this.isIncomeButtonActive = false;
@@ -423,7 +424,7 @@ export default class AccountHistory {
                     <span>${item.price}</span>
                 </td>
                 <td>
-                    <img class='account-history-table__trashcan' src=${TRASHCAN}></img>
+                    <img class='account-history-table__trashcan' src=${TrashCan}></img>
                 </td>
             </tr>
         `;

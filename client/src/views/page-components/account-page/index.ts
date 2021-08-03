@@ -1,12 +1,12 @@
 import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import handleEvent from '@src/utils/handleEvent';
 import { $, createDOMWithSelector } from '@src/utils/helper';
+import { sampleBalance, samplePay, sampleHistory } from '@src/dummyData';
 
 import './index.scss';
+
 import AccountHistory from './AccountHistory/AccountHistory';
 import Balance from './Balance/Balance';
-
-import { sampleBalance, samplePay, sampleHistory } from '@src/dummyData';
 
 export default class AccountView {
   state = {
@@ -36,12 +36,10 @@ export default class AccountView {
     });
   }
 
+  /**
+   * TODO: state도 세팅해야함
+   */
   setProperty(e) {
-    if (e.detail) {
-      if (e.detail.filter) {
-        this.state.filter = e.detail.filter;
-      }
-    }
-    // state도 세팅
+    e.detail.filter ? (this.state.filter = e.detail.filter) : '';
   }
 }

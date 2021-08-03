@@ -38,7 +38,6 @@ export default class PayMethod {
   }
 
   onClickHandler(e: MouseEvent) {
-    this.onClickAddButton(e);
     this.onClickCardChoice(e);
     this.onClickXbox(e);
   }
@@ -48,27 +47,26 @@ export default class PayMethod {
     if (!(target instanceof HTMLElement)) return;
     if (target.className === 'card-xbox-img')
       new ConfirmWindow({
-        onClick: this.onClickConfirmWindowHandler.bind(this),
+        onClickConfirmWindowHandler: this.onClickConfirmWindowHandler.bind(this),
         addText: '( 삭제 시 내역 데이터도 삭제됩니다❗️)',
       });
   }
 
+  /**
+   * TODO:
+   * target.className === 'confirm__delete일 때
+   *  card Id 넘겨줘야하며 그 card Id는 target.dataset에서 get 하면 될거같습니다
+   */
   onClickConfirmWindowHandler(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
-
-    if (target.className === 'confirm__overlay' || target.className === 'confirm__cancel') {
+    if (['confirm__overlay', 'confirm__cancel'].includes(target.className)) {
       $('#root').removeChild($('.confirm'));
     } else if (target.className === 'confirm__delete') {
       $('#root').removeChild($('.confirm'));
-      // card Id 넘겨주기 target.dataset에 넣어놓으면 됨
+
       handleEvent.fire('deleteaboutaccount', {});
     }
-  }
-
-  onClickAddButton(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
   }
 
   onClickCardChoice(e: MouseEvent) {
@@ -117,7 +115,7 @@ export default class PayMethod {
     return this.state
       .map((pay, idx) => {
         let isInitialChoicedButton = '';
-        this.filter.card === pay.payMethodName ? (isInitialChoicedButton = 'active') : (isInitialChoicedButton = '');
+        this.filter.card === pay.payMethodName ? (isInitialChoicedButton = 'active') : '';
         return `
             <div class='card ${cardType[pay.payMethodName]}' id='card' data-idx=${idx}>
               <div class='card-price'>

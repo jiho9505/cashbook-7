@@ -38,9 +38,10 @@ const deleteData = async (url) => {
   }
 };
 
-/*
-    e값은 추후에 확인 후 가공한다!
-*/
+/**
+ * TODO:
+ * e(error) 값은 백에서 어떻게 넘어오는지 확인 후 가공할 예정입니다 :)
+ */
 export const api = {
   get: async (url) => {
     try {

@@ -13,9 +13,9 @@ const moneyInputMinLength: number = 0;
 const alertShowTime: number = 2000;
 
 /**
+    TODO:
     추가적으로 고려할 부분 : 
-    1.수입 지출!
-    2.윤년 고려!
+    -윤년 고려!
  */
 export default class AccountHistoryModal {
   state: any;
@@ -32,35 +32,66 @@ export default class AccountHistoryModal {
 
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
-      this.setProperty(e.detail); // undefined ( 애초에 가져올만한 정보는 결제수단목록뿐) !! 값 확인하기 !!
+      this.setProperty(e.detail);
 
       this.modalWrapper = createDOMWithSelector('div', '.account-history-wrapper');
       this.render();
 
       const payMethodForm = $('.history-form__pay-method');
-      this.dateInput = $('.history-form__date');
-      this.moneyInput = $('.history-form__money');
 
-      this.payMethod = new PayMethods({ parent: payMethodForm, state: samplePay, filter: {} }); // 결제수단의 정보 갖고있어야함!
+      this.payMethod = new PayMethods({ parent: payMethodForm, state: samplePay, filter: {} });
       this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
       this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
-      this.dateInput.addEventListener('focusout', this.onFocusOutDateInputHandler.bind(this));
-      this.moneyInput.addEventListener('focusout', this.onFocusOutMoneyInputHandler.bind(this));
-      this.dateInput.addEventListener('focusin', this.onFocusInInputHandler.bind(this));
-      this.moneyInput.addEventListener('focusin', this.onFocusInInputHandler.bind(this));
+      this.modalWrapper.addEventListener('focusout', this.onFocusOutInputHandler.bind(this));
+      this.modalWrapper.addEventListener('focusin', this.onFocusInInputHandler.bind(this));
     });
   }
 
-  onFocusInInputHandler(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
-    this.checkInputValueOnlyNumberRegex(target);
+  setProperty(state): void {
+    this.state = state;
+  }
+
+  render(): void {
+    this.modalWrapper.innerHTML = this.createModal();
+    $('#root').appendChild(this.modalWrapper);
   }
 
   onClickHandler(e: MouseEvent) {
     this.onClickCategory(e);
     this.onClickOverlay(e);
     this.onClickSubmitButton(e);
+  }
+
+  /**
+     overlay 이벤트 구현
+     overlay는 모달 밖 검은색 배경을 의미한다.
+     - 클릭시 애니메이션 활성화 및 removeChild
+   */
+  onClickOverlay(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'overlay') {
+      this.closeModal();
+    }
+  }
+
+  onClickCategory(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'category-item') {
+      const allCategoryElement = document.querySelectorAll('.history-form__category-list');
+      const currentItemIndex = Number(target.dataset.idx);
+      const targetElement = allCategoryElement[currentItemIndex];
+
+      if (targetElement.classList.contains('active')) {
+        targetElement.classList.remove('active');
+        this.choicedCategoryName = '';
+      } else {
+        targetElement.classList.add('active');
+        this.choicedCategoryName = target.innerText;
+        removeActiveAttributeOnClass(currentItemIndex, document, '.history-form__category-list');
+      }
+    }
   }
 
   onClickSubmitButton(e: MouseEvent) {
@@ -112,9 +143,12 @@ export default class AccountHistoryModal {
       this.moneyInput.value = '-' + this.moneyInput.value;
     }
   }
-  onKeyUpHandler(e: KeyboardEvent) {
-    this.onKeyUpDate(e);
-    this.onKeyUpMoney(e);
+
+  onFocusOutInputHandler(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'history-form__date') this.onFocusOutDateInputHandler();
+    else if (target.className === 'history-form__money') this.onFocusOutMoneyInputHandler();
   }
 
   onFocusOutDateInputHandler() {
@@ -194,6 +228,13 @@ export default class AccountHistoryModal {
     }, alertShowTime);
   }
 
+  onFocusInInputHandler(e: MouseEvent) {
+    const { target } = e;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.className === 'history-form__date' || target.className === 'history-form__money')
+      this.checkInputValueOnlyNumberRegex(target);
+  }
+
   checkDateInputLengthValidation(target, length) {
     if (target.value.length !== length) return true;
     return false;
@@ -209,6 +250,25 @@ export default class AccountHistoryModal {
   checkMoneyInputLengthValidation(target, length) {
     if (target.value.length === length) return true;
     return false;
+  }
+
+  checkRegex(target, InputMaxLength) {
+    this.checkInputValueOnlyNumberRegex(target);
+    this.checkInputMaxLengthRegex(target, InputMaxLength);
+  }
+
+  checkInputValueOnlyNumberRegex(target) {
+    const regex = /[^0-9|]/g;
+    target.value = target.value.replace(regex, '');
+  }
+
+  checkInputMaxLengthRegex(target, maxLength) {
+    target.value = target.value.slice(0, maxLength);
+  }
+
+  onKeyUpHandler(e: KeyboardEvent) {
+    this.onKeyUpDate(e);
+    this.onKeyUpMoney(e);
   }
 
   onKeyUpDate(e: KeyboardEvent) {
@@ -227,66 +287,11 @@ export default class AccountHistoryModal {
     }
   }
 
-  checkRegex(target, InputMaxLength) {
-    this.checkInputValueOnlyNumberRegex(target);
-    this.checkInputMaxLengthRegex(target, InputMaxLength);
-  }
-
-  checkInputValueOnlyNumberRegex(target) {
-    const regex = /[^0-9|]/g;
-    target.value = target.value.replace(regex, '');
-  }
-
-  checkInputMaxLengthRegex(target, maxLength) {
-    target.value = target.value.slice(0, maxLength);
-  }
-
-  /**
-     overlay 이벤트 구현
-     overlay는 모달 밖 검은색 배경을 의미한다.
-     - 클릭시 애니메이션 활성화 및 removeChild
-   */
-  onClickOverlay(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
-    if (target.className === 'overlay') {
-      this.closeModal();
-    }
-  }
-
   closeModal() {
     $('.history-form').classList.add('hide');
     setTimeout(() => {
       $('#root').removeChild(this.modalWrapper);
     }, slideOutTime);
-  }
-
-  onClickCategory(e: MouseEvent) {
-    const { target } = e;
-    if (!(target instanceof HTMLElement)) return;
-    if (target.className === 'category-item') {
-      const allCategoryElement = document.querySelectorAll('#category-outline');
-      const currentItemIndex = Number(target.dataset.idx);
-      const targetElement = allCategoryElement[currentItemIndex];
-
-      if (targetElement.classList.contains('active')) {
-        targetElement.classList.remove('active');
-        this.choicedCategoryName = '';
-      } else {
-        targetElement.classList.add('active');
-        this.choicedCategoryName = target.innerText;
-        removeActiveAttributeOnClass(currentItemIndex, document, '#category-outline');
-      }
-    }
-  }
-
-  setProperty(state): void {
-    this.state = state;
-  }
-
-  render(): void {
-    this.modalWrapper.innerHTML = this.createModal();
-    $('#root').appendChild(this.modalWrapper);
   }
 
   createModal() {
@@ -366,7 +371,7 @@ export default class AccountHistoryModal {
     return categoryList
       .map((category, idx) => {
         return `
-            <div class="history-form__category-list" id='category-outline'>
+            <div class="history-form__category-list">
                 <img class='category-item' data-idx=${idx} src=${matchCategoryAndImg[category]}>
                 <span class='category-item' data-idx=${idx} >${category}</span>
             </div>
