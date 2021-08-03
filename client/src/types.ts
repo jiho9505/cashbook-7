@@ -9,6 +9,11 @@ export type Filter = {
   card: string;
 };
 
+// header
+export type Path = string;
+export type Image = string;
+
+// Common
 type Category =
   | 'life' //
   | 'health'
