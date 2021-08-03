@@ -58,6 +58,9 @@ export default class Header {
           <li class='nav__logout-btn'><img src=${Logout}></li>
         </ul>
       </nav>
+      <div class="header__month-controller">
+        <img src=${MonthController}>
+      </div>
     `;
 
     new MonthController(this.currentYear, this.currentMonth);
@@ -91,6 +94,47 @@ export default class Header {
    * Navigation 바의
    * li HTML 요소들을 얻어옵니다.
    * 현재 url과 path가 일치할 경우, active class를 추가합니다.
+   */
+  getLiDOM(
+    path: Path, //
+    img: Image,
+    currentPath: Path
+  ): HTMLText {
+    const pathClassName = `header__${path.slice(1)}${path === currentPath ? ' active' : ''}`;
+
+    const pathHTML = `
+      <li>
+        <a href=${path} class='${pathClassName}'>
+          <img src=${img}>
+        </a>
+      </li>
+    `;
+
+    return pathHTML;
+  }
+
+  getHeaderLogoDOM(): HTMLText {
+    const $headerLogo = createDOMWithSelector('div', '.header__logo');
+    const $Logo = createDOMWithSelector('img');
+    $Logo.setAttribute('src', `${SimplifiedLogo}`);
+    $headerLogo.appendChild($Logo);
+
+    return $headerLogo.outerHTML;
+  }
+
+  getLiDOMs(currentPath: Path): HTMLText {
+    const $liDOMs = PATHS.reduce((acc, [path, img]) => {
+      const $liDOM = this.getLiDOM(path as Path, img, currentPath);
+      return [...acc, $liDOM];
+    }, []).join('');
+
+    return $liDOMs;
+  }
+
+  /**
+   * Navigation 바의
+   * li HTML 요소들을 얻어옵니다.
+   * 현재 위치를 분석하여
    */
   getLiDOM(
     path: Path, //
