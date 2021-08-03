@@ -1,5 +1,5 @@
 .login {
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   width: 100%;
@@ -26,12 +26,12 @@
     background: #e9eeff;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     gap: 50px;
     position: relative;
 
     img {
-      margin-top: 150px;
       width: 600px;
       height: 350px;
     }
@@ -52,62 +52,54 @@
     .login__guide-detail {
       width: 800px;
       height: 70px;
-
       font-family: Raleway;
       font-style: normal;
       font-weight: normal;
       font-size: 30px;
       line-height: 40px;
-      /* or 133% */
-
-      text-transform: capitalize;
-
       color: var(--font-color);
-    }
-
-    .triangle {
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      width: 0px;
-      height: 0px;
-      border-top: 900px solid transparent;
-      border-right: 180px solid white;
-      background: transparent;
     }
   }
 
+  /**
+    TODO:
+    추후 시간 있을 시 사다리꼴 할 것
+    현재 겪는 어려움은
+    height: 0;
+    border-left: 600px solid #e9eeff;
+    border-bottom: 2000px solid white;
+    width는 border 커야하고 border는 px로 고정값이여야 사다리꼴이 된다.
+    하지만 달라지는 높이에 맞춰서 border의 정확한 값 알기엔 미루는게 나아보임
+    또한 height가 0이므로 로그인버튼 등 flex로 가운데로 안땡겨짐 margin을 줘야하는데
+    복잡해보여서 기능를 우선적으로 구현하는게 낫다싶어 TODO로 배치함!
+  */
   .login__right-part {
     width: 30%;
     height: 100%;
     background-color: white;
-    z-index: 10;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 70px;
 
     .login__welcome {
       width: 300px;
       height: 75px;
-      margin-top: 208px;
       font-family: Raleway;
       font-style: normal;
       font-weight: bold;
       font-size: 30px;
       line-height: 40px;
-      /* or 133% */
-
       text-align: center;
-
       color: var(--font-color);
+
       .highlight {
         color: var(--concept-color);
       }
     }
 
     .login__button {
-      margin-top: 100px;
       cursor: pointer;
       width: 417px;
       height: 74px;

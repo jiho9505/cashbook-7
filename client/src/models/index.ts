@@ -19,6 +19,7 @@ class Model {
     evt.subscribe('createaccounthistory', this.createAccountHistory.bind(this));
     evt.subscribe('filterchange', this.fetchFilterdData.bind(this));
     evt.subscribe('deleteaboutaccount', this.deleteAboutAccount.bind(this));
+    evt.subscribe('requestlogin', this.requestLogin.bind(this));
     // evt.subscribe('historymodalgetdata', this.getModalData.bind(this));
   }
 
@@ -42,13 +43,12 @@ class Model {
     const newData = e.detail;
     this.filter = { ...this.filter, ...newData };
     evt.fire('storeupdated', { state: history.state, filter: this.filter });
-    evt.subscribe('requestlogin', this.requestLogin.bind(this));
   }
 
+  /**
+   * TODO: Oauth 요청을 콜할 것
+   */
   requestLogin(e: CustomEvent) {
-    /*
-      본인 확인 절차를 밟는다.
-    */
     history.state.path = '/account';
     evt.fire('statechange', history.state);
   }

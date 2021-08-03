@@ -53,7 +53,6 @@ export default class LoginView {
       <div class="login__guide-detail">
           <div>통찰력을 갖고 돈의 흐름을 통제해보세요. <br>여러 가지 도구들로 당신이 올바른 결정을 할 수 있도록 도와줍니다.</div>
       </div>
-      <div class='triangle'></div>
     </div>
     `;
   }
@@ -81,9 +80,3 @@ export default class LoginView {
     `;
   }
 }
-
-/*
-
-
-
-*/
