@@ -1,44 +1,44 @@
 @use "./_reset";
 
 @font-face {
-    font-family: Raleway;
-    src: url(./fonts/raleway.ttf);
-    font-weight:400;
-    font-style:normal;
+  font-family: Raleway;
+  src: url(./fonts/raleway.ttf);
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: Raleway;
-    src: url(./fonts/raleway.ttf);
-    font-weight:700;
-    font-style:bold;
+  font-family: Raleway;
+  src: url(./fonts/raleway.ttf);
+  font-weight: 700;
+  font-style: bold;
 }
 
-:root{
-    --bg-color: #F4F6FC;
-    --concept-color: #5D5FEF;
-    --concept-color-span: #3e2b75;
-    --font-color:#3E2B75;
+:root {
+  --bg-color: #f4f6fc;
+  --concept-color: #5d5fef;
+  --concept-color-span: #3e2b75;
+  --font-color: #3e2b75;
 }
 
 body {
-  display:flex;
+  display: flex;
   width: 100vw;
   height: 100vh;
   min-height: 960px;
   background-color: var(--bg-color);
-  transition: width .5s ease;
+  transition: width 0.5s ease;
 }
 
 #root {
-  min-width : 1200px;
+  min-width: 1200px;
   margin: 0 auto;
 }
 
 .content-wrap {
-  width:1135px;
-  height:100%;
+  width: 1135px;
+  height: 100%;
   margin: 0 auto;
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
 }
