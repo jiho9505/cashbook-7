@@ -22,11 +22,12 @@
 }
 
 body {
+  display:flex;
   width: 100vw;
   height: 100vh;
   min-height: var(--min-height);
   background-color: var(--bg-color);
-  display:flex;
+  transition: width .5s ease;
 }
 
 #root {
