@@ -2,6 +2,13 @@ export interface Store {
   categories?: Category[];
 }
 
+export type Filter = {
+  category: string;
+  type: string;
+  day: string;
+  card: string;
+};
+
 type Category =
   | 'life' //
   | 'health'

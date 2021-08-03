@@ -24,3 +24,4 @@ export const Option = BASE_URL + 'option.svg';
 export const Xbox = BASE_URL + 'xbox.svg';
 export const CheckActive = BASE_URL + 'checkActive.svg';
 export const CheckNonActive = BASE_URL + 'checkNonActive.svg';
+export const TrashCan = BASE_URL + 'trashcan.svg';

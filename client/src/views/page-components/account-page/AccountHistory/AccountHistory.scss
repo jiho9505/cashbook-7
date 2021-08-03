@@ -20,6 +20,9 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  .account-history__income-img {
+    cursor: pointer;
+  }
 }
 
 .account-history__expenditure {
@@ -30,6 +33,10 @@
   span {
     color: #ef5d5d;
   }
+
+  .account-history__expenditure-img {
+    cursor: pointer;
+  }
 }
 
 .account-history__text {
@@ -38,6 +45,7 @@
 
 .account-history__add {
   font-size: 50px;
+  cursor: pointer;
 }
 
 .account-history-table {
@@ -70,13 +78,145 @@
 
   .account-history-table__category {
     width: 15%;
+    position: relative;
+
+    span {
+      cursor: pointer;
+    }
+
+    .category-container {
+      position: absolute;
+      top: -160px;
+      left: -240px;
+      width: 239px;
+      height: 155px;
+      background-color: white;
+      border-radius: 30px 30px 0px 30px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      padding-left: 20px;
+      display: none;
+
+      &.active {
+        display: flex;
+      }
+
+      img {
+        width: 35px;
+        height: 35px;
+      }
+
+      .category-list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        width: 50px;
+        height: 62px;
+        border: none;
+        border-radius: 20px;
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+          background: #ffffff;
+          box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        }
+        &.active {
+          background: #ffffff;
+          box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        }
+
+        img {
+          cursor: pointer;
+        }
+      }
+    }
   }
 
   .account-history-table__date {
     width: 25%;
+    position: relative;
+
+    span {
+      cursor: pointer;
+    }
   }
 
   .account-history-table__price {
     width: 25%;
+  }
+
+  .account-history-table_row {
+    position: relative;
+  }
+
+  .account-history-table__trashcan {
+    position: absolute;
+    right: 40px;
+    top: 25px;
+    cursor: pointer;
+  }
+}
+
+.date-container {
+  position: absolute;
+  width: 183px;
+  height: 112px;
+  left: -160px;
+  top: -120px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 30px 30px 0px 30px;
+  padding: 10px 0 0 20px;
+  display: none;
+
+  &.active {
+    display: block;
+  }
+
+  .date__input-container {
+    display: none;
+    position: relative;
+    &.active {
+      display: block;
+    }
+
+    .date__input {
+      text-align: right;
+      padding: 10px;
+      font-size: 15px;
+    }
+
+    .date__fix-date {
+      position: absolute;
+      left: 65px;
+      top: 14px;
+      color: black;
+      font-size: 15px;
+      cursor: default;
+    }
+  }
+
+  input {
+    width: 122px;
+    height: 30px;
+    left: 1119px;
+    top: 550px;
+    border: none;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 20px 20px 0px 20px;
+    margin-top: 5px;
+    margin-left: 30px;
+  }
+
+  .date__whole-part {
+    cursor: pointer;
+  }
+
+  .date__specific-part {
+    cursor: pointer;
   }
 }
