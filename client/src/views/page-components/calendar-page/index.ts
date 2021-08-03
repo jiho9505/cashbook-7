@@ -7,6 +7,8 @@ import './index.scss';
 import CalendarView from './Calendar/Calendar';
 import CalendarModal from './CalendarModal/CalendarModal';
 
+import './index.scss';
+
 export default class CalendarPageView {
   currentYear: Year;
   currentMonth: Month;
