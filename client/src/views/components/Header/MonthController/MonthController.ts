@@ -1,15 +1,21 @@
 import { Arrow, MonthControlImage } from '@src/static/image-urls';
-import { HTMLText } from '@src/types';
-import { $, createDOMWithSelector } from '@src/utils/helper';
+import { HTMLText, Month, Year } from '@src/types';
+import handleEvent from '@src/utils/handleEvent';
+import { $, createDOMWithSelector, monthText } from '@src/utils/helper';
 
 import './MonthController.scss';
 
 export default class MonthController {
   $MonthController: HTMLElement;
+  currentYear: Year;
+  currentMonth: Month;
 
-  constructor() {
+  constructor(year: Year, month: Month) {
+    console.log('call');
     this.$MonthController = createDOMWithSelector('div', '.header__month-controller');
     $('header').appendChild(this.$MonthController);
+    this.currentYear = year;
+    this.currentMonth = month;
 
     this.render();
   }
@@ -26,10 +32,11 @@ export default class MonthController {
    */
   getCalenderSVG(): HTMLText {
     const $calendarWrapper = createDOMWithSelector('div', '.calendar-wrapper');
+
     $calendarWrapper.innerHTML = `
         <img src=${MonthControlImage}>
-        <span class='calendar-wrapper__month'>Aug</span>
-        <span class='calendar-wrapper__year'>2021</span>
+        <span class='calendar-wrapper__month'>${monthText[this.currentMonth]}</span>
+        <span class='calendar-wrapper__year'>${this.currentYear}</span>
     `;
 
     return $calendarWrapper.outerHTML;

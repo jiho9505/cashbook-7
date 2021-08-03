@@ -1,6 +1,6 @@
 import { PATHS } from '@src/static/constants';
 import { SimplifiedLogo, Logout } from '@src/static/image-urls';
-import { HTMLText, Image, Path } from '@src/types';
+import { HTMLText, Image, Month, Path, Year } from '@src/types';
 import handleEvent from '@src/utils/handleEvent';
 import { $, createDOMWithSelector } from '@src/utils/helper';
 
@@ -8,13 +8,19 @@ import './index.scss';
 import MonthController from './MonthController/MonthController';
 
 export default class Header {
-  currentPath = '';
+  currentPath: Path;
+  currentYear: Year;
+  currentMonth: Month;
 
   constructor() {
     $('header').addEventListener('click', this.onClickNavItem);
 
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
-      this.currentPath = e.detail.state.path;
+      const { path, year, month } = e.detail.state;
+
+      this.currentPath = path;
+      this.currentYear = year;
+      this.currentMonth = month;
 
       this.render();
     });
@@ -49,7 +55,7 @@ export default class Header {
       </nav>
     `;
 
-    new MonthController();
+    new MonthController(this.currentYear, this.currentMonth);
   }
 
   /**
