@@ -25,7 +25,7 @@ body {
   display:flex;
   width: 100vw;
   height: 100vh;
-  min-height: var(--min-height);
+  min-height: 960px;
   background-color: var(--bg-color);
   transition: width .5s ease;
 }
