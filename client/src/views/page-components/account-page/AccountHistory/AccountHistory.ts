@@ -17,6 +17,7 @@ export default class AccountHistory {
 
   filter;
   prevChoicedCategoryId;
+  prevChoicedCategoryName: string = '';
   prevChoicedDay: any = '';
 
   constructor({ parent, state, filter }) {
