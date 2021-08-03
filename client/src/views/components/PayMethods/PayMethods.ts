@@ -60,8 +60,9 @@ export default class PayMethod {
     if (target.className === 'confirm__overlay' || target.className === 'confirm__cancel') {
       $('#root').removeChild($('.confirm'));
     } else if (target.className === 'confirm__delete') {
-      $('#root').removeChild($('.confirm')); // 바로 리렌더링되면 삭제 안해줘도 될듯
-      console.log('Observer - delete');
+      $('#root').removeChild($('.confirm'));
+      // card Id 넘겨주기 target.dataset에 넣어놓으면 됨
+      handleEvent.fire('deleteaboutaccount', {});
     }
   }
 
