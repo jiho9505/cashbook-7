@@ -37,7 +37,7 @@ model PayMethod {
 model AccountHistory {
   id             Int       @id @default(autoincrement())
   price          Int
-  type           String    @db.VarChar(10)
+  type           String    @db.VarChar(100)
   expenditureDay String
   user           User      @relation(fields: [userId], references: [id])
   userId         Int
