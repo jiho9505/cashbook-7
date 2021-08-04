@@ -1,8 +1,8 @@
 import express from 'express';
-import historyRouter from './history';
-import loginRouter from './login';
+import authRouter from './auth';
+
 const router = express.Router();
 
-router.use('/history', historyRouter);
-router.use('/login', loginRouter);
+router.use('/auth', authRouter);
+
 export default router;
