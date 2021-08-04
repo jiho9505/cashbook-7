@@ -6,6 +6,7 @@ class Model {
   store = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
+    isLoggedIn: false,
   };
   filter: Filter = {
     category: '',
@@ -15,13 +16,37 @@ class Model {
   };
 
   constructor() {
+    evt.subscribe('statepop', this.statePop.bind(this));
+    evt.subscribe('requestGithublogin', this.requestGithubLogin.bind(this));
     evt.subscribe('statechange', this.fetchData.bind(this));
     evt.subscribe('storeupdated', this.storeData.bind(this));
     evt.subscribe('createaccounthistory', this.createAccountHistory.bind(this));
     evt.subscribe('filterchange', this.fetchFilterdData.bind(this));
     evt.subscribe('deleteaboutaccount', this.deleteAboutAccount.bind(this));
-    evt.subscribe('requestlogin', this.requestLogin.bind(this));
     // evt.subscribe('historymodalgetdata', this.getModalData.bind(this));
+  }
+
+  /**
+   * 만약, 뒤로 가기를 클릭 시,
+   * 현재 경로가 홈이 아닌데 로그인이 되어있지 않다면 (e.g. 로그아웃 이후 popstate)
+   * 홈으로 replaceState를 하고 return 합니다.
+   * 예외 처리릍 통과하면 이전 경로로 store를 update 합니다.
+   */
+  statePop(e: CustomEvent) {
+    const { path } = e.detail;
+
+    if (path !== '/' && !this.store.isLoggedIn) return history.replaceState(null, '', '/');
+    evt.fire('storeupdated', { state: { ...e.detail, path } });
+  }
+
+  /**
+   * Github 로그인 유청을 하기 위해,
+   * 현재 페이지를 githubOAuthUrl로 변경합니다.
+   */
+  requestGithubLogin() {
+    const clientId = '742ffcd3fc9e4708fccc';
+    const githubOAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
+    window.location.href = githubOAuthUrl;
   }
 
   /**
@@ -44,18 +69,6 @@ class Model {
     const newData = e.detail;
     this.filter = { ...this.filter, ...newData };
     evt.fire('storeupdated', { state: history.state, filter: this.filter });
-  }
-
-  /**
-   * TODO: Oauth 요청을 콜할 것
-   */
-  async requestLogin(e: CustomEvent) {
-    const clientId = '742ffcd3fc9e4708fccc';
-    const githubOAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
-    window.location.href = githubOAuthUrl;
-
-    // history.state.path = '/account';
-    // evt.fire('statechange', history.state);
   }
 
   storeData(e: CustomEvent) {

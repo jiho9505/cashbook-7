@@ -18,7 +18,8 @@ export default class Router {
 
     window.addEventListener('popstate', (e) => {
       if (e.state === null) return;
-      // handleEvent.
+
+      handleEvent.fire('statepop', e.state);
     });
 
     handleEvent.subscribe('statechange', (e: CustomEvent) => {
