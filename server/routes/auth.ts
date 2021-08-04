@@ -1,10 +1,12 @@
-import express from 'express';
 import axios from 'axios';
+import express from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import url from 'url';
+
+import { Prisma, PrismaPromise } from '@prisma/client';
+
 import db from '../database/database';
 import { createJWTToken } from '../utils/helper';
-import url from 'url';
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { Prisma, PrismaPromise } from '@prisma/client';
 
 // Type
 type ClientCode = string;
