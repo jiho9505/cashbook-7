@@ -1,4 +1,4 @@
-const API_ENDPOINT = '/api';
+const API_ENDPOINT = '';
 
 const getData = async (url) => {
   try {
