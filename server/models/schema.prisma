@@ -22,7 +22,7 @@ model Category {
   id             Int              @id @default(autoincrement())
   name           String
   user           User             @relation(fields: [userId], references: [id])
-  userId         Int              @unique
+  userId         Int
   AccountHistory AccountHistory[]
 }
 
@@ -30,7 +30,7 @@ model PayMethod {
   id             Int              @id @default(autoincrement())
   name           String
   user           User             @relation(fields: [userId], references: [id])
-  userId         Int              @unique
+  userId         Int
   AccountHistory AccountHistory[]
 }
 
