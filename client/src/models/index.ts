@@ -17,7 +17,7 @@ class Model {
 
   constructor() {
     evt.subscribe('statepop', this.statePop.bind(this));
-    evt.subscribe('requestGithublogin', this.requestGithubLogin.bind(this));
+    evt.subscribe('requestGithubLogin', this.requestGithubLogin.bind(this));
     evt.subscribe('statechange', this.fetchData.bind(this));
     evt.subscribe('storeupdated', this.storeData.bind(this));
     evt.subscribe('createaccounthistory', this.createAccountHistory.bind(this));
@@ -40,7 +40,7 @@ class Model {
   }
 
   /**
-   * Github 로그인 유청을 하기 위해,
+   * Github 로그인 요청을 하기 위해,
    * 현재 페이지를 githubOAuthUrl로 변경합니다.
    */
   requestGithubLogin() {

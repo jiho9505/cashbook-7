@@ -23,7 +23,7 @@ export default class LoginView {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
     if (target.closest('.login__button')) {
-      handleEvent.fire('requestlogin');
+      handleEvent.fire('requestGithubLogin');
     }
   }
 
