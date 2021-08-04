@@ -1,3 +1,4 @@
+import { api } from './api';
 import { Filter } from '@src/types';
 import evt from '@src/utils/handleEvent';
 
@@ -48,9 +49,14 @@ class Model {
   /**
    * TODO: Oauth 요청을 콜할 것
    */
-  requestLogin(e: CustomEvent) {
+  async requestLogin(e: CustomEvent) {
+    const clientId = 'efe023dff202e79ad7a0';
+    const redirectUri = 'http://localhost:9000/api/login/';
+    const githubOauthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
     history.state.path = '/account';
-    evt.fire('statechange', history.state);
+    window.open(githubOauthUrl, 'github');
+
+    // evt.fire('statechange', history.state);
   }
 
   storeData(e: CustomEvent) {
