@@ -4,6 +4,7 @@ import db from '../database/database';
 import { createJWTToken } from '../utils/helper';
 import url from 'url';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import { Prisma, PrismaPromise } from '@prisma/client';
 
 // Type
 type ClientCode = string;
@@ -67,9 +68,28 @@ const getRedirectURL = (tokens: JWT) => {
 /**
  * githubID를 받아서
  * DB에 해당 githubID를 가지는 유저 레코드를 생성하여 반환합니다.
+ * 이 때, default Category, PayMethod를 함께 생성합니다.
  */
 const createUserRecordOnDB = async (githubId: GithubId): Promise<UserRecord> => {
-  const user = await db.user.create({ data: { githubId } });
+  const CATEGORY = ['culture', 'etc', 'food', 'health', 'life', 'shopping', 'traffic'];
+  const PAY_METHOD = ['shinhan', 'woori', 'kakao', 'lotte', 'hyundai', 'samsung', 'money', 'etc'];
+
+  const { user: userDB, category: categoryDB, payMethod: payMethodDB } = db;
+
+  const user = await userDB.create({ data: { githubId } });
+
+  const createCategoryPromise: PrismaPromise<Prisma.BatchPayload> = categoryDB.createMany({
+    data: CATEGORY.map((cat) => ({ userId: user.id, name: cat })),
+  });
+
+  const createPayMethodPromise: PrismaPromise<Prisma.BatchPayload> = payMethodDB.createMany({
+    data: PAY_METHOD.map((method) => ({ userId: user.id, name: method })),
+  });
+
+  await Promise.all([createCategoryPromise, createPayMethodPromise]);
+
+  // Promise.all???
+
   return user;
 };
 
