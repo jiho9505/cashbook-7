@@ -27,11 +27,6 @@ export default class Router {
   }
 
   stateChangeHandler(e?: Record<'state', Record<string, string | number>>) {
-    if (e.state.isReplace) {
-      delete e.state.isReplace;
-      history.replaceState(e.state, '', e.state.path as string);
-    } else {
-      history.pushState(e.state, '', e.state.path as string);
-    }
+    history.pushState(e.state, '', e.state.path as string);
   }
 }
