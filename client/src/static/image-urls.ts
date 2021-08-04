@@ -25,3 +25,7 @@ export const Xbox = BASE_URL + 'xbox.svg';
 export const CheckActive = BASE_URL + 'checkActive.svg';
 export const CheckNonActive = BASE_URL + 'checkNonActive.svg';
 export const TrashCan = BASE_URL + 'trashcan.svg';
+
+// login
+export const LoginBg = BASE_URL + 'login' + '/login-bg.svg';
+export const GithubIcon = BASE_URL + 'login' + '/github.svg';
