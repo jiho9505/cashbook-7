@@ -1,4 +1,4 @@
-import { GithubIcon, LoginBg, Logo } from '@src/static/image-urls';
+import { GithubIcon, LoginBg, SimplifiedLogo } from '@src/static/image-urls';
 import handleEvent from '@src/utils/handleEvent';
 import { $, createDOMWithSelector } from '@src/utils/helper';
 
@@ -38,7 +38,7 @@ export default class LoginView {
   createLogo() {
     return `
       <div class="login__logo">
-        <img src=${Logo}> 
+        <img src=${SimplifiedLogo}> 
       </div>
     `;
   }
