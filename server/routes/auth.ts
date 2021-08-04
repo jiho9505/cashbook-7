@@ -1,6 +1,6 @@
 import axios from 'axios';
 import express from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import url from 'url';
 
 import { Prisma, PrismaPromise } from '@prisma/client';
