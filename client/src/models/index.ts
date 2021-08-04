@@ -53,8 +53,18 @@ class Model {
     const clientId = 'efe023dff202e79ad7a0';
     const redirectUri = 'http://localhost:9000/api/login/';
     const githubOauthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
+    const newWindowPosition = {
+      top: screen.height / 2 - 375,
+      left: screen.width / 2 - 260,
+      height: 750,
+      width: 520,
+    };
+    const { top, left, height, width } = newWindowPosition;
+
+    const windowTabFeatures =
+      'location=yes,scrollbars=yes,status=yes,' + `top=${top},left=${left},height=${height},width=${width}`;
     history.state.path = '/account';
-    window.open(githubOauthUrl, 'github');
+    window.open(githubOauthUrl, '_blank', windowTabFeatures);
 
     // evt.fire('statechange', history.state);
   }
