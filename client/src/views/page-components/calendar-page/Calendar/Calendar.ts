@@ -6,20 +6,20 @@ import './Calendar.scss';
 const ALL_DAY_ON_CALENDAR = 42;
 
 export default class CalendarView {
-  $CalendarTable: HTMLElement;
+  $calendarTable: HTMLElement;
   $tbody: HTMLElement;
   dayObj: { year: Year; month: Month };
 
   constructor({ parent, currentYear, currentMonth }) {
-    this.$CalendarTable = createDOMWithSelector('table', '.calendar__table');
+    this.$calendarTable = createDOMWithSelector('table', '.calendar__table');
     this.dayObj = { year: currentYear, month: currentMonth };
 
-    parent.appendChild(this.$CalendarTable);
+    parent.appendChild(this.$calendarTable);
     this.render();
   }
 
   render() {
-    this.$CalendarTable.innerHTML = `
+    this.$calendarTable.innerHTML = `
       <thead>
         ${this.getDayDOM()}
       <thead>

@@ -6,14 +6,14 @@ import { $, createDOMWithSelector, monthText } from '@src/utils/helper';
 import './MonthController.scss';
 
 export default class MonthController {
-  $MonthController: HTMLElement;
+  $monthController: HTMLElement;
   currentYear: Year;
   currentMonth: Month;
 
   constructor(year: Year, month: Month) {
     console.log('call');
-    this.$MonthController = createDOMWithSelector('div', '.header__month-controller');
-    $('header').appendChild(this.$MonthController);
+    this.$monthController = createDOMWithSelector('div', '.header__month-controller');
+    $('header').appendChild(this.$monthController);
     this.currentYear = year;
     this.currentMonth = month;
 
@@ -57,7 +57,7 @@ export default class MonthController {
   }
 
   render() {
-    this.$MonthController.innerHTML = `
+    this.$monthController.innerHTML = `
         ${this.getCalenderSVG()}
         ${this.getArrowSVG()}
     `;
