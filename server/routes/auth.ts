@@ -3,6 +3,7 @@ import axios from 'axios';
 import db from '../database/database';
 import { createJWTToken } from '../utils/helper';
 import url from 'url';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 // Type
 type ClientCode = string;
@@ -20,7 +21,21 @@ type UserRecord = {
 const BASE_URL = process.env.BASE_URL;
 const router = express.Router();
 
-router.get('/login/github', async (req, res, next) => {
+router.get('/login', async (req, res) => {
+  const { refresh } = req.query;
+
+  try {
+    const decoded = jwt.verify(refresh as Token, process.env.SECRET_KEY as string) as jwt.JwtPayload;
+    const userRecord = await findUserRecordOnDB(decoded?.payload?.githubId);
+    const tokens = createJWTToken(userRecord);
+
+    res.json({ httpStatus: 'OK', accessToken: tokens.accessToken });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+router.get('/login/github', async (req, res) => {
   const code = req.query.code;
 
   try {
