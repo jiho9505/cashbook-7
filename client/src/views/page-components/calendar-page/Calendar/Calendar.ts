@@ -68,7 +68,6 @@ export default class CalendarView {
 
   render() {
     this.$calendarTable.innerHTML = `
-
       <thead>
       ${this.getDayDOM()}
       </thead>
