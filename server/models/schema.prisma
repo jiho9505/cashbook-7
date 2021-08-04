@@ -35,14 +35,14 @@ model PayMethod {
 }
 
 model AccountHistory {
-  id          Int       @id @default(autoincrement())
-  price       Int
-  type        String    @db.VarChar(10)
-  createdAt   DateTime  @default(now())
-  user        User      @relation(fields: [userId], references: [id])
-  userId      Int       @unique
-  category    Category  @relation(fields: [categoryId], references: [id])
-  categoryId  Int       @unique
-  payMethod   PayMethod @relation(fields: [payMethodId], references: [id])
-  payMethodId Int       @unique
+  id             Int       @id @default(autoincrement())
+  price          Int
+  type           String    @db.VarChar(10)
+  expenditureDay String
+  user           User      @relation(fields: [userId], references: [id])
+  userId         Int
+  category       Category  @relation(fields: [categoryId], references: [id])
+  categoryId     Int
+  payMethod      PayMethod @relation(fields: [payMethodId], references: [id])
+  payMethodId    Int
 }
