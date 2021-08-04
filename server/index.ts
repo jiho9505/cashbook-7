@@ -5,6 +5,8 @@ import router from './routes/index';
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+require('dotenv').config();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
