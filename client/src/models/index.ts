@@ -50,28 +50,18 @@ class Model {
    * TODO: Oauth 요청을 콜할 것
    */
   async requestLogin(e: CustomEvent) {
-    const clientId = 'efe023dff202e79ad7a0';
-    const redirectUri = 'http://localhost:9000/api/login/';
-    const githubOauthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
-    const newWindowPosition = {
-      top: screen.height / 2 - 375,
-      left: screen.width / 2 - 260,
-      height: 750,
-      width: 520,
-    };
-    const { top, left, height, width } = newWindowPosition;
+    const clientId = '742ffcd3fc9e4708fccc';
+    const githubOAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
+    window.location.href = githubOAuthUrl;
 
-    const windowTabFeatures =
-      'location=yes,scrollbars=yes,status=yes,' + `top=${top},left=${left},height=${height},width=${width}`;
-    history.state.path = '/account';
-    window.open(githubOauthUrl, '_blank', windowTabFeatures);
-
+    // history.state.path = '/account';
     // evt.fire('statechange', history.state);
   }
 
   storeData(e: CustomEvent) {
-    const { path, ...dateData } = e.detail.state;
-    this.store = { ...dateData };
+    const { path, ...nextState } = e.detail.state;
+    this.store = { ...this.store, ...nextState };
+    console.log(this.store);
   }
 
   /**
