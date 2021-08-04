@@ -30,4 +30,16 @@ router.post('/', checkToken(), async (req: any, res) => {
   }
 });
 
+router.delete('/', checkToken(), async (req: any, res) => {
+  try {
+    const { accountHistoryId } = req.body;
+    await db.accountHistory.delete({ where: { id: accountHistoryId * 1 } });
+
+    return res.json({ httpStatus: 'OK' });
+  } catch (error) {
+    new Error(error);
+    return res.json({ httpStatus: 'Failed' });
+  }
+});
+
 export default router;
