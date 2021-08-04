@@ -2,7 +2,7 @@ import { PATHS } from '@src/static/constants';
 import { SimplifiedLogo, Logout } from '@src/static/image-urls';
 import { HTMLText, Image, Month, Path, Year } from '@src/types';
 import handleEvent from '@src/utils/handleEvent';
-import { $, createDOMWithSelector } from '@src/utils/helper';
+import { $, createDOMWithSelector, removeValueOnLocalStorage } from '@src/utils/helper';
 
 import './index.scss';
 import MonthController from './MonthController/MonthController';
@@ -13,8 +13,6 @@ export default class Header {
   currentMonth: Month;
 
   constructor() {
-    $('header').addEventListener('click', this.onClickNavItem);
-
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
       const { path, year, month } = e.detail.state;
 
@@ -24,6 +22,8 @@ export default class Header {
 
       this.render();
     });
+
+    $('header').addEventListener('click', this.onClickNavItem);
   }
 
   /**
@@ -36,6 +36,11 @@ export default class Header {
     e.preventDefault();
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
+
+    if (target.closest('.nav__logout-btn')) {
+      removeValueOnLocalStorage('refreshToken');
+      handleEvent.fire('statechange', { ...history.state, path: '/', isLoggedIn: false });
+    }
 
     const a = target.closest('a');
     if (!a) return;
@@ -50,7 +55,7 @@ export default class Header {
       <nav class="header__nav">
         <ul>
           ${this.getLiDOMs(this.currentPath as Path)}
-          <li><img src=${Logout}></li>
+          <li class='nav__logout-btn'><img src=${Logout}></li>
         </ul>
       </nav>
     `;
