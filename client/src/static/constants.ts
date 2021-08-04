@@ -1,23 +1,9 @@
-import {
-  Account,
-  AccountActive,
-  Calendar,
-  CalendarActive,
-  Statistic,
-  StatisticActive,
-  CULTURE,
-  ETC,
-  HEALTH,
-  FOOD,
-  TRAFFIC,
-  SHOPPING,
-  LIFE,
-} from './image-urls';
+import { Account, Calendar, Statistic, CULTURE, ETC, HEALTH, FOOD, TRAFFIC, SHOPPING, LIFE } from './image-urls';
 
 export const PATHS = [
-  ['/account', Account, AccountActive],
-  ['/statistics', Statistic, StatisticActive],
-  ['/calendar', Calendar, CalendarActive],
+  ['/account', Account],
+  ['/statistics', Statistic],
+  ['/calendar', Calendar],
 ];
 
 export const cardType: object = {

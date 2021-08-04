@@ -1,32 +1,30 @@
-import { Date, Day, DayInfos, HTMLText, Offset, TargetDateInfos } from '@src/types';
+import { Date, Day, DayInfos, HTMLText, Month, Offset, TargetDateInfos, Year } from '@src/types';
 import { createDOMWithSelector } from '@src/utils/helper';
 
 import './Calendar.scss';
 
 const ALL_DAY_ON_CALENDAR = 42;
-const SAMPLE_DAY_OBJECT = {
-  year: 2021,
-  month: 3,
-};
 
 export default class CalendarView {
-  $CalendarTable: HTMLElement;
+  $calendarTable: HTMLElement;
   $tbody: HTMLElement;
+  dayObj: { year: Year; month: Month };
 
-  constructor({ parent }) {
-    this.$CalendarTable = createDOMWithSelector('table', '.calendar__table');
+  constructor({ parent, currentYear, currentMonth }) {
+    this.$calendarTable = createDOMWithSelector('table', '.calendar__table');
+    this.dayObj = { year: currentYear, month: currentMonth };
 
-    parent.appendChild(this.$CalendarTable);
+    parent.appendChild(this.$calendarTable);
     this.render();
   }
 
   render() {
-    this.$CalendarTable.innerHTML = `
+    this.$calendarTable.innerHTML = `
       <thead>
         ${this.getDayDOM()}
       <thead>
       <tbody>
-        ${this.getFullDateOnCalendarDOM(SAMPLE_DAY_OBJECT)}
+        ${this.getFullDateOnCalendarDOM(this.dayObj)}
       <tbody>
     `;
   }
@@ -55,9 +53,9 @@ export default class CalendarView {
   getFullDateOnCalendarDOM(date: TargetDateInfos): HTMLText {
     const { year: TARGET_YEAR, month: TARGET_MONTH } = date;
 
-    const lastDateOnPrevMonth: Date = new Date(TARGET_YEAR, TARGET_MONTH, 0).getDate();
-    const lastDateOnCurrentMonth: Date = new Date(TARGET_YEAR, TARGET_MONTH + 1, 0).getDate();
-    const startDayOnCurrentMonth: Day = new Date(TARGET_YEAR, TARGET_MONTH, 1).getDay();
+    const lastDateOnPrevMonth: Date = new Date(TARGET_YEAR, TARGET_MONTH - 1, 0).getDate();
+    const lastDateOnCurrentMonth: Date = new Date(TARGET_YEAR, TARGET_MONTH, 0).getDate();
+    const startDayOnCurrentMonth: Day = new Date(TARGET_YEAR, TARGET_MONTH - 1, 1).getDay();
 
     const dayOffset: Offset = this.getDayOffset(startDayOnCurrentMonth);
     const calendarWithOffset: Offset[] = this.getCalendarWithOffset(dayOffset);

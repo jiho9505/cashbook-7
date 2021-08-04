@@ -1,8 +1,11 @@
-import { Store, Filter } from '@src/types';
+import { Filter } from '@src/types';
 import evt from '@src/utils/handleEvent';
 
 class Model {
-  store: Store = {};
+  store = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+  };
   filter: Filter = {
     category: '',
     type: '',
@@ -12,6 +15,7 @@ class Model {
 
   constructor() {
     evt.subscribe('statechange', this.fetchData.bind(this));
+    evt.subscribe('storeupdated', this.storeData.bind(this));
     evt.subscribe('createaccounthistory', this.createAccountHistory.bind(this));
     evt.subscribe('filterchange', this.fetchFilterdData.bind(this));
     evt.subscribe('deleteaboutaccount', this.deleteAboutAccount.bind(this));
@@ -40,12 +44,17 @@ class Model {
     evt.fire('storeupdated', { state: history.state, filter: this.filter });
   }
 
+  storeData(e: CustomEvent) {
+    const { path, ...dateData } = e.detail.state;
+    this.store = { ...dateData };
+  }
+
   /**
    * TODO: 추후 API Call 로직을 넣을 예정입니다.
    */
   fetchData(e: CustomEvent) {
-    const { year, month, type } = e.detail;
-    evt.fire('storeupdated', { state: e.detail });
+    const { month, year } = this.store;
+    evt.fire('storeupdated', { state: { ...e.detail, month, year } });
   }
 
   /**

@@ -2,13 +2,13 @@ const BASE_URL = 'https://cashbook-7.s3.ap-northeast-2.amazonaws.com/';
 
 // header
 export const Account = BASE_URL + 'header' + '/account.svg';
-export const AccountActive = BASE_URL + 'header' + '/account_active.svg';
+export const Arrow = BASE_URL + 'header' + '/arrow.svg';
+export const DownArrow = BASE_URL + 'header' + '/arrow.svg';
 export const Calendar = BASE_URL + 'header' + '/calendar.svg';
-export const CalendarActive = BASE_URL + 'header' + '/calendar_active.svg';
-export const Logo = BASE_URL + 'header' + '/logo.svg';
 export const Logout = BASE_URL + 'header' + '/logout.svg';
+export const MonthControlImage = BASE_URL + 'header' + '/month-controller.svg';
+export const SimplifiedLogo = BASE_URL + 'header' + '/simplified-logo.svg';
 export const Statistic = BASE_URL + 'header' + '/statistic.svg';
-export const StatisticActive = BASE_URL + 'header' + '/statistic_active.svg';
 
 // category
 export const CULTURE = BASE_URL + 'category' + '/culture.svg';

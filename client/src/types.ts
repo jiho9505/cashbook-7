@@ -1,7 +1,3 @@
-export interface Store {
-  categories?: Category[];
-}
-
 export type Filter = {
   category: string;
   type: string;
@@ -9,6 +5,12 @@ export type Filter = {
   card: string;
 };
 
+// header
+export type Path = string;
+export type Image = string;
+export type Direction = 'up' | 'down';
+
+// Common
 type Category =
   | 'life' //
   | 'health'
