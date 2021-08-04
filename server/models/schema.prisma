@@ -10,28 +10,39 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Profile {
-  id     Int     @default(autoincrement()) @id
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
 model User {
-  id      Int      @default(autoincrement()) @id
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id             Int              @id @default(autoincrement())
+  token          String           @unique
+  Category       Category[]
+  PayMethod      PayMethod[]
+  AccountHistory AccountHistory[]
 }
 
-model Post {
-  id        Int      @default(autoincrement()) @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Category {
+  id             Int              @id @default(autoincrement())
+  name           String
+  user           User             @relation(fields: [userId], references: [id])
+  userId         Int              @unique
+  AccountHistory AccountHistory[]
+}
+
+model PayMethod {
+  id             Int              @id @default(autoincrement())
+  name           String
+  user           User             @relation(fields: [userId], references: [id])
+  userId         Int              @unique
+  AccountHistory AccountHistory[]
+}
+
+model AccountHistory {
+  id          Int       @id @default(autoincrement())
+  price       Int
+  type        String    @db.VarChar(10)
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int       @unique
+  category    Category  @relation(fields: [categoryId], references: [id])
+  categoryId  Int       @unique
+  payMethod   PayMethod @relation(fields: [payMethodId], references: [id])
+  payMethodId Int       @unique
 }
