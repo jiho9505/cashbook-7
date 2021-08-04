@@ -68,3 +68,17 @@ export const removeActiveAttributeOnClass = (
     }
   });
 };
+
+export const setValueOnLocalStorage = (key: string, value: string) => {
+  let val = JSON.stringify(value);
+  localStorage.setItem(key, val);
+};
+
+export const getValueOnLocalStorage = (key: string) => {
+  let val = localStorage.getItem(key);
+  return JSON.parse(val);
+};
+
+export const removeValueOnLocalStorage = (key: string) => {
+  localStorage.removeItem(key);
+};

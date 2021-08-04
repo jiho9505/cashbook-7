@@ -1,5 +1,19 @@
 import { Account, Calendar, Statistic, CULTURE, ETC, HEALTH, FOOD, TRAFFIC, SHOPPING, LIFE } from './image-urls';
 
+// Usage : client/src/index.ts
+export const initStoreData = {
+  path: '/',
+  isLoggedIn: false,
+};
+
+// Usage : client/src/index.ts
+export const newStoreData = {
+  path: '/account',
+  year: new Date().getFullYear(),
+  month: new Date().getMonth() + 1,
+  isLoggedIn: true,
+};
+
 export const PATHS = [
   ['/account', Account],
   ['/statistics', Statistic],

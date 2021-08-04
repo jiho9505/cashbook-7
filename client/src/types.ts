@@ -1,3 +1,5 @@
+export type Token = string;
+
 export type Filter = {
   category: string;
   type: string;

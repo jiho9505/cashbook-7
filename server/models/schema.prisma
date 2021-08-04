@@ -12,7 +12,7 @@ generator client {
 
 model User {
   id             Int              @id @default(autoincrement())
-  token          String           @unique
+  githubId       Int              @unique
   Category       Category[]
   PayMethod      PayMethod[]
   AccountHistory AccountHistory[]
