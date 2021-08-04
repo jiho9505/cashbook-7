@@ -88,8 +88,6 @@ const createUserRecordOnDB = async (githubId: GithubId): Promise<UserRecord> => 
 
   await Promise.all([createCategoryPromise, createPayMethodPromise]);
 
-  // Promise.all???
-
   return user;
 };
 
