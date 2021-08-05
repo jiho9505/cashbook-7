@@ -25,10 +25,10 @@ const triggerAfterUserAuthCheck = (accessToken: Token): void => {
 if (getValueOnLocalStorage('refreshToken')) {
   const refresh = getValueOnLocalStorage('refreshToken');
 
-  api.get(`/auth/login?refresh=${refresh}`).then((res) => {
-    const { httpStatus, accessToken } = res.data;
-    if (httpStatus === 'OK') return triggerAfterUserAuthCheck(accessToken);
-  });
+  // api.get(`/auth/login?refresh=${refresh}`).then((res) => {
+  //   const { httpStatus, accessToken } = res.data;
+  //   if (httpStatus === 'OK') return triggerAfterUserAuthCheck(accessToken);
+  // });
 }
 
 /**
