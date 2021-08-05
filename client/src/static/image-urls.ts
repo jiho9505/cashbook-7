@@ -29,3 +29,7 @@ export const TrashCan = BASE_URL + 'trashcan.svg';
 // login
 export const LoginBg = BASE_URL + 'login' + '/login-bg.svg';
 export const GithubIcon = BASE_URL + 'login' + '/github.svg';
+
+// Calendar
+export const ExpenditureIcon = BASE_URL + 'calendar' + '/expenditure.svg';
+export const IncomeIcon = BASE_URL + 'calendar' + '/income.svg';
