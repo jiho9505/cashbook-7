@@ -109,11 +109,7 @@ export default class AccountHistoryModal {
 
   checkAllValidation() {
     const historyContent: HTMLInputElement = document.querySelector('.history-form__content');
-    console.log('historyContent.value.length: ', historyContent.value.length);
-    console.log('this.payMethod.currentCardName.length: ', this.payMethod.currentCardName.length);
-    console.log('this.dateValueValidation: ', this.dateValueValidation);
-    console.log('this.moneyValueValidation: ', this.moneyValueValidation);
-    console.log(' this.choicedCategoryName.length: ', this.choicedCategoryName.length);
+
     if (
       this.payMethod.currentCardName.length > 0 &&
       this.dateValueValidation &&
@@ -133,29 +129,6 @@ export default class AccountHistoryModal {
 
       const price = this.changeToNum(this.moneyInput.value);
 
-      console.log('money: ', price);
-      console.log('cardIndex: ', payMethodIndex);
-      console.log('categoryIndex: ', categoryIndex);
-      console.log('date: ', date);
-      console.log('this.type: ', this.type);
-      // type, price, expenditureDay, categoryId, payMethodId, historyContent
-
-      // 카카오뱅크
-      // 의료/건강
-      // -2,314,141
-      // 1123.11.11
-      // dsadad
-      // expenditure
-
-      /*
-        userId: req.id,
-        price: price * 1,
-        type,
-        historyContent,
-        expenditureDay,
-        categoryId: categoryId * 1,
-        payMethodId: payMethodId * 1,
-      */
       const submitArguments = {
         payMethodId: payMethodIndex,
         categoryId: categoryIndex,
@@ -168,7 +141,6 @@ export default class AccountHistoryModal {
       this.closeModal();
       new ResultMessage('내역이 추가되었습니다❗️');
       handleEvent.fire('createaccounthistory', { state: history.state, submitArguments });
-      // 옵저버 발동
     } else {
       this.showAlert('.history-form__confirm-alert');
     }
