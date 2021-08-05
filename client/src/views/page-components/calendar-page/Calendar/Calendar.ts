@@ -1,31 +1,90 @@
-import { Date, Day, DayInfos, HTMLText, Month, Offset, TargetDateInfos, Year } from '@src/types';
-import { createDOMWithSelector } from '@src/utils/helper';
+import { COLORS_BY_CATEGORY } from '@src/static/constants';
+import { ExpenditureIcon, IncomeIcon } from '@src/static/image-urls';
+import {
+  CalendarData,
+  CalendarModalData,
+  Date,
+  Day,
+  DayInfos,
+  HTMLText,
+  Month,
+  Offset,
+  ServerHistoryData,
+  TargetDateInfos,
+  Year,
+} from '@src/types';
+import handleEvent from '@src/utils/handleEvent';
+import { createDOMWithSelector, formatDataIntoWon, formatDateAsTwoLetters } from '@src/utils/helper';
 
 import './Calendar.scss';
 
 const ALL_DAY_ON_CALENDAR = 42;
 
 export default class CalendarView {
-  $calendarTable: HTMLElement;
-  $tbody: HTMLElement;
+  calendarData: CalendarData;
   dayObj: { year: Year; month: Month };
+  $tbody: HTMLElement;
+  $calendarTable: HTMLElement;
+  $totalMoney: HTMLElement;
 
-  constructor({ parent, currentYear, currentMonth }) {
-    this.$calendarTable = createDOMWithSelector('table', '.calendar__table');
+  constructor({ parent, currentYear, currentMonth, currentCalendarData }) {
+    this.calendarData = this.processServerDataIntoCalendarData(currentCalendarData);
     this.dayObj = { year: currentYear, month: currentMonth };
 
+    this.$calendarTable = createDOMWithSelector('table', '.calendar__table');
+    this.$totalMoney = createDOMWithSelector('div', '.calendar__total-money');
+
     parent.appendChild(this.$calendarTable);
+    parent.appendChild(this.$totalMoney);
+
     this.render();
+
+    document.addEventListener('click', (e) => this.handleModal(e, this));
+  }
+
+  /**
+   * 캘린더 내에 history가 있는 영역을 클릭할 경우,
+   * 해당 날자의 데이터와 함께 모달을 Open 합니다.
+   * 이외의 영역을 클릭할 경우,
+   * 모달을 Close 합니다.
+   */
+  handleModal(e: Event, { dayObj, calendarData }: CalendarView) {
+    if (!(e.target instanceof HTMLElement)) return;
+    if (e.target.closest('.content__calendar__modal')) return;
+    if (!e.target.closest('.contain-data')) return handleEvent.fire('opencalendarmodal', { command: 'close' });
+
+    const target = e.target.closest('.contain-data') as HTMLElement;
+    const targetDay = target.dataset.day;
+    const { year, month } = dayObj;
+
+    const data: CalendarModalData = {
+      date: { year, month, date: targetDay },
+      dayData: calendarData.dayData[`${year}-${formatDateAsTwoLetters(month)}-${formatDateAsTwoLetters(targetDay)}`],
+    };
+    const { top, left } = target.getBoundingClientRect();
+
+    handleEvent.fire('opencalendarmodal', { command: 'open', data, pos: { top, left } });
   }
 
   render() {
     this.$calendarTable.innerHTML = `
       <thead>
-        ${this.getDayDOM()}
-      <thead>
+      ${this.getDayDOM()}
+      </thead>
       <tbody>
-        ${this.getFullDateOnCalendarDOM(this.dayObj)}
-      <tbody>
+      ${this.getFullDateOnCalendarDOM(this.dayObj)}
+      </tbody>
+    `;
+
+    this.$totalMoney.innerHTML = `
+      <div class='calendar__total-money--expenditure'>
+        <img src=${ExpenditureIcon} alt='expenditure'>
+        <span>${formatDataIntoWon(this.calendarData.totalExpenditure)}</span>
+      </div>
+      <div class='calendar__total-money--income'>
+        <img src=${IncomeIcon} alt='income'>
+        <span>${formatDataIntoWon(this.calendarData.totalIncome)}</span>
+      </div>
     `;
   }
 
@@ -77,25 +136,58 @@ export default class CalendarView {
   /**
    * 배열을 순회하며,
    * tr 태그에 해당하는 weekDOM을 생성합니다.
-   * ex) <tr>
-   *        <td>1</td>
-   *        <td>2</td>
+   * ex)
+   *     <tr>
+   *        <td><span>1</span></td>
+   *        <td><span>2</span></td>
    *        ...
    *     </tr>
+   *
+   * 만약, 해당 일에 해당하는 calendarData가 있을 경우,
+   * 색깔을 표시하기 위해 DOM을 생성해서 넣어줍니다.
    */
   getWeekDOM(week: DayInfos[]): HTMLText {
     const $tr = createDOMWithSelector('tr');
 
     week.forEach(({ day, isCurrentMonthDate }) => {
       const $td = createDOMWithSelector('td');
-
       if (!isCurrentMonthDate) $td.classList.add('not-current-month-date');
-      $td.innerText = `${day}`;
+
+      const $span = createDOMWithSelector('span');
+      $span.innerText = `${day}`;
+      $td.appendChild($span);
+
+      if (isCurrentMonthDate) {
+        $td.setAttribute('data-day', day.toString());
+        const { year, month } = this.dayObj;
+        const dayFormat = `${year}-${formatDateAsTwoLetters(month)}-${formatDateAsTwoLetters(day)}`;
+
+        if (dayFormat in this.calendarData.dayData) {
+          $td.classList.add('contain-data');
+
+          const $containCategory = createDOMWithSelector('div', '.contain-category');
+          const categoryColorDOMs = this.getCategoryColorDOMs(dayFormat);
+
+          $containCategory.innerHTML = categoryColorDOMs;
+          $td.appendChild($containCategory);
+        }
+      }
+
       $tr.appendChild($td);
     });
 
     return $tr.outerHTML;
   }
+
+  /**
+   * 데이터에서 dayFormat 키에 해당하는 category를 가져와서,
+   * DOM으로 변경한 후 반환합니다.
+   */
+  getCategoryColorDOMs = (dayFormat: string): HTMLText => {
+    return this.calendarData.dayData[dayFormat].containCategory
+      .map((cat) => `<div class='contain-category__color' style='background-color:${COLORS_BY_CATEGORY[cat]}'></div>`)
+      .join('');
+  };
 
   /**
    * 달력을 일주일 단위로 분할합니다.
@@ -152,5 +244,47 @@ export default class CalendarView {
     const dayIdx = day === 6 ? 0 : day;
     const FIRST_DATE = 1;
     return dayIdx - FIRST_DATE;
+  }
+
+  /**
+   * 서버의 데이터를 받아,
+   * View 를 위해 사용할 데이터를 가공합니다.
+   * 서버 데이터를 iterate 하며 CalendarDataType에 맞게 공정을 거칩니다.
+   *
+   * FIXME: 현재 더 좋은 로직이 생각나지 않고,
+   * 시간이 없기에 그냥 넘어가지만
+   * 리팩토링을 한다면 더 좋은 로직으로 개선할 수 있다고 생각합니다.
+   */
+  processServerDataIntoCalendarData(history: ServerHistoryData[]) {
+    const calendarData: CalendarData = {
+      dayData: {},
+      totalIncome: 0,
+      totalExpenditure: 0,
+    };
+
+    history.forEach(({ price, historyContent, expenditureDay, category: { name: categoryName } }) => {
+      if (!calendarData.dayData[expenditureDay])
+        calendarData.dayData[expenditureDay] = {
+          detail: [{ price, category: categoryName, historyContent }],
+          containCategory: [categoryName],
+          dayTotalIncome: categoryName === 'income' ? price : 0,
+          dayTotalExpenditure: categoryName === 'income' ? 0 : price,
+        };
+      else {
+        calendarData.dayData[expenditureDay].detail.push({ price, category: categoryName, historyContent });
+
+        if (!calendarData.dayData[expenditureDay].containCategory.includes(categoryName))
+          calendarData.dayData[expenditureDay].containCategory.push(categoryName);
+
+        categoryName === 'income'
+          ? (calendarData.dayData[expenditureDay].dayTotalIncome += price)
+          : (calendarData.dayData[expenditureDay].dayTotalExpenditure += price);
+      }
+
+      if (categoryName === 'income') calendarData.totalIncome += price;
+      else calendarData.totalExpenditure += price;
+    });
+
+    return calendarData;
   }
 }

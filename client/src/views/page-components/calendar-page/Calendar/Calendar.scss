@@ -65,12 +65,68 @@
                 }
 
                 &:not(.not-current-month-date){
-                    cursor:pointer;
                     &:hover{
                       filter: drop-shadow(4px 4px 20px rgba(0, 0, 0, 0.25));
                     }
                 }
+
+                &.contain-data{
+                    cursor:pointer;
+                }
+
+                span{
+                    display:block;
+                    height:18px;
+                }
+
+                .contain-category{
+                    height:fit-content;
+                    width:100%;
+                    margin-top:20px;
+                    padding: 0 5px;
+
+                    display:grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    grid-template-rows: repeat(2, 1fr);
+                    gap:5px;
+
+                    div{
+                        width:18px;
+                        height:18px;
+                        border-radius:50%;
+                        place-self:center;
+                    }
+                }
             }
         }
+    }
+}
+
+@mixin totalMoneyFontStyleMixin {
+    font-family: Raleway;
+    font-weight: bold;
+    font-size: 22px;
+}
+.calendar__total-money{
+    display:flex;
+    height:50px;
+    justify-content: flex-end;
+
+    span{
+        @include totalMoneyFontStyleMixin;
+        padding: 15px;
+    }
+
+    .calendar__total-money--expenditure{
+        display:flex;
+        align-items: center;
+        color: #E63950;
+        margin-right:10px;
+    }
+
+    .calendar__total-money--income{
+        display:flex;
+        align-items: center;
+        color: #1289A7;
     }
 }

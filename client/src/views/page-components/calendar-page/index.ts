@@ -1,21 +1,32 @@
+import { api } from '@src/models/api';
 import { Month, Year } from '@src/types';
 import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
-import CalendarView from './Calendar/Calendar';
 
 import './index.scss';
+import CalendarView from './Calendar/Calendar';
+import CalendarModal from './CalendarModal/CalendarModal';
 
 export default class CalendarPageView {
   currentYear: Year;
   currentMonth: Month;
+  currentCalendarData: [];
 
   constructor() {
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
-      const { path, month, year } = e.detail.state;
+      const { path, month, year, accessToken } = e.detail.state;
       if (path !== '/calendar') return;
       this.currentYear = year;
       this.currentMonth = month;
-      this.render();
+
+      const fetchCalendarDataURL = `/account-history?expenditureDay=${year}-${month.toString().padStart(2, '0')}`;
+
+      api.get(fetchCalendarDataURL, accessToken).then((res) => {
+        if (res.success) {
+          this.currentCalendarData = res.data.accountHistory;
+          this.render();
+        }
+      });
     });
   }
 
@@ -26,6 +37,8 @@ export default class CalendarPageView {
       parent: $('.content__calendar'),
       currentYear: this.currentYear,
       currentMonth: this.currentMonth,
+      currentCalendarData: this.currentCalendarData,
     });
+    new CalendarModal({ parent: $('.content__calendar') });
   }
 }

@@ -1,0 +1,120 @@
+@mixin calendarModalFontMixin {
+    font-family: Raleway;
+    font-weight: bold;
+}
+
+@mixin controllTextOverflowMixin{
+    overflow-x:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+@mixin modalAnimationAttribute{
+    opacity:0;
+    z-index:-1;
+
+    &.open{
+        opacity:1;
+        z-index:1;
+    }
+
+    transition:all .2s ease;
+}
+
+.content__calendar__modal{
+    @include modalAnimationAttribute;
+
+    position: absolute;
+    width: 233px;
+    height: 251px;
+    padding: 15px 20px;
+    
+    background: #FFFFFF;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+
+    .modal__title{
+        @include calendarModalFontMixin;
+        font-size: 14px;
+
+        color: var(--font-color);
+    }
+
+    .modal__total-history{
+        display:flex;
+        align-items:center;
+        width:100%;
+        height:20px;
+        margin-top:17px;
+        
+        div {
+            display:flex;
+            align-items:center;
+            width:50%;
+
+            img {
+                height:20px;
+            }
+
+            span {
+                @include calendarModalFontMixin;
+                height:fit-content;
+                line-height:7px;
+                margin-left:7px;
+                font-size:12px;
+            }
+
+            
+
+            &.modal__total-history--expenditure{
+                color:#E63950;
+            }
+
+            &.modal__total-history--income{
+                color:#1289A7;
+            }
+        }        
+    }
+
+    .modal__detail-history{
+        overflow-y:scroll;
+        width:100%;
+        height:calc(100% - 74px);
+        margin-top:17px;
+
+        .detail-history{
+            display:grid;
+            grid-template-columns: 1fr 4fr 2fr;
+            height:30px;
+            gap:12px;
+
+            img {
+                width:28px;
+            }
+
+            span{
+                @include calendarModalFontMixin;
+                font-size:12px;
+                align-self:center;
+                
+                &:not(:last-child){
+                    overflow:hidden;
+                    white-space:nowrap;
+                    text-overflow:ellipsis;
+                }
+
+                &:last-child{
+                    text-align:right;
+                }
+            }
+        }
+
+        .detail-history:not(:last-child){
+            margin-bottom:15px;
+        }
+
+        &::-webkit-scrollbar{
+            display:none;
+        }
+    }
+}

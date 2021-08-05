@@ -1,4 +1,16 @@
-import { Account, Calendar, Statistic, CULTURE, ETC, HEALTH, FOOD, TRAFFIC, SHOPPING, LIFE } from './image-urls';
+import {
+  Account,
+  Calendar,
+  Statistic,
+  CULTURE,
+  ETC,
+  HEALTH,
+  FOOD,
+  TRAFFIC,
+  SHOPPING,
+  LIFE,
+  INCOME,
+} from './image-urls';
 
 // Usage : client/src/index.ts
 export const initStoreData = {
@@ -48,6 +60,7 @@ export const PICTOGRAM = {
   life: LIFE,
   shopping: SHOPPING,
   traffic: TRAFFIC,
+  income: INCOME,
 };
 
 export const COLORS_BY_CATEGORY = {
@@ -58,6 +71,7 @@ export const COLORS_BY_CATEGORY = {
   life: '#5758BB',
   shopping: '#FFC312',
   traffic: '#006266',
+  income: '#1289A7',
 };
 
 export const NAME_BY_CATEGORY = {
@@ -68,5 +82,6 @@ export const NAME_BY_CATEGORY = {
   life: '생활',
   shopping: '쇼핑/뷰티',
   traffic: '교통',
+  income: '수입',
 };
 export const categoryList = ['문화', '의료/건강', '음식', '교통', '생활', '쇼핑/뷰티', '기타'];
