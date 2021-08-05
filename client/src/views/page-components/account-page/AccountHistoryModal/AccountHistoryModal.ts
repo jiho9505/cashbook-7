@@ -1,6 +1,13 @@
 import { $, createDOMWithSelector, removeActiveAttributeOnClass } from '@src/utils/helper';
 import handleEvent from '@src/utils/handleEvent';
-import { categoryList, matchCategoryAndImg } from '@src/static/constants';
+import {
+  categoryList,
+  changeCardEnglishNameToNum,
+  changeCardNameFromKoreanToEng,
+  changeCategoryEnglishNameToNum,
+  changeCategoryNameFromKoreanToEng,
+  matchCategoryAndImg,
+} from '@src/static/constants';
 import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import ResultMessage from '@src/views/components/ResultMessage/ResultMessage';
 import './AccountHistoryModal.scss';
@@ -32,23 +39,19 @@ export default class AccountHistoryModal {
 
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
-      this.setProperty(e.detail);
-
       this.modalWrapper = createDOMWithSelector('div', '.account-history-wrapper');
       this.render();
 
       const payMethodForm = $('.history-form__pay-method');
 
+      this.dateInput = $('.history-form__date');
+      this.moneyInput = $('.history-form__money');
       this.payMethod = new PayMethods({ parent: payMethodForm, state: samplePay, filter: {} });
       this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
       this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
       this.modalWrapper.addEventListener('focusout', this.onFocusOutInputHandler.bind(this));
       this.modalWrapper.addEventListener('focusin', this.onFocusInInputHandler.bind(this));
     });
-  }
-
-  setProperty(state): void {
-    this.state = state;
   }
 
   render(): void {
@@ -88,6 +91,7 @@ export default class AccountHistoryModal {
         this.choicedCategoryName = '';
       } else {
         targetElement.classList.add('active');
+        console.log(target.innerText);
         this.choicedCategoryName = target.innerText;
         removeActiveAttributeOnClass(currentItemIndex, document, '.history-form__category-list');
       }
@@ -105,7 +109,11 @@ export default class AccountHistoryModal {
 
   checkAllValidation() {
     const historyContent: HTMLInputElement = document.querySelector('.history-form__content');
-
+    console.log('historyContent.value.length: ', historyContent.value.length);
+    console.log('this.payMethod.currentCardName.length: ', this.payMethod.currentCardName.length);
+    console.log('this.dateValueValidation: ', this.dateValueValidation);
+    console.log('this.moneyValueValidation: ', this.moneyValueValidation);
+    console.log(' this.choicedCategoryName.length: ', this.choicedCategoryName.length);
     if (
       this.payMethod.currentCardName.length > 0 &&
       this.dateValueValidation &&
@@ -115,16 +123,47 @@ export default class AccountHistoryModal {
     ) {
       this.checkIncomeOrExpenditure();
 
+      const payMethodEnglishName = changeCardNameFromKoreanToEng[this.payMethod.currentCardName];
+      const payMethodIndex = changeCardEnglishNameToNum[payMethodEnglishName];
+
+      const categoryEnglishName = changeCategoryNameFromKoreanToEng[this.choicedCategoryName];
+      const categoryIndex = changeCategoryEnglishNameToNum[categoryEnglishName];
+
+      const date = this.changeSign(this.dateInput.value);
+
+      const price = this.changeToNum(this.moneyInput.value);
+
+      console.log('money: ', price);
+      console.log('cardIndex: ', payMethodIndex);
+      console.log('categoryIndex: ', categoryIndex);
+      console.log('date: ', date);
+      console.log('this.type: ', this.type);
+      // type, price, expenditureDay, categoryId, payMethodId, historyContent
+
+      // 카카오뱅크
+      // 의료/건강
+      // -2,314,141
+      // 1123.11.11
+      // dsadad
+      // expenditure
+
+      /*
+        userId: req.id,
+        price: price * 1,
+        type,
+        historyContent,
+        expenditureDay,
+        categoryId: categoryId * 1,
+        payMethodId: payMethodId * 1,
+      */
       const submitArguments = {
-        //   user:,
-        card: this.payMethod.currentCardName,
-        category: this.choicedCategoryName,
-        money: this.moneyInput.value as HTMLInputElement,
-        date: this.dateInput.value as HTMLInputElement,
-        content: historyContent.value,
+        payMethodId: payMethodIndex,
+        categoryId: categoryIndex,
+        price,
+        expenditureDay: date,
+        historyContent: historyContent.value,
         type: this.type,
       };
-      console.log('Form Success');
 
       this.closeModal();
       new ResultMessage('내역이 추가되었습니다❗️');
@@ -133,6 +172,15 @@ export default class AccountHistoryModal {
     } else {
       this.showAlert('.history-form__confirm-alert');
     }
+  }
+
+  /**
+   * DB에 넣기 적절한 부호로 바꾸는 함수입니다.
+   * ex> 2021.03.21 -> 2021-03-21
+   */
+  changeSign(value) {
+    const newValue = value.replace(/[.]/g, '-');
+    return newValue;
   }
 
   checkIncomeOrExpenditure() {
@@ -174,7 +222,7 @@ export default class AccountHistoryModal {
   }
 
   formatDateValue() {
-    const DateValue: string = this.dateInput.value;
+    const DateValue = this.dateInput.value;
     const DateArray = DateValue.split('');
     const firstIndexToPutDot = 4;
     const secondIndexToPutDot = 6;
@@ -260,6 +308,11 @@ export default class AccountHistoryModal {
   checkInputValueOnlyNumberRegex(target) {
     const regex = /[^0-9|]/g;
     target.value = target.value.replace(regex, '');
+  }
+
+  changeToNum(value) {
+    const regex = /[^0-9|]/g;
+    return value.replace(regex, '');
   }
 
   checkInputMaxLengthRegex(target, maxLength) {
@@ -372,7 +425,7 @@ export default class AccountHistoryModal {
       .map((category, idx) => {
         return `
             <div class="history-form__category-list">
-                <img class='category-item' data-idx=${idx} src=${matchCategoryAndImg[category]}>
+                <img  src=${matchCategoryAndImg[category]}>
                 <span class='category-item' data-idx=${idx} >${category}</span>
             </div>
         `;
