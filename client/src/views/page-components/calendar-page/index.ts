@@ -5,6 +5,7 @@ import { $ } from '@src/utils/helper';
 import './index.scss';
 import CalendarView from './Calendar/Calendar';
 import { api } from '@src/models/api';
+import CalendarDetailInfoModal from './CalendarDetailInfoModal/CalendarDetailInfoModal';
 
 export default class CalendarPageView {
   currentYear: Year;
@@ -38,5 +39,6 @@ export default class CalendarPageView {
       currentMonth: this.currentMonth,
       currentCalendarData: this.currentCalendarData,
     });
+    new CalendarDetailInfoModal();
   }
 }
