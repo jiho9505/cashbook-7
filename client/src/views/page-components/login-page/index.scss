@@ -1,61 +1,77 @@
+@mixin spanStyle {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  color: var(--font-color);
+}
+
 .login {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
+  min-width:1500px;
   height: 100%;
   display: flex;
-  overflow: hidden;
 
   .login__logo {
-    position: absolute;
-    width: 200px;
-    top: 40px;
-    height: 113px;
-    left: 61px;
     z-index: 1;
+    position: absolute;
+    top: 40px;
+    left: 51px;
+    width: 200px;
+    height: 113px;
 
     img {
-      width: 100%;
+      width: 120%;
     }
   }
 
   .login__left-part {
-    width: 70%;
+    position:relative;
+    width: 65%;
     height: 100%;
-    background: #e9eeff;
+    background-color: #e9eeff;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 50px;
     position: relative;
 
+    &::after{
+      position:absolute;
+      top:0;
+      right:-50px;
+      content:'';
+
+      border-top: 610px solid #e9eeff;
+      border-right: 50px solid transparent;
+      z-index:999;
+    }
+
     img {
-      width: 600px;
-      height: 350px;
+      width: 500px;
+      margin-bottom:100px;
     }
 
     .login__guide {
-      width: 800px;
-      height: 65px;
+      @include spanStyle;
 
-      font-family: Raleway;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 50px;
-      line-height: 40px;
+      width: 700px;
+      font-size: 35px;
       text-align: center;
-      color: var(--font-color);
+
+      margin-bottom:60px;
     }
 
     .login__guide-detail {
-      width: 800px;
+      @include spanStyle;
+
+      width: 700px;
       height: 70px;
-      font-family: Raleway;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 30px;
+
+      font-weight:normal;
+      font-size: 25px;
       line-height: 40px;
       color: var(--font-color);
     }
@@ -67,29 +83,41 @@
     현재 겪는 어려움은
     height: 0;
     border-left: 600px solid #e9eeff;
-    border-bottom: 2000px solid white;
+    border-bottom: 2000px solid #fff;
     width는 border 커야하고 border는 px로 고정값이여야 사다리꼴이 된다.
     하지만 달라지는 높이에 맞춰서 border의 정확한 값 알기엔 미루는게 나아보임
     또한 height가 0이므로 로그인버튼 등 flex로 가운데로 안땡겨짐 margin을 줘야하는데
     복잡해보여서 기능를 우선적으로 구현하는게 낫다싶어 TODO로 배치함!
   */
   .login__right-part {
-    width: 30%;
-    height: 100%;
-    background-color: white;
+    position:relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 70px;
+    width: 35%;
+    padding-top: 300px;
+    gap: 150px;
+    background-color: #fff;
+
+    &::before{
+      position:absolute;
+      content:'';
+
+      bottom:0;
+      left:-50px;
+      width: 0;
+      height: 0;
+      border-left: 50px solid transparent;
+      // border-right: 50px solid transparent;
+      border-bottom: 610px solid #fff;
+    }
 
     .login__welcome {
+      @include spanStyle;
+
       width: 300px;
       height: 75px;
-      font-family: Raleway;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 30px;
+      font-size: 25px;
       line-height: 40px;
       text-align: center;
       color: var(--font-color);
@@ -100,28 +128,37 @@
     }
 
     .login__button {
-      cursor: pointer;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      
       width: 417px;
       height: 74px;
+      padding: 0 40px;
       border: none;
-      background: #e9eeff;
       border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      background-color: #e9eeff;
+      cursor: pointer;
 
       span {
+        @include spanStyle;
         width: 253px;
         height: 40px;
-        font-family: Raleway;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 27px;
+        
+        font-size: 20px;
         line-height: 40px;
         text-align: center;
         color: var(--concept-color-span);
       }
     }
   }
+}
+
+.triangle{
+  position:absolute;
+  width: 0;
+  height: 0;
+  border-left: 250px solid transparent;
+  border-right: 250px solid transparent;
+  border-bottom: 500px solid red;
 }

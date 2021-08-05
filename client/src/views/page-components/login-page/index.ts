@@ -1,4 +1,4 @@
-import { GithubIcon, LoginBg, SimplifiedLogo } from '@src/static/image-urls';
+import { GithubIcon, LoginBg, LoginLogo } from '@src/static/image-urls';
 import handleEvent from '@src/utils/handleEvent';
 import { $, createDOMWithSelector } from '@src/utils/helper';
 
@@ -29,43 +29,43 @@ export default class LoginView {
 
   render(): void {
     this.loginWrapper.innerHTML = `
-    ${this.createLogo()}
-    ${this.createLeftPartInPage()}
-    ${this.createRightPartInPage()}
+      ${this.createLogo()}
+      ${this.createLeftPartInPage()}
+      ${this.createRightPartInPage()}
     `;
+    console.log(screen.height);
   }
 
   createLogo() {
     return `
       <div class="login__logo">
-        <img src=${SimplifiedLogo}> 
+        <img src=${LoginLogo}> 
       </div>
     `;
   }
 
   createLeftPartInPage() {
     return `
-    <div class="login__left-part">
-      <img src=${LoginBg}>
-      <div class="login__guide">
-          <div>자신감 있게 돈을 관리해보세요.</div>
+      <div class="login__left-part">
+        <img src=${LoginBg}>
+        <div class="login__guide">
+            <div>자신감 있게 돈을 관리해보세요.</div>
+        </div>
+        <div class="login__guide-detail">
+            <div>통찰력을 갖고 돈의 흐름을 통제해보세요. <br>여러 가지 도구들로 당신이 올바른 결정을 할 수 있도록 도와줍니다.</div>
+        </div>
       </div>
-      <div class="login__guide-detail">
-          <div>통찰력을 갖고 돈의 흐름을 통제해보세요. <br>여러 가지 도구들로 당신이 올바른 결정을 할 수 있도록 도와줍니다.</div>
-      </div>
-    </div>
     `;
   }
 
   createRightPartInPage() {
     return `
-    <div class="login__right-part">
-        <div class="login__welcome">
-          <div>Sign In<br> to <span class='highlight'>woowahan</span> ledger</div>
-        </div>
-        ${this.createLoginButton()}
-        
-    </div>
+      <div class="login__right-part">
+          <div class="login__welcome">
+            <div>Sign In<br> to <span class='highlight'>woowahan</span> ledger</div>
+          </div>
+          ${this.createLoginButton()}
+      </div>
     `;
   }
 
