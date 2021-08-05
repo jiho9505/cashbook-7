@@ -20,7 +20,11 @@ export default class CalendarModal {
     handleEvent.subscribe('opencalendarmodal', (e: CustomEvent) => {
       if (!this.isModalOpened && e.detail.command === 'close') return;
       if (e.detail.command === 'close') return this.closeModal();
-      if (e.detail.command === 'open') this.openModal(e.detail.data);
+      if (e.detail.command === 'open') {
+        this.closeModal();
+        this.setModalPosition(e);
+        this.openModal(e.detail.data);
+      }
     });
   }
 
@@ -43,9 +47,22 @@ export default class CalendarModal {
     this.render();
   }
 
+  /**
+   * 모달의 위치를 정해줍니다.
+   */
+  setModalPosition(e: CustomEvent) {
+    const { top, left } = e.detail.pos;
+    const offsetX = -40;
+    const offsetY = 220;
+
+    this.$CalendarModal.setAttribute('style', `top:${top - offsetY}px;left:${left - offsetX}px`);
+  }
+
   render() {
     const { date: dateData, dayData } = this.data;
     const { date, month, year } = dateData;
+
+    if (!dayData) return;
     const { detail, dayTotalExpenditure, dayTotalIncome } = dayData;
 
     this.$CalendarModal.innerHTML = `
