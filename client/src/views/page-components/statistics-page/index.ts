@@ -1,4 +1,3 @@
-import { dummyData } from '@src/dummyData';
 import handleEvent from '@src/utils/handleEvent';
 import { $ } from '@src/utils/helper';
 
@@ -7,7 +6,7 @@ import RecentlyAccountHistory from './RecentlyAccountHistory/RecentlyAccountHist
 import ExpenseByAllCategory from './ExpenseByAllCategory/ExpenseByAllCategory';
 import ExpenseBySpecificCategory from './ExpenseBySpecificCategory/ExpenseBySpecificCategory';
 import { api } from '@src/models/api';
-import { ServerHistoryData } from '@src/types';
+import { Month, ServerHistoryData, Year } from '@src/types';
 
 export default class StatisticsPageView {
   store = {
@@ -16,19 +15,23 @@ export default class StatisticsPageView {
     expenseBySpecificCategory: [],
   };
 
+  userCategoryInfos = [];
+  accessToken: string;
+  year: Year;
+  month: Month;
+
   constructor() {
     handleEvent.subscribe('storeupdated', (e: CustomEvent) => {
       const { path, month, year, accessToken } = e.detail.state;
       if (path !== '/statistics') return;
-
-      console.log(month, year, accessToken);
+      this.accessToken = accessToken;
+      this.year = year;
+      this.month = month;
 
       const fetchCalendarDataURL = `/account-history?expenditureDay=${year}-${month.toString().padStart(2, '0')}`;
 
       api.get(fetchCalendarDataURL, accessToken).then((res) => {
         if (res.success) {
-          // this.currentCalendarData = res.data.accountHistory;
-
           this.processServerDataIntoStatisticsData(res.data.accountHistory);
           this.render();
         }
@@ -39,11 +42,9 @@ export default class StatisticsPageView {
   processServerDataIntoStatisticsData(data: ServerHistoryData[]): void {
     const expenseByAllCategory = this.processDataIntoExpenseByAllCategory(data);
     const recentlyAccountData = this.processDataIntoRecentlyAccountData(data);
-    const expenseBySpecificCategory = this.processDataIntoExpenseBySpecificCategory(data);
 
     this.store.expenseByAllCategory = expenseByAllCategory;
     this.store.recentlyAccountData = recentlyAccountData;
-    this.store.expenseBySpecificCategory = expenseBySpecificCategory;
   }
 
   /**
@@ -61,7 +62,7 @@ export default class StatisticsPageView {
     });
 
     const expenseByAllCategory = Object.entries(amountByCategory).map(([category, value]) => {
-      return { category, percent: (value / onlyExpenditureData.length).toFixed(2) };
+      return { category, percent: Number((value / onlyExpenditureData.length).toFixed(6)) };
     });
 
     return expenseByAllCategory;
@@ -107,9 +108,19 @@ export default class StatisticsPageView {
   }
 
   render() {
+    console.log(this.store.expenseByAllCategory);
     $('.content-wrap').innerHTML = `<div class='content__statistics'></div>`;
-    // new ExpenseByAllCategory({ parent: $('.content__statistics'), state: this.store.expenseByAllCategory });
+    new ExpenseByAllCategory({
+      parent: $('.content__statistics'),
+      state: this.store.expenseByAllCategory,
+      token: this.accessToken,
+    });
     // new RecentlyAccountHistory({ parent: $('.content__statistics'), state: this.store.recentlyAccountData });
-    new ExpenseBySpecificCategory({ parent: $('.content__statistics'), state: this.store.expenseBySpecificCategory });
+    new ExpenseBySpecificCategory({
+      parent: $('.content__statistics'),
+      year: this.year,
+      month: this.month,
+      token: this.accessToken,
+    });
   }
 }
