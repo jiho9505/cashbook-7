@@ -74,7 +74,7 @@ export const NAME_BY_CATEGORY = {
   traffic: '교통',
   income: '수입',
 };
-export const categoryList = ['문화/여가', '의료/건강', '식비', '교통', '생활', '쇼핑/뷰티', '기타'];
+export const categoryList = ['문화/여가', '기타', '식비', '의료/건강', '생활', '쇼핑/뷰티', '교통'];
 export const payMethodNameList = [
   '신한카드',
   '우리카드',
@@ -132,3 +132,14 @@ export const objToChangeCardEnglishNameToNum = {
   money: 6,
   etc: 7,
 };
+
+export const CardsForModal = [
+  { payMethodName: '신한카드', payMethodMoney: '' },
+  { payMethodName: '우리카드', payMethodMoney: '' },
+  { payMethodName: '카카오뱅크', payMethodMoney: '' },
+  { payMethodName: '롯데카드', payMethodMoney: '' },
+  { payMethodName: '현대카드', payMethodMoney: '' },
+  { payMethodName: '삼성카드', payMethodMoney: '' },
+  { payMethodName: '현금', payMethodMoney: '' },
+  { payMethodName: '기타', payMethodMoney: '' },
+];
