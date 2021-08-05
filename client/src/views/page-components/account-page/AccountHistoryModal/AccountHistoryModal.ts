@@ -256,9 +256,17 @@ export default class AccountHistoryModal {
   }
 
   checkDateInputValueValidation(target) {
-    const month = target.value.slice(4, 6);
-    const day = target.value.slice(6, 8);
-    if (0 < Number(month) && 13 > Number(month) && 31 > Number(day) && 0 < Number(day)) return false;
+    if (target.value.length === 8) {
+      const year = target.value.slice(0, 4);
+      const month = target.value.slice(4, 6);
+      const day = target.value.slice(6, 8);
+
+      const lastday = new Date(year, month, 0).getDate();
+
+      if (0 < Number(month) && 13 > Number(month) && lastday >= Number(day) && 0 < Number(day)) return false;
+      return true;
+    }
+
     return true;
   }
 
