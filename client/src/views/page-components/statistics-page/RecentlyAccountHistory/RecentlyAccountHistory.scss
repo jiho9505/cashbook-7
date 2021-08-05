@@ -30,7 +30,10 @@
         height:calc(100% - 55px);
         display:flex;
         flex-direction: column;
-        justify-content: space-evenly;
+
+        .recently-account:not(:last-child){
+            margin-bottom:25px;
+        }
 
         .recently-account{
             display:flex;

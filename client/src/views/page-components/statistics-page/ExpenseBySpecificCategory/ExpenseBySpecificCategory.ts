@@ -1,27 +1,60 @@
-import { Coord, Expense, HTMLText } from '@src/types';
+import { api } from '@src/models/api';
+import { NAME_BY_CATEGORY } from '@src/static/constants';
+import { Coord, Expense, HTMLText, ServerHistoryData } from '@src/types';
+import handleEvent from '@src/utils/handleEvent';
 import { $, createDOMWithSelector } from '@src/utils/helper';
-import './ExpenseByDay.scss';
+import './ExpenseBySpecificCategory.scss';
 
 type OpposedLineType = {
   length: number;
   angle: number;
 };
 
-export default class ExpenseByDay {
-  $ExpenseByDay: HTMLElement;
+export default class ExpenseBySpecificCategory {
+  $ExpenseBySpecificCategory: HTMLElement;
   data: Expense[];
+  categoryInfo: { id: number; name: string };
 
-  constructor({ parent, state }) {
-    this.$ExpenseByDay = createDOMWithSelector('div', '.expense-by-category');
-    this.data = state;
+  constructor({ parent, year, month, token }) {
+    this.$ExpenseBySpecificCategory = createDOMWithSelector('div', '.expense-by-category');
+    parent.appendChild(this.$ExpenseBySpecificCategory);
 
-    parent.appendChild(this.$ExpenseByDay);
-    this.render();
+    handleEvent.subscribe('changecategory', (e: CustomEvent) => {
+      this.categoryInfo = e.detail.category;
+
+      const fetchCalendarDataURL = `/account-history?expenditureDay=${year}-${month
+        .toString()
+        .padStart(2, '0')}&categoryId=${e.detail.category.id}`;
+
+      api.get(fetchCalendarDataURL, token).then((res) => {
+        if (res.success) {
+          this.data = this.processDataIntoExpenseBySpecificCategory(res.data.accountHistory);
+          this.render();
+        }
+      });
+    });
+  }
+
+  /**
+   * 서버 데이터를 가공하여
+   * 각 날짜에 지출 금액을 더해 반환합니다.
+   */
+  processDataIntoExpenseBySpecificCategory(data: ServerHistoryData[]) {
+    const MAX_MONTH_DATE = 31;
+    const expenseByLife = [...new Array(MAX_MONTH_DATE)].map((_) => 0);
+
+    const onlyExpenditureData = data.filter(({ category }) => category.name !== 'income');
+    onlyExpenditureData.forEach(({ expenditureDay, price }) => {
+      const day = parseInt(expenditureDay.split('-')[2]);
+      expenseByLife[day - 1] += price;
+    });
+
+    return expenseByLife;
   }
 
   render() {
-    this.$ExpenseByDay.innerHTML = `
-        <span>생활 카테고리 소비 추이</span>
+    this.$ExpenseBySpecificCategory.innerHTML = `
+        <span>${NAME_BY_CATEGORY[this.categoryInfo.name]} 카테고리 소비 추이</span>
         <div class='expense-by-category__content'>
           <div class='content__expense-delimiter'>
             ${this.getExpenseDelimiterDOM(this.data)}
@@ -192,7 +225,7 @@ export default class ExpenseByDay {
    */
   getCoordinates(data: Expense[]): Coord[][] {
     const { width: SVGWidth, height: SVGHeight } = $('.content__curved-chart').getBoundingClientRect();
-    const maxDayOnMonth = 30;
+    const maxDayOnMonth = 31;
 
     const intervalX = SVGWidth / (maxDayOnMonth - 1);
 

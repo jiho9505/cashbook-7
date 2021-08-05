@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
  * 기간은 각각 access 는 30분, refresh 는 1주일입니다.
  */
 
-const ACCESS_TOKEN_EXPIRE_DURATION = '30m';
+const ACCESS_TOKEN_EXPIRE_DURATION = '6h';
 const REFRESH_TOKEN_EXPIRE_DURATION = '1w';
 
 export const createJWTToken = (payload: any) => {
