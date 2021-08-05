@@ -11,7 +11,7 @@ const REFRESH_TOKEN_EXPIRE_DURATION = '1w';
 export const createJWTToken = (payload: any) => {
   const SECRET_KEY: string = process.env.SECRET_KEY as string;
 
-  const accessToken = jwt.sign({ data: payload }, SECRET_KEY, { expiresIn: ACCESS_TOKEN_EXPIRE_DURATION });
+  const accessToken = jwt.sign({ payload }, SECRET_KEY, { expiresIn: ACCESS_TOKEN_EXPIRE_DURATION });
   const refreshToken = jwt.sign({ payload }, SECRET_KEY, { expiresIn: REFRESH_TOKEN_EXPIRE_DURATION });
 
   return { accessToken, refreshToken };
