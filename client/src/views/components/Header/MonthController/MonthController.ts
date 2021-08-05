@@ -11,7 +11,6 @@ export default class MonthController {
   currentMonth: Month;
 
   constructor(year: Year, month: Month) {
-    console.log('call');
     this.$monthController = createDOMWithSelector('div', '.header__month-controller');
     $('header').appendChild(this.$monthController);
     this.currentYear = year;

@@ -74,7 +74,6 @@ class Model {
   storeData(e: CustomEvent) {
     const { path, ...nextState } = e.detail.state;
     this.store = { ...this.store, ...nextState };
-    console.log(this.store);
   }
 
   /**
