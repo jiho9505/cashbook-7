@@ -22,7 +22,7 @@ router.get('/', checkToken(), async (req: any, res) => {
     const accountHistory = await db.accountHistory.findMany({
       where: { ...opt, userId: req.id },
       include: {
-        category: { select: { name: true } },
+        category: { select: { id: true, name: true } },
         payMethod: { select: { id: true, name: true } },
       },
     });
