@@ -1,26 +1,20 @@
 import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import handleEvent from '@src/utils/handleEvent';
 import { $, createDOMWithSelector } from '@src/utils/helper';
-import { sampleHistory } from '@src/dummyData';
 import { api } from '@src/models/api';
 
 import './index.scss';
 
 import AccountHistory from './AccountHistory/AccountHistory';
 import Balance from './Balance/Balance';
-import { categoryList, payMethodNameList } from '@src/static/constants';
+import { categoryList, initFilterData, initHistoryData, payMethodNameList } from '@src/static/constants';
 
 export default class AccountView {
   state = {
     balance: '',
     payMethods: [],
-    accountHistory: sampleHistory,
-    filter: {
-      category: '',
-      type: '',
-      day: '',
-      card: '',
-    },
+    accountHistory: initHistoryData,
+    filter: initFilterData,
   };
 
   constructor() {
@@ -47,21 +41,38 @@ export default class AccountView {
     if (month < 10) month = '0' + month.toString();
 
     const formattedYearMonth = `${year}-${month}`;
+    e.detail.filter ? (this.state.filter = e.detail.filter) : '';
 
-    const datas = await api.get(`/account-history?expenditureDay=${formattedYearMonth}`, accessToken);
+    let queryString = '';
+    queryString = this.setQueryString(queryString, formattedYearMonth);
 
-    if (datas.success) {
-      const accountDatas = datas.data.accountHistory;
+    const filteredDataObj = await api.get(`/account-history?${queryString}`, accessToken);
+    const WholeDataObj = await api.get(`/account-history?expenditureDay=${formattedYearMonth}`, accessToken);
 
-      this.makeBalance(accountDatas);
-      this.makePayMethodInfo(accountDatas);
-      this.makeAccountHistoryInfo(accountDatas);
+    if (filteredDataObj.success && WholeDataObj.success) {
+      const filteredData = filteredDataObj.data.accountHistory;
+      const WholeData = WholeDataObj.data.accountHistory;
+
+      this.makeBalance(WholeData);
+      this.makePayMethodInfo(WholeData);
+      this.makeAccountHistoryInfo(filteredData);
     } else {
-      alert(datas.message);
+      alert(filteredDataObj.message);
       return;
     }
-    e.detail.filter ? (this.state.filter = e.detail.filter) : '';
-    console.log('fliter', this.state.filter);
+  }
+
+  setQueryString(queryString, formattedYearMonth) {
+    if (this.state.filter.card) queryString += `payMethodId=${this.state.filter.card}&`;
+    if (this.state.filter.category) queryString += `categoryId=${this.state.filter.category}&`;
+    if (this.state.filter.type) queryString += `type=${this.state.filter.type}&`;
+    if (this.state.filter.day) {
+      queryString += `expenditureDay=${formattedYearMonth}-${this.state.filter.day}`;
+    } else {
+      queryString += `expenditureDay=${formattedYearMonth}`;
+    }
+
+    return queryString;
   }
 
   /**
@@ -99,9 +110,11 @@ export default class AccountView {
 
     const incomeString = income.toString();
     const expenditureString = expenditure.toString();
+    let expenditureStringSlice = expenditureString;
+    if (expenditureString !== '0') expenditureStringSlice = expenditureString.slice(1);
 
     this.state.accountHistory.income = this.formatPrice(incomeString, '', '원');
-    this.state.accountHistory.expenditure = this.formatPrice(expenditureString.slice(1), '', '원');
+    this.state.accountHistory.expenditure = this.formatPrice(expenditureStringSlice, '', '원');
 
     return price;
   }
@@ -188,8 +201,10 @@ export default class AccountView {
 
       price = this.getFormattedPrice(data);
       date = this.getFormattedDate(data);
+      console.log('ㅇ', data.categoryId);
 
       array.push({
+        id: data.id,
         price: price,
         createdAt: date,
         category: categoryList[data.categoryId - 1],
