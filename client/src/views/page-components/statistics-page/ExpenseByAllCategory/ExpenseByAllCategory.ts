@@ -1,5 +1,7 @@
+import { api } from '@src/models/api';
 import { COLORS_BY_CATEGORY, NAME_BY_CATEGORY } from '@src/static/constants';
-import { ArcSVGCommandAttribute, CategoryStatisticData, Coord, HTMLText } from '@src/types';
+import { ArcSVGCommandAttribute, CategoryInfoType, CategoryStatisticData, Coord, HTMLText } from '@src/types';
+import handleEvent from '@src/utils/handleEvent';
 import { createDOMWithSelector } from '@src/utils/helper';
 
 import './ExpenseByAllCategory.scss';
@@ -7,13 +9,38 @@ import './ExpenseByAllCategory.scss';
 export default class ExpenseByAllCategory {
   $ExpenseByAllCategory: HTMLElement;
   categoryStatisticData: CategoryStatisticData[];
+  accessToken: string;
+  categoryInfos: CategoryInfoType[];
 
-  constructor({ parent, state }) {
+  constructor({ parent, state, token }) {
     this.$ExpenseByAllCategory = createDOMWithSelector('div', '.expense-by-all-category');
-    this.categoryStatisticData = state;
-
     parent.appendChild(this.$ExpenseByAllCategory);
+
+    this.categoryStatisticData = state;
+    this.accessToken = token;
+
+    api.get('/category', token).then((res) => {
+      if (res.success) {
+        this.categoryInfos = res.data.payments.map(({ id, name }) => ({ id, name }));
+        handleEvent.fire('changecategory', { category: this.categoryInfos[0] });
+      }
+    });
+
     this.render();
+    this.$ExpenseByAllCategory.addEventListener('click', (e) => this.onClickPathElement(e, this));
+  }
+
+  /**
+   * path를 클릭 했을 시,
+   * 해당 path의 카테고리 id, name을 찾아 changecategory event를 fire 합니다.
+   */
+  onClickPathElement(e: Event, that: any) {
+    const target = e.target as HTMLElement;
+    if (target.tagName !== 'path') return;
+
+    const category = target.dataset.category;
+    const categoryInfo: CategoryInfoType = that.categoryInfos.find(({ name }) => name === category);
+    handleEvent.fire('changecategory', { category: categoryInfo });
   }
 
   render() {
@@ -73,6 +100,7 @@ export default class ExpenseByAllCategory {
     const animationDuration = 0.2;
 
     const $path = document.createElementNS('http://www.w3.org/1999/svg', 'path');
+    $path.setAttribute('data-category', category);
     $path.setAttribute('d', `M ${startX} ${startY} A 1 1 0 ${isLargeArcFlag} 1 ${endX} ${endY} L 0 0`);
     $path.setAttribute('fill', 'none');
     $path.setAttribute('stroke-width', '0.4');
