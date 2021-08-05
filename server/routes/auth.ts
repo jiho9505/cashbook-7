@@ -73,7 +73,7 @@ const getRedirectURL = (tokens: JWT) => {
  * 이 때, default Category, PayMethod를 함께 생성합니다.
  */
 const createUserRecordOnDB = async (githubId: GithubId): Promise<UserRecord> => {
-  const CATEGORY = ['culture', 'etc', 'food', 'health', 'life', 'shopping', 'traffic'];
+  const CATEGORY = ['culture', 'etc', 'food', 'health', 'life', 'shopping', 'traffic', 'income'];
   const PAY_METHOD = ['shinhan', 'woori', 'kakao', 'lotte', 'hyundai', 'samsung', 'money', 'etc'];
 
   const { user: userDB, category: categoryDB, payMethod: payMethodDB } = db;
