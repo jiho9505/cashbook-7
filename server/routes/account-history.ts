@@ -52,15 +52,15 @@ router.post('/', checkToken(), async (req: any, res) => {
   try {
     const { type, price, expenditureDay, categoryId, payMethodId, historyContent } = req.body;
 
-    const data = await db.accountHistory.create({
+    await db.accountHistory.create({
       data: {
         userId: req.id,
         price: price * 1,
         type,
         historyContent,
         expenditureDay,
-        categoryId: categoryId + 1,
-        payMethodId: payMethodId + 1,
+        categoryId: categoryId,
+        payMethodId: payMethodId,
       },
     });
 
@@ -73,8 +73,7 @@ router.post('/', checkToken(), async (req: any, res) => {
 
 router.delete('/', checkToken(), async (req: any, res) => {
   try {
-    const { accountHistoryId } = req.body;
-    await db.accountHistory.delete({ where: { id: accountHistoryId * 1 } });
+    await db.accountHistory.delete({ where: { id: req.query.id * 1 } });
 
     return res.json({ httpStatus: 'OK' });
   } catch (error) {
