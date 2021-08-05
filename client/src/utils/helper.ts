@@ -1,3 +1,5 @@
+import { Date } from '@src/types';
+
 export const monthText = {
   '1': 'Jan',
   '2': 'Feb',
@@ -34,7 +36,7 @@ export const changeIntoDateFormat = (data: number) => {
   const h = currentDate.getHours();
   const hh = h <= 12 ? h : h - 12;
   const mm = currentDate.getMinutes();
-  return `${m}월 ${d}일, ${hh.toString().padStart(2, '0')}:${mm} ${h < 12 ? 'am' : 'pm'}`;
+  return `${m}월 ${d}일, ${formatDateAsTwoLetters(hh)}:${mm} ${h < 12 ? 'am' : 'pm'}`;
 };
 
 export const createDOMWithSelector = (tag: string, ...selectors: string[]) => {
@@ -85,4 +87,8 @@ export const removeValueOnLocalStorage = (key: string) => {
 
 export const formatDataIntoWon = (data: number) => {
   return new Intl.NumberFormat('kr-KR', { style: 'currency', currency: 'KRW' }).format(data);
+};
+
+export const formatDateAsTwoLetters = (date: Date | number) => {
+  return date.toString().padStart(2, '0');
 };
