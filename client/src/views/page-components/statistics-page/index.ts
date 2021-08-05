@@ -114,7 +114,7 @@ export default class StatisticsPageView {
       state: this.store.expenseByAllCategory,
       token: this.accessToken,
     });
-    // new RecentlyAccountHistory({ parent: $('.content__statistics'), state: this.store.recentlyAccountData });
+    new RecentlyAccountHistory({ parent: $('.content__statistics'), state: this.store.recentlyAccountData });
     new ExpenseBySpecificCategory({
       parent: $('.content__statistics'),
       year: this.year,
