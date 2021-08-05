@@ -18,6 +18,7 @@ export const HEALTH = BASE_URL + 'category' + '/health.svg';
 export const LIFE = BASE_URL + 'category' + '/life.svg';
 export const SHOPPING = BASE_URL + 'category' + '/shopping.svg';
 export const TRAFFIC = BASE_URL + 'category' + '/traffic.svg';
+export const INCOME = BASE_URL + 'category' + '/income.svg';
 
 export const CheckButton = BASE_URL + 'checkbutton.svg';
 export const Option = BASE_URL + 'option.svg';
