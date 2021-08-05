@@ -7,6 +7,7 @@ class Model {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     isLoggedIn: false,
+    accessToken: '',
   };
   filter: Filter = {
     category: '',
@@ -49,22 +50,11 @@ class Model {
     window.location.href = githubOAuthUrl;
   }
 
-  /**
-   * TODO:
-   * api delete 요청 (결제수단을 보내고 결제수단과 해당 결제수단 내역 삭제)
-   * api get 요청 account에 대한 filter 데이터 소환 그리고 뿌려준다.
-   * (store에 저장) 세번째 인자로 store
-   * 프론트에서 하나 삭제할지 새로 데이터 받아올지 통일성 결정되야 합니다!
-   */
-  deleteAboutAccount(e: CustomEvent) {
+  async deleteAboutAccount(e: CustomEvent) {
+    await api.delete(`/account-history?id=${e.detail.id}`, this.store.accessToken);
     evt.fire('storeupdated', { state: history.state, filter: this.filter });
   }
 
-  /**
-   * TODO:
-   * e.detail에 day가 들어오면 string이지만 api콜 시 Number() 사용할 예정입니다.
-   * api 요청 후 store엔 data가 반영될 예정.
-   */
   fetchFilterdData(e: CustomEvent) {
     const newData = e.detail;
     this.filter = { ...this.filter, ...newData };
