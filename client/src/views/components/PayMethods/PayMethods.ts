@@ -64,7 +64,7 @@ export default class PayMethod {
       $('#root').removeChild($('.confirm'));
     } else if (target.className === 'confirm__delete') {
       $('#root').removeChild($('.confirm'));
-      // card Id 넘겨주기 target.dataset에 넣어놓으면 됨
+
       handleEvent.fire('deleteaboutaccount', {});
     }
   }
@@ -115,6 +115,7 @@ export default class PayMethod {
     return this.state
       .map((pay, idx) => {
         let isInitialChoicedButton = '';
+
         this.filter.card === idx + 1 ? (isInitialChoicedButton = 'active') : '';
 
         return `

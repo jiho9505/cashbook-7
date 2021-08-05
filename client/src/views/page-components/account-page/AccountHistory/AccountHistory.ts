@@ -134,6 +134,7 @@ export default class AccountHistory {
     if (target.className === 'account-history-table__trashcan') {
       new ConfirmWindow({
         onClickConfirmWindowHandler: (e) => this.onClickConfirmWindowHandler(e, target.dataset.id),
+
         addText: '',
       });
     }
@@ -147,6 +148,7 @@ export default class AccountHistory {
       $('#root').removeChild($('.confirm'));
     } else if (target.className === 'confirm__delete') {
       $('#root').removeChild($('.confirm'));
+
       handleEvent.fire('deleteaboutaccount', { id: targetId });
     }
   }
@@ -419,6 +421,7 @@ export default class AccountHistory {
                 </td>
                 <td>
                     <img class='account-history-table__trashcan' src=${TrashCan} data-id=${item.id}></img>
+
                 </td>
             </tr>
         `;
