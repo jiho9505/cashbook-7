@@ -10,10 +10,11 @@ export default class CalendarView {
   $tbody: HTMLElement;
   dayObj: { year: Year; month: Month };
 
-  constructor({ parent, currentYear, currentMonth }) {
+  constructor({ parent, currentYear, currentMonth, currentCalendarData }) {
     this.$calendarTable = createDOMWithSelector('table', '.calendar__table');
     this.dayObj = { year: currentYear, month: currentMonth };
 
+    console.log(currentCalendarData);
     parent.appendChild(this.$calendarTable);
     this.render();
   }
