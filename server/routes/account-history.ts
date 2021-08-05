@@ -52,15 +52,15 @@ router.post('/', checkToken(), async (req: any, res) => {
   try {
     const { type, price, expenditureDay, categoryId, payMethodId, historyContent } = req.body;
 
-    await db.accountHistory.create({
+    const data = await db.accountHistory.create({
       data: {
         userId: req.id,
         price: price * 1,
         type,
         historyContent,
         expenditureDay,
-        categoryId: categoryId,
-        payMethodId: payMethodId,
+        categoryId: categoryId + 1,
+        payMethodId: payMethodId + 1,
       },
     });
 

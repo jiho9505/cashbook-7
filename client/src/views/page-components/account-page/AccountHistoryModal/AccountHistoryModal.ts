@@ -2,16 +2,16 @@ import { $, createDOMWithSelector, removeActiveAttributeOnClass } from '@src/uti
 import handleEvent from '@src/utils/handleEvent';
 import {
   categoryList,
-  changeCardEnglishNameToNum,
-  changeCardNameFromKoreanToEng,
-  changeCategoryEnglishNameToNum,
-  changeCategoryNameFromKoreanToEng,
+  objToChangeCardEnglishNameToNum,
+  objToChangeCardNameFromKoreanToEng,
+  objToChangeCategoryEnglishNameToNum,
+  objToChangeCategoryNameFromKoreanToEng,
   matchCategoryAndImg,
+  CardsForModal,
 } from '@src/static/constants';
 import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import ResultMessage from '@src/views/components/ResultMessage/ResultMessage';
 import './AccountHistoryModal.scss';
-import { samplePay } from '@src/dummyData';
 
 const slideOutTime: number = 1300;
 const dateInputMaxLength: number = 8;
@@ -46,7 +46,7 @@ export default class AccountHistoryModal {
 
       this.dateInput = $('.history-form__date');
       this.moneyInput = $('.history-form__money');
-      this.payMethod = new PayMethods({ parent: payMethodForm, state: samplePay, filter: {} });
+      this.payMethod = new PayMethods({ parent: payMethodForm, state: CardsForModal, filter: {} });
       this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
       this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
       this.modalWrapper.addEventListener('focusout', this.onFocusOutInputHandler.bind(this));
@@ -91,7 +91,6 @@ export default class AccountHistoryModal {
         this.choicedCategoryName = '';
       } else {
         targetElement.classList.add('active');
-        console.log(target.innerText);
         this.choicedCategoryName = target.innerText;
         removeActiveAttributeOnClass(currentItemIndex, document, '.history-form__category-list');
       }
@@ -119,11 +118,11 @@ export default class AccountHistoryModal {
     ) {
       this.checkIncomeOrExpenditure();
 
-      const payMethodEnglishName = changeCardNameFromKoreanToEng[this.payMethod.currentCardName];
-      const payMethodIndex = changeCardEnglishNameToNum[payMethodEnglishName];
+      const payMethodEnglishName = objToChangeCardNameFromKoreanToEng[this.payMethod.currentCardName];
+      const payMethodIndex = objToChangeCardEnglishNameToNum[payMethodEnglishName];
 
-      const categoryEnglishName = changeCategoryNameFromKoreanToEng[this.choicedCategoryName];
-      const categoryIndex = changeCategoryEnglishNameToNum[categoryEnglishName];
+      const categoryEnglishName = objToChangeCategoryNameFromKoreanToEng[this.choicedCategoryName];
+      const categoryIndex = objToChangeCategoryEnglishNameToNum[categoryEnglishName];
 
       const date = this.changeSign(this.dateInput.value);
 

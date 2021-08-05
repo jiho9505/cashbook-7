@@ -1,4 +1,4 @@
-import { changeCardNameFromKoreanToEng } from '@src/static/constants';
+import { objToChangeCardNameFromKoreanToEng } from '@src/static/constants';
 import handleEvent from '@src/utils/handleEvent';
 import { CheckButton, ETC, Xbox } from '@src/static/image-urls';
 import './PayMethods.scss';
@@ -117,7 +117,7 @@ export default class PayMethod {
         let isInitialChoicedButton = '';
         this.filter.card === pay.payMethodName ? (isInitialChoicedButton = 'active') : '';
         return `
-            <div class='card ${changeCardNameFromKoreanToEng[pay.payMethodName]}' id='card' data-idx=${idx}>
+            <div class='card ${objToChangeCardNameFromKoreanToEng[pay.payMethodName]}' id='card' data-idx=${idx}>
               <div class='card-price'>
                 ${this.isHistoryModal() ? `` : `${pay.payMethodMoney}`}
               </div>
