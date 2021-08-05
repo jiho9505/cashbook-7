@@ -3,6 +3,12 @@
     font-weight: bold;
 }
 
+@mixin controllTextOverflowMixin{
+    overflow-x:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
 @mixin modalAnimationAttribute{
     opacity:0;
     z-index:-1;
@@ -90,6 +96,12 @@
                 @include calendarModalFontMixin;
                 font-size:12px;
                 align-self:center;
+                
+                &:not(:last-child){
+                    overflow:hidden;
+                    white-space:nowrap;
+                    text-overflow:ellipsis;
+                }
 
                 &:last-child{
                     text-align:right;
