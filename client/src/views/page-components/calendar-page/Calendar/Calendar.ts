@@ -50,6 +50,7 @@ export default class CalendarView {
    */
   handleModal(e: Event, { dayObj, calendarData }: CalendarView) {
     if (!(e.target instanceof HTMLElement)) return;
+    if (e.target.closest('.content__calendar__modal')) return;
     if (!e.target.closest('.contain-data')) return handleEvent.fire('opencalendarmodal', { command: 'close' });
 
     const target = e.target.closest('.contain-data') as HTMLElement;
