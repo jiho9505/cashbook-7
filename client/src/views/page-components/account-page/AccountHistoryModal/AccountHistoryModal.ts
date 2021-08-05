@@ -1,10 +1,15 @@
 import { $, createDOMWithSelector, removeActiveAttributeOnClass } from '@src/utils/helper';
 import handleEvent from '@src/utils/handleEvent';
-import { categoryList, matchCategoryAndImg } from '@src/static/constants';
+import {
+  categoryList,
+  objToChangeCategoryEnglishNameToNum,
+  objToChangeCategoryNameFromKoreanToEng,
+  matchCategoryAndImg,
+  CardsForModal,
+} from '@src/static/constants';
 import PayMethods from '@src/views/components/PayMethods/PayMethods';
 import ResultMessage from '@src/views/components/ResultMessage/ResultMessage';
 import './AccountHistoryModal.scss';
-import { samplePay } from '@src/dummyData';
 
 const slideOutTime: number = 1300;
 const dateInputMaxLength: number = 8;
@@ -32,23 +37,20 @@ export default class AccountHistoryModal {
 
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
-      this.setProperty(e.detail);
-
       this.modalWrapper = createDOMWithSelector('div', '.account-history-wrapper');
       this.render();
 
       const payMethodForm = $('.history-form__pay-method');
 
-      this.payMethod = new PayMethods({ parent: payMethodForm, state: samplePay, filter: {} });
+      this.dateInput = $('.history-form__date');
+      this.moneyInput = $('.history-form__money');
+      this.payMethod = new PayMethods({ parent: payMethodForm, state: CardsForModal, filter: {} });
+
       this.modalWrapper.addEventListener('click', this.onClickHandler.bind(this));
       this.modalWrapper.addEventListener('keyup', this.onKeyUpHandler.bind(this));
       this.modalWrapper.addEventListener('focusout', this.onFocusOutInputHandler.bind(this));
       this.modalWrapper.addEventListener('focusin', this.onFocusInInputHandler.bind(this));
     });
-  }
-
-  setProperty(state): void {
-    this.state = state;
   }
 
   render(): void {
@@ -107,7 +109,7 @@ export default class AccountHistoryModal {
     const historyContent: HTMLInputElement = document.querySelector('.history-form__content');
 
     if (
-      this.payMethod.currentCardName.length > 0 &&
+      this.payMethod.currentCardIdx > 0 &&
       this.dateValueValidation &&
       this.moneyValueValidation &&
       this.choicedCategoryName.length > 0 &&
@@ -115,28 +117,40 @@ export default class AccountHistoryModal {
     ) {
       this.checkIncomeOrExpenditure();
 
+      const categoryEnglishName = objToChangeCategoryNameFromKoreanToEng[this.choicedCategoryName];
+      const categoryIndex = objToChangeCategoryEnglishNameToNum[categoryEnglishName];
+
+      const date = this.changeSign(this.dateInput.value);
+      const price = this.changeToNum(this.moneyInput.value);
+
       const submitArguments = {
-        //   user:,
-        card: this.payMethod.currentCardName,
-        category: this.choicedCategoryName,
-        money: this.moneyInput.value as HTMLInputElement,
-        date: this.dateInput.value as HTMLInputElement,
-        content: historyContent.value,
+        payMethodId: this.payMethod.currentCardIdx,
+        categoryId: categoryIndex + 1,
+        price,
+        expenditureDay: date,
+        historyContent: historyContent.value,
         type: this.type,
       };
-      console.log('Form Success');
 
       this.closeModal();
       new ResultMessage('내역이 추가되었습니다❗️');
       handleEvent.fire('createaccounthistory', { state: history.state, submitArguments });
-      // 옵저버 발동
     } else {
       this.showAlert('.history-form__confirm-alert');
     }
   }
 
+  /**
+   * DB에 넣기 적절한 부호로 바꾸는 함수입니다.
+   * ex> 2021.03.21 -> 2021-03-21
+   */
+  changeSign(value) {
+    const newValue = value.replace(/[.]/g, '-');
+    return newValue;
+  }
+
   checkIncomeOrExpenditure() {
-    if (this.choicedCategoryName === '용돈') {
+    if (this.choicedCategoryName === '수입') {
       this.type = 'income';
     } else {
       this.type = 'expenditure';
@@ -174,7 +188,7 @@ export default class AccountHistoryModal {
   }
 
   formatDateValue() {
-    const DateValue: string = this.dateInput.value;
+    const DateValue = this.dateInput.value;
     const DateArray = DateValue.split('');
     const firstIndexToPutDot = 4;
     const secondIndexToPutDot = 6;
@@ -241,9 +255,17 @@ export default class AccountHistoryModal {
   }
 
   checkDateInputValueValidation(target) {
-    const month = target.value.slice(4, 6);
-    const day = target.value.slice(6, 8);
-    if (0 < Number(month) && 13 > Number(month) && 31 > Number(day) && 0 < Number(day)) return false;
+    if (target.value.length === 8) {
+      const year = target.value.slice(0, 4);
+      const month = target.value.slice(4, 6);
+      const day = target.value.slice(6, 8);
+
+      const lastday = new Date(year, month, 0).getDate();
+
+      if (0 < Number(month) && 13 > Number(month) && lastday >= Number(day) && 0 < Number(day)) return false;
+      return true;
+    }
+
     return true;
   }
 
@@ -260,6 +282,11 @@ export default class AccountHistoryModal {
   checkInputValueOnlyNumberRegex(target) {
     const regex = /[^0-9|]/g;
     target.value = target.value.replace(regex, '');
+  }
+
+  changeToNum(value) {
+    const regex = /[^0-9|]/g;
+    return value.replace(regex, '');
   }
 
   checkInputMaxLengthRegex(target, maxLength) {
@@ -372,7 +399,7 @@ export default class AccountHistoryModal {
       .map((category, idx) => {
         return `
             <div class="history-form__category-list">
-                <img class='category-item' data-idx=${idx} src=${matchCategoryAndImg[category]}>
+                <img  src=${matchCategoryAndImg[category]}>
                 <span class='category-item' data-idx=${idx} >${category}</span>
             </div>
         `;

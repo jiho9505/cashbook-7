@@ -1,4 +1,4 @@
-import { cardType } from '@src/static/constants';
+import { objToChangeCardNameFromKoreanToEng } from '@src/static/constants';
 import handleEvent from '@src/utils/handleEvent';
 import { CheckButton, ETC, Xbox } from '@src/static/image-urls';
 import './PayMethods.scss';
@@ -10,8 +10,8 @@ export default class PayMethod {
   PayWrapper: HTMLElement;
   mode: string = 'Account';
   currentMode: HTMLElement;
-  currentCardName: string = '';
   filter: any;
+  currentCardIdx: number;
 
   constructor({ parent, state, filter }) {
     if (parent === $('.history-form__pay-method')) this.mode = 'historyModal';
@@ -78,13 +78,13 @@ export default class PayMethod {
 
       if (checkButton.classList.contains('active')) {
         checkButton.classList.remove('active');
-        this.currentCardName = '';
-        !this.isHistoryModal() && handleEvent.fire('filterchange', { card: '' });
+        this.currentCardIdx = 0;
+        !this.isHistoryModal() && handleEvent.fire('filterchange', { card: 0 });
       } else {
         checkButton.classList.add('active');
-        this.currentCardName = this.state[currentCardIdx].payMethodName;
+        this.currentCardIdx = currentCardIdx + 1;
         removeActiveAttributeOnClass(currentCardIdx, this.currentMode, '#checkbutton');
-        !this.isHistoryModal() && handleEvent.fire('filterchange', { card: this.currentCardName });
+        !this.isHistoryModal() && handleEvent.fire('filterchange', { card: currentCardIdx + 1 });
       }
     }
   }
@@ -115,9 +115,11 @@ export default class PayMethod {
     return this.state
       .map((pay, idx) => {
         let isInitialChoicedButton = '';
-        this.filter.card === pay.payMethodName ? (isInitialChoicedButton = 'active') : '';
+
+        this.filter.card === idx + 1 ? (isInitialChoicedButton = 'active') : '';
+
         return `
-            <div class='card ${cardType[pay.payMethodName]}' id='card' data-idx=${idx}>
+            <div class='card ${objToChangeCardNameFromKoreanToEng[pay.payMethodName]}' id='card' data-idx=${idx}>
               <div class='card-price'>
                 ${this.isHistoryModal() ? `` : `${pay.payMethodMoney}`}
               </div>

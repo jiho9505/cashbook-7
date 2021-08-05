@@ -12,7 +12,6 @@ export type Path = string;
 export type Image = string;
 export type Direction = 'up' | 'down';
 
-// Common
 type Category =
   | 'life' //
   | 'health'

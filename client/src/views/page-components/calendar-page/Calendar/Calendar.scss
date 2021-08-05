@@ -1,39 +1,37 @@
 @mixin tableCellFontStyleMixin {
-    font-family: Raleway;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 12px;
-    color: var(--concept-color);
-    
+  font-family: Raleway;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 12px;
+  color: var(--concept-color);
 }
 
-.calendar__table{
-    width:100%;
-    height:100%;
-    border-collapse: separate;
-    border-spacing: 15px 8px;
+.calendar__table {
+  width: 100%;
+  height: 100%;
+  border-collapse: separate;
+  border-spacing: 15px 8px;
 
-    thead{
-        display:table-header-group;
+  thead {
+    display: table-header-group;
 
-        tr{
-            display:table-row;
+    tr {
+      display: table-row;
 
-            td{
-                @include tableCellFontStyleMixin;
+      td {
+        @include tableCellFontStyleMixin;
 
-                display:table-cell;
-                height:100px;
-                width:130px;
+        display: table-cell;
+        height: 100px;
+        width: 130px;
 
-                text-align:center;
-                opacity:0.5;
-                
-                &:first-child{
-                    color: #EF5D5D;
-                }
-            }
+        text-align: center;
+        opacity: 0.5;
+
+        &:first-child {
+          color: #ef5d5d;
         }
+      }
     }
     
     tbody{
@@ -97,34 +95,55 @@
                 }
             }
         }
+
+        .contain-category {
+          height: fit-content;
+          width: 100%;
+          margin-top: 20px;
+          padding: 0 5px;
+
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          grid-template-rows: repeat(2, 1fr);
+          gap: 5px;
+
+          div {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            place-self: center;
+          }
+        }
+      }
     }
+  }
 }
 
 @mixin totalMoneyFontStyleMixin {
-    font-family: Raleway;
-    font-weight: bold;
-    font-size: 22px;
+  font-family: Raleway;
+  font-weight: bold;
+  font-size: 22px;
 }
-.calendar__total-money{
-    display:flex;
-    height:50px;
-    justify-content: flex-end;
+.calendar__total-money {
+  display: flex;
+  height: 50px;
+  justify-content: flex-end;
 
-    span{
-        @include totalMoneyFontStyleMixin;
-        padding: 15px;
-    }
+  span {
+    @include totalMoneyFontStyleMixin;
+    padding: 15px;
+  }
 
-    .calendar__total-money--expenditure{
-        display:flex;
-        align-items: center;
-        color: #E63950;
-        margin-right:10px;
-    }
+  .calendar__total-money--expenditure {
+    display: flex;
+    align-items: center;
+    color: #e63950;
+    margin-right: 10px;
+  }
 
-    .calendar__total-money--income{
-        display:flex;
-        align-items: center;
-        color: #1289A7;
-    }
+  .calendar__total-money--income {
+    display: flex;
+    align-items: center;
+    color: #1289a7;
+  }
 }

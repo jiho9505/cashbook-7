@@ -1,51 +1,52 @@
-@mixin SVGfilterMixin{
-    filter: invert(79%) sepia(13%) saturate(543%) hue-rotate(205deg) brightness(98%) contrast(103%)
+@mixin SVGfilterMixin {
+  filter: invert(79%) sepia(13%) saturate(543%) hue-rotate(205deg) brightness(98%) contrast(103%);
 }
 
 header {
-    display:flex;
-    height:100%;
-    width:215px;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items:center;
-    padding: 100px 20px;
-    background-color: #fff;
-    box-shadow: 4px 0px 38px rgba(0, 0, 0, 0.05);
+  display: flex;
+  height: 100%;
+  width: 215px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 100px 20px;
 
-    .header__logo {
-        width:50px;
+  background-color: #fff;
+  box-shadow: 4px 0px 38px rgba(0, 0, 0, 0.05);
 
-        img{
-            width:100%;
-        }
+  .header__logo {
+    width: 50px;
+
+    img {
+      width: 100%;
     }
+  }
 
-    .header__nav{
-        height:412px;
-        
-        ul{  
-            height:100%;
-            display:flex;
-            flex-direction: column;
-            justify-content: space-between;
+  .header__nav {
+    height: 412px;
 
-            li{
-                cursor:pointer;
-                a.active{ @include SVGfilterMixin }
-            }
+    ul {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
-            li:hover{
-                a:not(.active){ @include SVGfilterMixin }
-            }
-            
-            li:last-child:hover{ @include SVGfilterMixin }
+      li {
+        cursor: pointer;
+        a.active {
+          @include SVGfilterMixin;
         }
+      }
 
-        
+      li:hover {
+        a:not(.active) {
+          @include SVGfilterMixin;
+        }
+      }
+
+      li:last-child:hover {
+        @include SVGfilterMixin;
+      }
     }
+  }
 }
-
-
-
-
