@@ -6,15 +6,13 @@
 @mixin modalAnimationAttribute{
     opacity:0;
     z-index:-1;
-    // transform:scale(0);
 
     &.open{
         opacity:1;
         z-index:1;
-        // transform:scale(100%);
     }
 
-    transition:all .3s ease-in-out;
+    transition:all .2s ease;
 }
 
 .content__calendar__modal{
@@ -23,8 +21,6 @@
     position: absolute;
     width: 233px;
     height: 251px;
-    left: 572px;
-    top: 126px;
     padding: 15px 20px;
     
     background: #FFFFFF;
@@ -62,6 +58,8 @@
                 font-size:12px;
             }
 
+            
+
             &.modal__total-history--expenditure{
                 color:#E63950;
             }
@@ -92,6 +90,10 @@
                 @include calendarModalFontMixin;
                 font-size:12px;
                 align-self:center;
+
+                &:last-child{
+                    text-align:right;
+                }
             }
         }
 
