@@ -16,3 +16,7 @@ export const createJWTToken = (payload: any) => {
 
   return { accessToken, refreshToken };
 };
+
+export const createRandomNumber = (min: number, length: number): number => {
+  return Math.floor(Math.random() * length) + min;
+};
