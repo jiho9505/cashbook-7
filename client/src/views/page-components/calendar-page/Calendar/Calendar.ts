@@ -1,4 +1,15 @@
-import { Date, Day, DayInfos, HTMLText, Month, Offset, TargetDateInfos, Year } from '@src/types';
+import {
+  CalendarData,
+  Date,
+  Day,
+  DayInfos,
+  HTMLText,
+  Month,
+  Offset,
+  ServerHistoryData,
+  TargetDateInfos,
+  Year,
+} from '@src/types';
 import { createDOMWithSelector } from '@src/utils/helper';
 
 import './Calendar.scss';
@@ -8,15 +19,18 @@ const ALL_DAY_ON_CALENDAR = 42;
 export default class CalendarView {
   $calendarTable: HTMLElement;
   $tbody: HTMLElement;
+  calendarData: CalendarData;
   dayObj: { year: Year; month: Month };
 
   constructor({ parent, currentYear, currentMonth, currentCalendarData }) {
-    this.$calendarTable = createDOMWithSelector('table', '.calendar__table');
+    this.calendarData = this.processServerDataIntoCalendarData(currentCalendarData);
     this.dayObj = { year: currentYear, month: currentMonth };
 
-    console.log(currentCalendarData);
+    this.$calendarTable = createDOMWithSelector('table', '.calendar__table');
     parent.appendChild(this.$calendarTable);
     this.render();
+
+    console.log(this.calendarData);
   }
 
   render() {
@@ -153,5 +167,49 @@ export default class CalendarView {
     const dayIdx = day === 6 ? 0 : day;
     const FIRST_DATE = 1;
     return dayIdx - FIRST_DATE;
+  }
+
+  /**
+   * 서버의 데이터를 받아,
+   * View 를 위해 사용할 데이터를 가공합니다.
+   * 서버 데이터를 iterate 하며 다음 공정을 거칩니다.
+   * 1. expenditureDay 별로 데이터를 구분합니다.
+   * 2. price를 totalIncome / totalExpenditure 에 더합니다. 구분 기준 => categoryName === 'income' or else
+   * 3. 현재 데이터의 중복되지 않는 카테고리를 구합니다.
+   *
+   * FIXME: 현재 더 좋은 로직이 생각나지 않고,
+   * 시간이 없기에 그냥 넘어가지만
+   * 리팩토링을 한다면 더 좋은 로직으로 개선할 수 있다고 생각합니다.
+   */
+  processServerDataIntoCalendarData(history: ServerHistoryData[]) {
+    const calendarData: CalendarData = {
+      dayData: {},
+      containCategory: [],
+      totalIncome: 0,
+      totalExpenditure: 0,
+    };
+
+    history.forEach(({ price, historyContent, expenditureDay, category: { name: categoryName } }) => {
+      if (!calendarData.dayData[expenditureDay])
+        calendarData.dayData[expenditureDay] = {
+          detail: [{ price, category: categoryName, historyContent }],
+          dayTotalIncome: categoryName === 'income' ? price : 0,
+          dayTotalExpenditure: categoryName === 'income' ? 0 : price,
+        };
+      else {
+        calendarData.dayData[expenditureDay].detail.push({ price, category: categoryName, historyContent });
+
+        categoryName === 'income'
+          ? (calendarData.dayData[expenditureDay].dayTotalIncome += price)
+          : (calendarData.dayData[expenditureDay].dayTotalExpenditure += price);
+      }
+
+      if (categoryName === 'income') calendarData.totalIncome += price;
+      else calendarData.totalExpenditure += price;
+
+      if (!calendarData.containCategory[categoryName]) calendarData.containCategory.push(categoryName);
+    });
+
+    return calendarData;
   }
 }
