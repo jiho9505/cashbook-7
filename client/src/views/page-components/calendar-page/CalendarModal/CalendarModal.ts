@@ -1,14 +1,19 @@
 import { CalendarEssentialData } from '@src/types';
 import handleEvent from '@src/utils/handleEvent';
-import './CalendarDetailInfoModal.scss';
+import { createDOMWithSelector } from '@src/utils/helper';
 
-export default class CalendarDetailInfoModal {
+import './CalendarModal.scss';
+
+export default class CalendarModal {
+  $CalendarModal: HTMLElement;
   isModalOpened: false;
   data: CalendarEssentialData;
   posX: number;
   posY: number;
 
-  constructor() {
+  constructor({ parent }) {
+    this.$CalendarModal = createDOMWithSelector('div', '.content__calendar__modal');
+
     handleEvent.subscribe('opencalendarmodal', (e: CustomEvent) => {
       if (!this.isModalOpened && e.detail.command === 'close') return;
 
