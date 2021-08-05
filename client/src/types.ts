@@ -48,6 +48,13 @@ export interface ArcSVGCommandAttribute {
   isLargeArcFlag: number;
 }
 
+// Statistics
+
+export type CategoryInfoType = {
+  id: number;
+  name: string;
+};
+
 // Calendar
 
 export type Year = number;
