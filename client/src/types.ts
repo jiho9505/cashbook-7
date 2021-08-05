@@ -90,11 +90,11 @@ export type CalendarData = {
   dayData: {
     [key: string]: {
       detail: CalendarEssentialData[]; //
+      containCategory: string[];
       dayTotalIncome: number;
       dayTotalExpenditure: number;
     };
   };
   totalIncome: number;
   totalExpenditure: number;
-  containCategory: string[];
 };

@@ -1,3 +1,4 @@
+import { ExpenditureIcon, IncomeIcon } from '@src/static/image-urls';
 import {
   CalendarData,
   Date,
@@ -10,37 +11,52 @@ import {
   TargetDateInfos,
   Year,
 } from '@src/types';
-import { createDOMWithSelector } from '@src/utils/helper';
+import { createDOMWithSelector, formatDataIntoWon } from '@src/utils/helper';
 
 import './Calendar.scss';
 
 const ALL_DAY_ON_CALENDAR = 42;
 
 export default class CalendarView {
-  $calendarTable: HTMLElement;
-  $tbody: HTMLElement;
   calendarData: CalendarData;
   dayObj: { year: Year; month: Month };
+  $tbody: HTMLElement;
+  $calendarTable: HTMLElement;
+  $totalMoney: HTMLElement;
 
   constructor({ parent, currentYear, currentMonth, currentCalendarData }) {
     this.calendarData = this.processServerDataIntoCalendarData(currentCalendarData);
     this.dayObj = { year: currentYear, month: currentMonth };
 
     this.$calendarTable = createDOMWithSelector('table', '.calendar__table');
-    parent.appendChild(this.$calendarTable);
-    this.render();
+    this.$totalMoney = createDOMWithSelector('div', '.calendar__total-money');
 
-    console.log(this.calendarData);
+    parent.appendChild(this.$calendarTable);
+    parent.appendChild(this.$totalMoney);
+
+    this.render();
   }
 
   render() {
     this.$calendarTable.innerHTML = `
-      <thead>
-        ${this.getDayDOM()}
-      <thead>
-      <tbody>
-        ${this.getFullDateOnCalendarDOM(this.dayObj)}
-      <tbody>
+    <thead>
+    ${this.getDayDOM()}
+    </thead>
+    <tbody>
+    ${this.getFullDateOnCalendarDOM(this.dayObj)}
+    </tbody>
+    `;
+
+    console.log(this.calendarData);
+    this.$totalMoney.innerHTML = `
+      <div class='calendar__total-money--expenditure'>
+        <img src=${ExpenditureIcon} alt='expenditure'>
+        <span>${formatDataIntoWon(this.calendarData.totalExpenditure)}</span>
+      </div>
+      <div class='calendar__total-money--income'>
+        <img src=${IncomeIcon} alt='income'>
+        <span>${formatDataIntoWon(this.calendarData.totalIncome)}</span>
+      </div>
     `;
   }
 
@@ -172,10 +188,7 @@ export default class CalendarView {
   /**
    * 서버의 데이터를 받아,
    * View 를 위해 사용할 데이터를 가공합니다.
-   * 서버 데이터를 iterate 하며 다음 공정을 거칩니다.
-   * 1. expenditureDay 별로 데이터를 구분합니다.
-   * 2. price를 totalIncome / totalExpenditure 에 더합니다. 구분 기준 => categoryName === 'income' or else
-   * 3. 현재 데이터의 중복되지 않는 카테고리를 구합니다.
+   * 서버 데이터를 iterate 하며 CalendarDataType에 맞게 공정을 거칩니다.
    *
    * FIXME: 현재 더 좋은 로직이 생각나지 않고,
    * 시간이 없기에 그냥 넘어가지만
@@ -184,7 +197,6 @@ export default class CalendarView {
   processServerDataIntoCalendarData(history: ServerHistoryData[]) {
     const calendarData: CalendarData = {
       dayData: {},
-      containCategory: [],
       totalIncome: 0,
       totalExpenditure: 0,
     };
@@ -193,11 +205,15 @@ export default class CalendarView {
       if (!calendarData.dayData[expenditureDay])
         calendarData.dayData[expenditureDay] = {
           detail: [{ price, category: categoryName, historyContent }],
+          containCategory: [categoryName],
           dayTotalIncome: categoryName === 'income' ? price : 0,
           dayTotalExpenditure: categoryName === 'income' ? 0 : price,
         };
       else {
         calendarData.dayData[expenditureDay].detail.push({ price, category: categoryName, historyContent });
+
+        if (!calendarData.dayData[expenditureDay].containCategory.includes(categoryName))
+          calendarData.dayData[expenditureDay].containCategory.push(categoryName);
 
         categoryName === 'income'
           ? (calendarData.dayData[expenditureDay].dayTotalIncome += price)
@@ -206,8 +222,6 @@ export default class CalendarView {
 
       if (categoryName === 'income') calendarData.totalIncome += price;
       else calendarData.totalExpenditure += price;
-
-      if (!calendarData.containCategory[categoryName]) calendarData.containCategory.push(categoryName);
     });
 
     return calendarData;
