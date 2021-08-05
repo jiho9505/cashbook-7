@@ -13,9 +13,7 @@ export default class StatisticsPageView {
   store = {
     expenseByAllCategory: [],
     recentlyAccountData: [],
-    expenseByDay: {
-      life: [],
-    },
+    expenseBySpecificCategory: [],
   };
 
   constructor() {
@@ -32,21 +30,20 @@ export default class StatisticsPageView {
           // this.currentCalendarData = res.data.accountHistory;
 
           this.processServerDataIntoStatisticsData(res.data.accountHistory);
-          // this.render();
+          this.render();
         }
       });
-      // const fetchedData = this.fetchDatas();
-
-      // this.setStore(fetchedData);
-      // this.render();
     });
   }
 
-  processServerDataIntoStatisticsData(data: ServerHistoryData[]) {
+  processServerDataIntoStatisticsData(data: ServerHistoryData[]): void {
     const expenseByAllCategory = this.processDataIntoExpenseByAllCategory(data);
     const recentlyAccountData = this.processDataIntoRecentlyAccountData(data);
-    // processDataIntoRecentlyAccountData(ㅇㅁㅅㅁ)\
-    // processDataIntoExpenseBySpecificCategory
+    const expenseBySpecificCategory = this.processDataIntoExpenseBySpecificCategory(data);
+
+    this.store.expenseByAllCategory = expenseByAllCategory;
+    this.store.recentlyAccountData = recentlyAccountData;
+    this.store.expenseBySpecificCategory = expenseBySpecificCategory;
   }
 
   /**
@@ -81,31 +78,24 @@ export default class StatisticsPageView {
       (prev, next) => parseInt(next.expenditureDay.split('-')[2]) - parseInt(prev.expenditureDay.split('-')[2])
     );
 
-    return sortedHistoryData.splice(0, MAX_RECENTLY_HISTORY_DATA_AMOUNT);
+    return sortedHistoryData.slice(0, MAX_RECENTLY_HISTORY_DATA_AMOUNT);
   }
 
-  fetchDatas() {
-    // API Call
-    const expenseByAllCategory = [
-      { category: 'life', percent: 0.31 },
-      { category: 'health', percent: 0.22 },
-      { category: 'shopping', percent: 0.18 },
-      { category: 'traffic', percent: 0.11 },
-      { category: 'food', percent: 0.08 },
-      { category: 'culture', percent: 0.06 },
-      { category: 'etc', percent: 0.04 },
-    ];
-    const recentlyAccountData = dummyData.sort((p, n) => n.date - p.date).splice(0, 3);
-    const expenseByLife = [
-      20000, 100000, 10000, 0, 30000, 25000, 60000, 300000, 0, 3500, 600, 80000, 70000, 100000, 5000, 20000, 20000,
-      20000, 100000, 10000, 0, 30000, 25000, 60000, 300000, 0, 3500, 600, 80000, 70000,
-    ];
-    console.log(expenseByLife.length);
-    const expenseByDay = {
-      life: expenseByLife,
-    };
+  /**
+   * 서버 데이터를 가공하여
+   * 각 날짜에 지출 금액을 더해 반환합니다.
+   */
+  processDataIntoExpenseBySpecificCategory(data: ServerHistoryData[]) {
+    const MAX_MONTH_DATE = 31;
+    const expenseByLife = [...new Array(MAX_MONTH_DATE)].map((_) => 0);
 
-    return { expenseByAllCategory, recentlyAccountData, expenseByDay };
+    const onlyExpenditureData = data.filter(({ category }) => category.name !== 'income');
+    onlyExpenditureData.forEach(({ expenditureDay, price }) => {
+      const day = parseInt(expenditureDay.split('-')[2]);
+      expenseByLife[day - 1] += price;
+    });
+
+    return expenseByLife;
   }
 
   onClickDetailAccount(e: MouseEvent) {
@@ -118,8 +108,8 @@ export default class StatisticsPageView {
 
   render() {
     $('.content-wrap').innerHTML = `<div class='content__statistics'></div>`;
-    new ExpenseByAllCategory({ parent: $('.content__statistics'), state: this.store.expenseByAllCategory });
-    new RecentlyAccountHistory({ parent: $('.content__statistics'), state: this.store.recentlyAccountData });
-    new ExpenseByDay({ parent: $('.content__statistics'), state: this.store.expenseByDay.life });
+    // new ExpenseByAllCategory({ parent: $('.content__statistics'), state: this.store.expenseByAllCategory });
+    // new RecentlyAccountHistory({ parent: $('.content__statistics'), state: this.store.recentlyAccountData });
+    new ExpenseByDay({ parent: $('.content__statistics'), state: this.store.expenseBySpecificCategory });
   }
 }
