@@ -54,8 +54,11 @@
             padding-top:25px;
             display:flex;
             flex-direction: column;
-            justify-content: space-between;
             align-items: center;
+
+            .category-summary:not(:last-child){
+                margin-bottom:13px;
+            }
 
             .category-summary{
                 display:flex;
