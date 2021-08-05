@@ -14,10 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', router);
 
-app.use(express.static(path.resolve(__dirname, '../client', 'build')));
+app.use(express.static(path.resolve(__dirname, '../server', 'build')));
 
 app.get('*', (req: express.Request, res: express.Response) => {
-  res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '../server', 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {
