@@ -16,7 +16,7 @@ export default class AccountHistory {
   isExpenditureButtonSrc = CheckActive;
 
   filter;
-  prevChoicedCategoryName: string = '';
+  prevChoicedCategoryId;
   prevChoicedDay: any = '';
 
   constructor({ parent, state, filter }) {
@@ -35,7 +35,7 @@ export default class AccountHistory {
     this.state = state;
     this.filter = filter;
     this.prevChoicedDay = filter.day;
-    this.prevChoicedCategoryName = filter.category;
+    this.prevChoicedCategoryId = filter.category;
   }
 
   render(): void {
@@ -49,17 +49,14 @@ export default class AccountHistory {
    * 생각해볼만한것 ---
    * focusout읋 할때 전체를 클릭하면 focusout 먼저, 그 후 전체 클릭이벤트 발동.
    * 즉 동작에 문제 없음
-   * TODO:
-   * 현재 년,월 기준으로 날짜를 입력할때 유효성검사!
-   * 이상한 날짜 입력하면 border를 빨간색으로 흔들어주자!
    */
   onFoucsOutHandler(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
     if (target.className === 'date__input') {
       const dateInput: HTMLInputElement = target as HTMLInputElement;
-      console.log('filter Change - input');
-      const day = dateInput.value;
+      let day = dateInput.value;
+      if (day.length === 1) day = '0' + day;
       handleEvent.fire('filterchange', { day });
     }
   }
@@ -133,19 +130,15 @@ export default class AccountHistory {
   }
 
   onClickTrashCanImage(target) {
-    if (target.className === 'account-history-table__trashcan')
+    if (target.className === 'account-history-table__trashcan') {
       new ConfirmWindow({
-        onClickConfirmWindowHandler: this.onClickConfirmWindowHandler.bind(this),
+        onClickConfirmWindowHandler: (e) => this.onClickConfirmWindowHandler(e, target.dataset.id),
         addText: '',
       });
+    }
   }
 
-  /**
-   * TODO:
-   * target.className === 'confirm__delete일 때
-   *  history Id 넘겨줘야하고 history Id는 target.dataset에 넣어놓으면 됨
-   */
-  onClickConfirmWindowHandler(e: MouseEvent) {
+  onClickConfirmWindowHandler(e: MouseEvent, targetId) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
 
@@ -153,7 +146,7 @@ export default class AccountHistory {
       $('#root').removeChild($('.confirm'));
     } else if (target.className === 'confirm__delete') {
       $('#root').removeChild($('.confirm'));
-      handleEvent.fire('deleteaboutaccount', {});
+      handleEvent.fire('deleteaboutaccount', { id: targetId });
     }
   }
 
@@ -193,11 +186,11 @@ export default class AccountHistory {
 
   onClickCategoryItem(target) {
     if (target.className === 'category-list-img') {
-      if (this.prevChoicedCategoryName === target.dataset.name) {
-        handleEvent.fire('filterchange', { category: '' });
+      if (this.prevChoicedCategoryId === Number(target.dataset.id)) {
+        handleEvent.fire('filterchange', { category: 0 });
         return;
       }
-      handleEvent.fire('filterchange', { category: target.dataset.name });
+      handleEvent.fire('filterchange', { category: Number(target.dataset.id) });
     }
   }
 
@@ -380,12 +373,12 @@ export default class AccountHistory {
     return categoryList
       .map((category, idx) => {
         let AddedCategoryClassName: string = '';
-        if (this.prevChoicedCategoryName === category) {
+        if (this.prevChoicedCategoryId === idx + 1) {
           AddedCategoryClassName = 'active';
         }
         return `
             <div class="category-list ${AddedCategoryClassName}">
-                <img class="category-list-img" src=${matchCategoryAndImg[category]} data-name=${category}>
+                <img class="category-list-img" src=${matchCategoryAndImg[category]} data-id=${idx + 1}>
             </div>
         `;
       })
@@ -424,7 +417,7 @@ export default class AccountHistory {
                     <span>${item.price}</span>
                 </td>
                 <td>
-                    <img class='account-history-table__trashcan' src=${TrashCan}></img>
+                    <img class='account-history-table__trashcan' src=${TrashCan} data-id=${item.id}></img>
                 </td>
             </tr>
         `;
