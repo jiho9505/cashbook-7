@@ -3,7 +3,23 @@
     font-weight: bold;
 }
 
+@mixin modalAnimationAttribute{
+    opacity:0;
+    z-index:-1;
+    // transform:scale(0);
+
+    &.open{
+        opacity:1;
+        z-index:1;
+        // transform:scale(100%);
+    }
+
+    transition:all .3s ease-in-out;
+}
+
 .content__calendar__modal{
+    @include modalAnimationAttribute;
+
     position: absolute;
     width: 233px;
     height: 251px;
@@ -17,7 +33,7 @@
 
     .modal__title{
         @include calendarModalFontMixin;
-        font-size: 16px;
+        font-size: 14px;
 
         color: var(--font-color);
     }
@@ -27,7 +43,7 @@
         align-items:center;
         width:100%;
         height:20px;
-        margin-top:15px;
+        margin-top:17px;
         
         div {
             display:flex;
@@ -54,5 +70,37 @@
                 color:#1289A7;
             }
         }        
+    }
+
+    .modal__detail-history{
+        overflow-y:scroll;
+        width:100%;
+        height:calc(100% - 74px);
+        margin-top:17px;
+
+        .detail-history{
+            display:grid;
+            grid-template-columns: 1fr 4fr 2fr;
+            height:30px;
+            gap:12px;
+
+            img {
+                width:28px;
+            }
+
+            span{
+                @include calendarModalFontMixin;
+                font-size:12px;
+                align-self:center;
+            }
+        }
+
+        .detail-history:not(:last-child){
+            margin-bottom:15px;
+        }
+
+        &::-webkit-scrollbar{
+            display:none;
+        }
     }
 }
