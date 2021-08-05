@@ -55,7 +55,7 @@ const deleteData = async (url, accessToken) => {
  * e(error) 값은 백에서 어떻게 넘어오는지 확인 후 가공할 예정입니다 :)
  */
 export const api = {
-  get: async (url, accessToken) => {
+  get: async (url, accessToken = '') => {
     try {
       const data = await getData(url, accessToken);
       return {
