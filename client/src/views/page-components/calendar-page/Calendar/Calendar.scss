@@ -74,3 +74,32 @@
         }
     }
 }
+
+@mixin totalMoneyFontStyleMixin {
+    font-family: Raleway;
+    font-weight: bold;
+    font-size: 25px;
+}
+.calendar__total-money{
+    display:flex;
+    height:50px;
+    justify-content: flex-end;
+
+    span{
+        @include totalMoneyFontStyleMixin;
+        padding: 15px;
+    }
+
+    .calendar__total-money--expenditure{
+        display:flex;
+        align-items: center;
+        color: #E63950;
+        margin-right:10px;
+    }
+
+    .calendar__total-money--income{
+        display:flex;
+        align-items: center;
+        color: #1289A7;
+    }
+}
