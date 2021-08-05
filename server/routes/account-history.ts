@@ -13,6 +13,27 @@ type FilterOption = {
 };
 
 /**
+ * 필터에 맞는 accountHistory를 반환합니다.
+ */
+router.get('/', checkToken(), async (req: any, res) => {
+  try {
+    const opt = generateFilter(req.query);
+
+    const accountHistory = await db.accountHistory.findMany({
+      where: { ...opt, userId: req.id },
+      include: {
+        category: { select: { id: true, name: true } },
+        payMethod: { select: { id: true, name: true } },
+      },
+    });
+    return res.json({ httpStatus: 'OK', accountHistory });
+  } catch (error) {
+    new Error(error);
+    return res.json({ httpStatus: 'Failed' });
+  }
+});
+
+/**
  * ORM을 위한 조건에 filter option을 만듭니다.
  */
 const generateFilter = (options: any): FilterOption => {
@@ -24,21 +45,6 @@ const generateFilter = (options: any): FilterOption => {
 
   return opt;
 };
-
-/**
- * 필터에 맞는 accountHistory를 반환합니다.
- */
-router.get('/', checkToken(), async (req: any, res) => {
-  try {
-    const opt = generateFilter(req.body);
-
-    const accountHistory = await db.accountHistory.findMany({ where: { ...opt, userId: req.id } });
-    return res.json({ httpStatus: 'OK', accountHistory });
-  } catch (error) {
-    new Error(error);
-    return res.json({ httpStatus: 'Failed' });
-  }
-});
 
 /**
  * AccountHistory 를 만들어 줍니다.
