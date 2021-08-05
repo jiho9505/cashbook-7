@@ -89,6 +89,6 @@ export const formatDataIntoWon = (data: number) => {
   return new Intl.NumberFormat('kr-KR', { style: 'currency', currency: 'KRW' }).format(data);
 };
 
-export const formatDateAsTwoLetters = (date: Date | number) => {
+export const formatDateAsTwoLetters = (date: Date | number | string) => {
   return date.toString().padStart(2, '0');
 };
