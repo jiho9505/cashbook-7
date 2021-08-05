@@ -64,3 +64,37 @@ export type TargetDateInfos = {
   year: Year;
   month: Month;
 };
+
+export type ServerHistoryData = {
+  id: number;
+  price: number;
+  type: string;
+  expenditureDay: string;
+  userId: number;
+  categoryId: number;
+  payMethodId: number;
+  historyContent: string;
+  category: {
+    id: number;
+    name: string;
+  };
+  payMethod: {
+    id: number;
+    name: string;
+  };
+};
+
+export type CalendarEssentialData = { price: number; category: string; historyContent: string };
+
+export type CalendarData = {
+  dayData: {
+    [key: string]: {
+      detail: CalendarEssentialData[]; //
+      dayTotalIncome: number;
+      dayTotalExpenditure: number;
+    };
+  };
+  totalIncome: number;
+  totalExpenditure: number;
+  containCategory: string[];
+};
