@@ -18,9 +18,7 @@ export default class CalendarPageView {
       this.currentYear = year;
       this.currentMonth = month;
 
-      const fetchCalendarDataURL = `/account-history?type=income&expenditureDay=${year}-${month
-        .toString()
-        .padStart(2, '0')}`;
+      const fetchCalendarDataURL = `/account-history?expenditureDay=${year}-${month.toString().padStart(2, '0')}`;
 
       api.get(fetchCalendarDataURL, accessToken).then((res) => {
         if (res.success) {
