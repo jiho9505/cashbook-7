@@ -1,14 +1,22 @@
+@mixin balanceFontStyle($fontSize) {
+  font-family: Raleway;
+  font-style: normal;
+  line-height: 9px;
+  font-weight: bold;
+  font-size: $fontSize;
+}
+
 .account__balance-container {
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 70px;
 
   .account__balance {
-    font-size: 60px;
-    margin-bottom: 40px;
+    @include balanceFontStyle(50px);
   }
 
   .account__balance-text {
-    font-size: 30px;
+    @include balanceFontStyle(30px);
   }
 }
