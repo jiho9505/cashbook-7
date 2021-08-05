@@ -32,7 +32,7 @@ router.get('/', checkToken(), async (req: any, res) => {
   try {
     const opt = generateFilter(req.body);
 
-    const accountHistory = await db.accountHistory.findMany({ where: { ...opt } });
+    const accountHistory = await db.accountHistory.findMany({ where: { ...opt, userId: req.id } });
     return res.json({ httpStatus: 'OK', accountHistory });
   } catch (error) {
     new Error(error);
