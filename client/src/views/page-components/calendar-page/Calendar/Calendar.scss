@@ -33,67 +33,48 @@
         }
       }
     }
-    
-    tbody{
-        display:table-row-group;
+  }
 
-        tr{
-            display:table-row;
-            vertical-align: inherit;
+  tbody {
+    display: table-row-group;
 
-            td{
-                @include tableCellFontStyleMixin;
-                display:table-cell;
+    tr {
+      display: table-row;
+      vertical-align: inherit;
 
-                width:130px;
-                height:120px;
-                background-color:#fff;
-                border-radius:10px;
-                padding: 16px;
+      td {
+        @include tableCellFontStyleMixin;
+        display: table-cell;
 
-                transition: filter .3s ease;
+        width: 130px;
+        height: 120px;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 16px;
+        transition: filter 0.3s ease;
 
-                &:first-child{
-                    color: #EF5D5D;
-                }
+        &:first-child {
+          color: #ef5d5d;
+        }
 
-                &.not-current-month-date{
-                    background-color:transparent;
-                    opacity:0.5;
-                }
+        &.not-current-month-date {
+          background-color: transparent;
+          opacity: 0.5;
+        }
 
-                &.contain-data{
-                    cursor:pointer;
+        &:not(.not-current-month-date) {
+          &:hover {
+            filter: drop-shadow(4px 4px 20px rgba(0, 0, 0, 0.25));
+          }
+        }
 
-                    &:hover{
-                        filter: drop-shadow(4px 4px 20px rgba(0, 0, 0, 0.25));
-                    }
-                }
+        &.contain-data {
+          cursor: pointer;
+        }
 
-                span{
-                    display:block;
-                    height:18px;
-                }
-
-                .contain-category{
-                    height:fit-content;
-                    width:100%;
-                    margin-top:20px;
-                    padding: 0 5px;
-
-                    display:grid;
-                    grid-template-columns: repeat(4, 1fr);
-                    grid-template-rows: repeat(2, 1fr);
-                    gap:5px;
-
-                    div{
-                        width:18px;
-                        height:18px;
-                        border-radius:50%;
-                        place-self:center;
-                    }
-                }
-            }
+        span {
+          display: block;
+          height: 18px;
         }
 
         .contain-category {
