@@ -4,4 +4,13 @@
   font-weight: bold;
   width: 1135px;
   margin: 0 auto;
+  height: 900px;
+  overflow-y: auto;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 }

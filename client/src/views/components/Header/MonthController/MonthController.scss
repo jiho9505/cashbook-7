@@ -1,70 +1,69 @@
-@mixin calendarFontMixin{
-    font-family: Raleway;
-    font-style: normal;
-    font-weight: bold;
+@mixin calendarFontMixin {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
 }
 
-.header__month-controller{
-    display:flex;
-    align-items: center;
+.header__month-controller {
+  display: flex;
+  align-items: center;
 
-    .calendar-wrapper{
-        position:relative;
-        width:100%;
-    
-        $month-span-height: 30px;
-        $offset-within-svg-month-span:8px;
-    
-        .calendar-wrapper__month{
-            position:absolute;
-            top:$offset-within-svg-month-span;
-            left:0;
-    
-            width:100%;
-            height:$month-span-height - $offset-within-svg-month-span;
-    
-            text-align:center;
-            line-height:$month-span-height - $offset-within-svg-month-span;
-            @include calendarFontMixin;
-            color:var(--concept-color);
-            font-size:18px;
-        }
-    
-        .calendar-wrapper__year{
-            position:absolute;
-            top:$month-span-height;
-            left:0;
-    
-            width:100%;
-            height:calc(100% - #{$month-span-height} - 4px);
-    
-            text-align: center;
-            padding-top:14px;
-            @include calendarFontMixin;
-            color:#fff;
-            font-size:32px;
-    
-        }
-    }    
+  .calendar-wrapper {
+    position: relative;
+    width: 100%;
 
-    .arrow-wrapper{
-        height:fit-content;
-        margin-left:12px;
+    $month-span-height: 30px;
+    $offset-within-svg-month-span: 8px;
 
-        li{
-            cursor:pointer;
+    .calendar-wrapper__month {
+      position: absolute;
+      top: $offset-within-svg-month-span;
+      left: 0;
 
-            &:hover{
-                filter:invert(420%) sepia(1%) saturate(200%) hue-rotate(210deg) brightness(116%) contrast(100%);
-            }
-        }
+      width: 100%;
+      height: $month-span-height - $offset-within-svg-month-span;
 
-        li.upper-arrow{
-            margin-bottom:17px;
-        }
-
-        li.down-arrow{
-            transform:rotate(180deg);
-        }
+      text-align: center;
+      line-height: $month-span-height - $offset-within-svg-month-span;
+      @include calendarFontMixin;
+      color: var(--concept-color);
+      font-size: 18px;
     }
+
+    .calendar-wrapper__year {
+      position: absolute;
+      top: $month-span-height;
+      left: 0;
+
+      width: 100%;
+      height: calc(100% - #{$month-span-height} - 4px);
+
+      text-align: center;
+      padding-top: 14px;
+      @include calendarFontMixin;
+      color: #fff;
+      font-size: 32px;
+    }
+  }
+
+  .arrow-wrapper {
+    height: fit-content;
+    margin-left: 12px;
+
+    li {
+      cursor: pointer;
+
+      &:hover {
+        filter: invert(420%) sepia(1%) saturate(200%) hue-rotate(210deg) brightness(116%) contrast(100%);
+      }
+    }
+
+    li.upper-arrow {
+      margin-bottom: 17px;
+    }
+
+    li.down-arrow {
+      transform: rotate(180deg);
+    }
+  }
 }

@@ -1,13 +1,15 @@
-import { api } from './api';
 import { Filter } from '@src/types';
 import evt from '@src/utils/handleEvent';
+import { api } from './api';
 
 class Model {
   store = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     isLoggedIn: false,
+    accessToken: '',
   };
+
   filter: Filter = {
     category: '',
     type: '',
@@ -23,7 +25,6 @@ class Model {
     evt.subscribe('createaccounthistory', this.createAccountHistory.bind(this));
     evt.subscribe('filterchange', this.fetchFilterdData.bind(this));
     evt.subscribe('deleteaboutaccount', this.deleteAboutAccount.bind(this));
-    // evt.subscribe('historymodalgetdata', this.getModalData.bind(this));
   }
 
   /**
@@ -49,14 +50,9 @@ class Model {
     window.location.href = githubOAuthUrl;
   }
 
-  /**
-   * TODO:
-   * api delete 요청 (결제수단을 보내고 결제수단과 해당 결제수단 내역 삭제)
-   * api get 요청 account에 대한 filter 데이터 소환 그리고 뿌려준다.
-   * (store에 저장) 세번째 인자로 store
-   * 프론트에서 하나 삭제할지 새로 데이터 받아올지 통일성 결정되야 합니다!
-   */
-  deleteAboutAccount(e: CustomEvent) {
+  async deleteAboutAccount(e: CustomEvent) {
+    await api.delete(`/account-history?id=${e.detail.id}`, this.store.accessToken);
+
     evt.fire('storeupdated', { state: history.state, filter: this.filter });
   }
 
@@ -76,33 +72,19 @@ class Model {
     this.store = { ...this.store, ...nextState };
   }
 
-  /**
-   * TODO: 추후 API Call 로직을 넣을 예정입니다.
-   */
   fetchData(e: CustomEvent) {
     const { month, year } = this.store;
     evt.fire('storeupdated', { state: { ...e.detail, month, year } });
   }
 
-  /**
-   * TODO:
-   * submitArguments는 form 요청 시 전달될 데이터들입니다.
-   * 이 데이터를 기반으로 api post 요청 합니다.
-   * 그 후 storeupdated 이벤트 발생!
-   * 아래와 같이 만든정보 하나를 보내서 프론트에서 데이터 합쳐서 뿌릴지 아님 서버에서 그냥 한번에 데이터 가져오는게 나올지 결정되면 반영하겠습니다.
-   */
-  createAccountHistory(e: CustomEvent) {
-    evt.fire('storeupdated', { state: e.detail.state, info: e.detail.submitArguments });
+  async createAccountHistory(e: CustomEvent) {
+    try {
+      await api.post('/account-history', e.detail.submitArguments, e.detail.state.accessToken);
+      evt.fire('storeupdated', { state: e.detail.state });
+    } catch (e) {
+      alert(e);
+    }
   }
-
-  /**
-   * TODO:
-   * 본인의 결제수단을 가져와서 내역등록하기 모달에 반영해야합니다
-   * 추후 사용될 예정이라 주석으로 놔뒀습니다!
-   */
-  // getModalData(e: CustomEvent) {
-  //   evt.fire('createhistorymodal', {});
-  // }
 }
 
 export default Model;
