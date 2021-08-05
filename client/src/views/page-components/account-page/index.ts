@@ -213,7 +213,7 @@ export default class AccountView {
       });
     });
 
-    this.state.accountHistory.detail = array;
+    this.state.accountHistory.detail = array.reverse();
   }
 
   getFormattedPrice(data) {
