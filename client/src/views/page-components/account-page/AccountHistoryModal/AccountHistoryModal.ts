@@ -110,7 +110,7 @@ export default class AccountHistoryModal {
     const historyContent: HTMLInputElement = document.querySelector('.history-form__content');
 
     if (
-      this.payMethod.currentCardName.length > 0 &&
+      this.payMethod.currentCardIdx > 0 &&
       this.dateValueValidation &&
       this.moneyValueValidation &&
       this.choicedCategoryName.length > 0 &&
@@ -118,19 +118,15 @@ export default class AccountHistoryModal {
     ) {
       this.checkIncomeOrExpenditure();
 
-      const payMethodEnglishName = objToChangeCardNameFromKoreanToEng[this.payMethod.currentCardName];
-      const payMethodIndex = objToChangeCardEnglishNameToNum[payMethodEnglishName];
-
       const categoryEnglishName = objToChangeCategoryNameFromKoreanToEng[this.choicedCategoryName];
       const categoryIndex = objToChangeCategoryEnglishNameToNum[categoryEnglishName];
 
       const date = this.changeSign(this.dateInput.value);
-
       const price = this.changeToNum(this.moneyInput.value);
 
       const submitArguments = {
-        payMethodId: payMethodIndex,
-        categoryId: categoryIndex,
+        payMethodId: this.payMethod.currentCardIdx,
+        categoryId: categoryIndex + 1,
         price,
         expenditureDay: date,
         historyContent: historyContent.value,
@@ -155,7 +151,7 @@ export default class AccountHistoryModal {
   }
 
   checkIncomeOrExpenditure() {
-    if (this.choicedCategoryName === '용돈') {
+    if (this.choicedCategoryName === '수입') {
       this.type = 'income';
     } else {
       this.type = 'expenditure';
