@@ -96,18 +96,22 @@
     .account-history-table__content-detail {
       display: flex;
       flex-direction: column;
-      gap: 7px;
-
-      .account-history-table__content-span {
-        text-align: left;
-        @include fontStyle(bold);
-        font-size: 20px;
+      gap: 10px;
+      span{
+        font-size:15px;
+        text-align:left;
       }
+    }
 
-      .account-history-table__content-pay {
-        @include fontStyle(normal);
-        font-size: 20px;
-      }
+    .account-history-table__content-span {
+      text-align: left;
+      @include fontStyle(bold);
+      font-size: 20px;
+    }
+
+    .account-history-table__content-pay {
+      @include fontStyle(normal);
+      font-size: 20px;
     }
   }
 
@@ -200,16 +204,24 @@
       padding: 10px 0px;
     }
 
+    .account-history-table__content-detail{
+      font-size:17px;
+    }
+
+    .account-history-table__content-category{
+      font-size:17px;
+    }
+
     .account-history-table__content-createdAt {
       @include fontStyle(normal);
-      font-size: 20px;
+      font-size: 15px;
       line-height: 9px;
     }
 
     .account-history-table__content-price {
       text-align: right;
       @include fontStyle(normal);
-      font-size: 25px;
+      font-size: 15px;
     }
   }
 
