@@ -1,12 +1,12 @@
 import { PICTOGRAM } from '@src/static/constants';
-import { AccountData, HTMLText } from '@src/types';
-import { changeIntoDateFormat, createDOMWithSelector } from '@src/utils/helper';
+import { AccountData, HTMLText, ServerHistoryData } from '@src/types';
+import { changeIntoDateFormat, createDOMWithSelector, formatDataIntoWon } from '@src/utils/helper';
 
 import './RecentlyAccountHistory.scss';
 
 export default class RecentlyAccountHistory {
   $recentlyAccountHistory: HTMLElement;
-  recentlyAccountHistoryList: AccountData[];
+  recentlyAccountHistoryList: ServerHistoryData[];
 
   constructor({ parent, state }) {
     this.$recentlyAccountHistory = createDOMWithSelector('div', '.recently-account-history');
@@ -29,39 +29,35 @@ export default class RecentlyAccountHistory {
   /**
    * 최근 가계부 내역에 해당하는 DOM들을 반환합니다.
    */
-  getRecentlyAccountsDOM = (data: AccountData[]): HTMLText => data.map((d) => this.RecentlyAccount(d)).join('');
+  getRecentlyAccountsDOM = (data: ServerHistoryData[]): HTMLText => data.map((d) => this.RecentlyAccount(d)).join('');
 
   /**
    * RecentlyAccount 컴포넌트입니다.
-   * 추후에 components로 이동할 가능성이 있지만,
-   * 협업자와의 합의가 필요하다고 생각해 해당 위치에 선언했습니다.
    */
-  RecentlyAccount(data: AccountData): HTMLText {
+  RecentlyAccount(data: ServerHistoryData): HTMLText {
+    const { category, historyContent, price, type, expenditureDay } = data;
+    const [year, month, date] = expenditureDay.split('-');
     return `
       <div class='recently-account'>
-        <img src=${PICTOGRAM[data.category]}>
+        <img src=${PICTOGRAM[category.name]}>
           <div>
-            <span class='recently-account__title'>${data.title}</span>
-            <span class='recently-account__date'>${changeIntoDateFormat(data.date)}</span>
-          </div>
-          ${this.getFormattedMoneySpan(data.amountOfMoney, data.isIncome)}
-      </div>
-    `;
+            <span class='recently-account__title'>${historyContent}</span>
+            <span class='recently-account__date'>${year}년 ${month}월 ${date}일</span>
+            </div>
+            ${this.getFormattedMoneySpan(price, type === 'income')}
+            </div>
+            `;
   }
 
   /**
    * 최근 가계부 내역 금액을 formatting 하고, (300000 => ₩ 300,000)
    * 해당 내용을 span 내에 넣어 반환합니다.
    */
-  getFormattedMoneySpan(money: string, isIncome: boolean): HTMLText {
-    const splitedMoney = money.split(',');
-
+  getFormattedMoneySpan(money: number, isIncome: boolean): HTMLText {
     return `
       <span class='recently-account__amount'>
-          ${isIncome ? '₩' : '-₩'}
-          ${splitedMoney.splice(0, splitedMoney.length - 1).join(',')}<span class='hundred-won'>,${
-      splitedMoney[splitedMoney.length - 1]
-    }<span>
+          ${isIncome ? '' : '-'}
+          ${formatDataIntoWon(money)}
       </span>
     `;
   }
