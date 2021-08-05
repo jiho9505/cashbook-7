@@ -149,7 +149,7 @@ export default class ExpenseByAllCategory {
       <div class='category-summary'>
         <div class='category-summary__color' style='background-color: ${COLORS_BY_CATEGORY[data.category]}'></div>
         <span class='category-summary__name'>${NAME_BY_CATEGORY[data.category]}</span>
-        <span class='category-summary__percent'>${data.percent * 100}%</span>
+        <span class='category-summary__percent'>${(data.percent * 100).toFixed(1)}%</span>
       </div>
     `;
   }
