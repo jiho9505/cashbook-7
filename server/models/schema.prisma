@@ -45,4 +45,5 @@ model AccountHistory {
   categoryId     Int
   payMethod      PayMethod @relation(fields: [payMethodId], references: [id])
   payMethodId    Int
+  historyContent String    @db.VarChar(100)
 }
