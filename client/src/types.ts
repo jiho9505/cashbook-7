@@ -98,3 +98,17 @@ export type CalendarData = {
   totalIncome: number;
   totalExpenditure: number;
 };
+
+export type CalendarModalData = {
+  date: {
+    year: Year;
+    month: Month;
+    date: Date | string;
+  };
+  dayData: {
+    detail: CalendarEssentialData[]; //
+    containCategory: string[];
+    dayTotalIncome: number;
+    dayTotalExpenditure: number;
+  };
+};
