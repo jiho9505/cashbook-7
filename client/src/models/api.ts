@@ -1,4 +1,4 @@
-const API_ENDPOINT = 'http://localhost:8080/api';
+const API_ENDPOINT = 'http://13.125.6.141:8080/api';
 
 const getData = async (url, accessToken) => {
   try {
