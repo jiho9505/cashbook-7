@@ -41,9 +41,18 @@ export default class AccountView {
 
   async setProperty(e) {
     const accessToken = e.detail.state.accessToken;
-    const datas = await api.get('/account-history', accessToken);
+    const year = e.detail.state.year;
+    let month = e.detail.state.month;
+
+    if (month < 10) month = '0' + month.toString();
+
+    const formattedYearMonth = `${year}-${month}`;
+
+    const datas = await api.get(`/account-history?expenditureDay=${formattedYearMonth}`, accessToken);
+
     if (datas.success) {
       const accountDatas = datas.data.accountHistory;
+
       this.makeBalance(accountDatas);
       this.makePayMethodInfo(accountDatas);
       this.makeAccountHistoryInfo(accountDatas);
@@ -127,7 +136,6 @@ export default class AccountView {
    */
   makePayMethodInfo(accountDatas) {
     const keyIsPayMethodIdAndValueIsTotalPrice = {
-      0: 0,
       1: 0,
       2: 0,
       3: 0,
@@ -135,6 +143,7 @@ export default class AccountView {
       5: 0,
       6: 0,
       7: 0,
+      8: 0,
     };
 
     accountDatas.forEach((data) => {
@@ -150,6 +159,7 @@ export default class AccountView {
     }
 
     let payMethodData = [];
+
     payMethodNameList.forEach((payMethodName, idx) => {
       payMethodData.push({ payMethodName, payMethodMoney: priceEveryCard[idx] });
     });
@@ -170,8 +180,6 @@ export default class AccountView {
   }
 
   makeAccountHistoryInfo(accountDatas) {
-    console.log('yes', accountDatas);
-
     let array = [];
 
     accountDatas.forEach((data) => {
@@ -184,20 +192,20 @@ export default class AccountView {
       array.push({
         price: price,
         createdAt: date,
-        category: categoryList[data.categoryId],
-        payMethod: payMethodNameList[data.payMethodId],
+        category: categoryList[data.categoryId - 1],
+        payMethod: payMethodNameList[data.payMethodId - 1],
         content: data.historyContent,
       });
     });
 
-    console.log('array: ', array);
+    this.state.accountHistory.detail = array;
   }
 
   getFormattedPrice(data) {
     if (data.type === 'income') {
       return this.formatPrice(data.price.toString(), '₩ ', '');
     } else if (data.type === 'expenditure') {
-      return this.formatPrice(data.price.toString().slice(1), '-₩ ', '');
+      return this.formatPrice(data.price.toString(), '-₩ ', '');
     }
   }
 
