@@ -33,7 +33,6 @@ export default class LoginView {
       ${this.createLeftPartInPage()}
       ${this.createRightPartInPage()}
     `;
-    console.log(screen.height);
   }
 
   createLogo() {

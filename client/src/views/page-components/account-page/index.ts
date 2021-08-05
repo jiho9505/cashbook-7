@@ -201,7 +201,6 @@ export default class AccountView {
 
       price = this.getFormattedPrice(data);
       date = this.getFormattedDate(data);
-      console.log('ㅇ', data.categoryId);
 
       array.push({
         id: data.id,

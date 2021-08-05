@@ -176,7 +176,6 @@ export default class AccountHistory {
       }
       const type = this.getType();
       handleEvent.fire('filterchange', { type });
-      console.log('filter change - expenditure');
     }
   }
 
