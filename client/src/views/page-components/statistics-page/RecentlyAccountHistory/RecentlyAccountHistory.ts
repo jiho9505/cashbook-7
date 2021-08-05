@@ -19,7 +19,6 @@ export default class RecentlyAccountHistory {
   render() {
     this.$recentlyAccountHistory.innerHTML = `
         <span class='recently-account-history__title'>최근 가계부 내역</span>
-        <a href='/account' class='recently-account-history__detail'>자세히 보기 ></a>
         <div class='recently-account-wrap'>
           ${this.getRecentlyAccountsDOM(this.recentlyAccountHistoryList)}
         </div>
