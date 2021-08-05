@@ -2,12 +2,15 @@
   background: linear-gradient(150deg, $color 1%, white 99%);
 }
 
+.payWrapper {
+  margin-top: 120px;
+}
 .pay-container {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   font-size: 30px;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 45px;
 
   .pay {
     font-size: 50px;
@@ -17,75 +20,60 @@
 
 .card-container {
   display: flex;
-  gap: 30px;
-  margin-bottom: 40px;
+  gap: 37px;
   width: 100%;
-  overflow-x: auto; // 임시 스크롤
-  scrollbar-color: #d4aa70 #e4e4e4;
+  overflow-x: auto;
   scrollbar-width: thin;
 
-  &::-webkit-scrollbar-thumb {
-    background-image: linear-gradient(180deg, var(--concept-color) 0%, #708ad4 99%);
-    box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
-    border-radius: 100px;
-    border: 3px solid transparent;
-    background-clip: content-box;
-  }
-
-  &::-webkit-scrollbar {
-    width: 1px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: #e4e4e4;
-    border-radius: 100px;
-  }
-
   .card {
-    width: 350px;
-    height: 170px;
-    border-radius: 18px;
+    width: 347.71px;
+    height: 167px;
+    border-radius: 30px;
     flex-shrink: 0; // item의 크기가 가변적이 되지 않는다. 즉 390px 고정!
-    @include cardBackGround();
+    background-color: #989da5;
     margin-bottom: 5px;
     color: white;
     position: relative;
-    padding: 10px;
     cursor: pointer;
 
     &.shinhan {
-      @include cardBackGround(#2d78e8);
+      background-color: #2d78e8;
     }
 
     &.kakao {
-      @include cardBackGround(#ffc312);
+      background-color: #ffc312;
     }
 
     &.samsung {
-      @include cardBackGround(red);
+      background-color: #1460d1;
     }
 
     &.lotte {
-      @include cardBackGround(#6f1e51);
+      background-color: #6f1e51;
     }
 
     &.woori {
-      @include cardBackGround(#489cff);
+      background-color: #489cff;
     }
 
     &.hyundai {
-      @include cardBackGround(#924600);
+      background-color: #924600;
     }
 
     &.money {
-      @include cardBackGround(#a3cb38);
+      background-color: #a3cb38;
     }
 
     .card-price {
       position: absolute;
-      top: 15px;
-      left: 10px;
+      top: 30px;
+      left: 26px;
       font-size: 20px;
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 25px;
+      line-height: 9px;
     }
 
     .card-xbox {
@@ -101,12 +89,12 @@
     .card-check {
       display: none;
       position: absolute;
-      bottom: 10px;
-      right: 10px;
+      bottom: 19px;
+      right: 27px;
 
       img {
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
       }
 
       &.active {
@@ -116,9 +104,13 @@
 
     .card-name {
       position: absolute;
-      bottom: 20px;
-      left: 10px;
+      bottom: 32px;
+      left: 27px;
       font-size: 20px;
+      font-family: Raleway;
+      font-style: normal;
+      font-weight: bold;
+      line-height: 9px;
     }
   }
 }

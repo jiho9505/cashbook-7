@@ -2,7 +2,7 @@ import { objToChangeCardNameFromKoreanToEng } from '@src/static/constants';
 import handleEvent from '@src/utils/handleEvent';
 import { CheckButton, ETC, Xbox } from '@src/static/image-urls';
 import './PayMethods.scss';
-import { $, removeActiveAttributeOnClass } from '@src/utils/helper';
+import { $, createDOMWithSelector, removeActiveAttributeOnClass } from '@src/utils/helper';
 import ConfirmWindow from '../Confirm/Confirm';
 
 export default class PayMethod {
@@ -16,7 +16,7 @@ export default class PayMethod {
   constructor({ parent, state, filter }) {
     if (parent === $('.history-form__pay-method')) this.mode = 'historyModal';
 
-    this.PayWrapper = document.createElement('div');
+    this.PayWrapper = createDOMWithSelector('div', '.payWrapper');
 
     parent.appendChild(this.PayWrapper);
     this.setProperty(state, filter);
@@ -52,11 +52,6 @@ export default class PayMethod {
       });
   }
 
-  /**
-   * TODO:
-   * target.className === 'confirm__delete일 때
-   *  card Id 넘겨줘야하며 그 card Id는 target.dataset에서 get 하면 될거같습니다
-   */
   onClickConfirmWindowHandler(e: MouseEvent) {
     const { target } = e;
     if (!(target instanceof HTMLElement)) return;
@@ -100,17 +95,23 @@ export default class PayMethod {
   createPayMethod(): string {
     return `
       <div id=${this.mode}>
-        <div class='pay-container'>
-          <span class='pay-text'>결제수단</span>
-          ${this.isHistoryModal() ? `` : `<span class='pay'>+</span>`}
-        </div>
-        
+        ${this.createPayTitle()}
         <div class='card-container' id=${this.mode}>
           ${this.createCard()}
         </div>
       </div>`;
   }
 
+  createPayTitle() {
+    if (!this.isHistoryModal()) {
+      return `
+        <div class='pay-container'>
+         <span class='pay-text'>결제 수단</span>
+        </div>
+      `;
+    }
+    return ``;
+  }
   createCard(): string {
     return this.state
       .map((pay, idx) => {
@@ -128,9 +129,7 @@ export default class PayMethod {
                 <img src=${CheckButton}>
               </div>
               
-              <div class='card-xbox'>
-                ${this.isHistoryModal() ? `` : `<img class='card-xbox-img' src=${Xbox}>`}
-              </div>
+             
               <div class='card-name'>
                 ${pay.payMethodName}
               </div>
@@ -140,3 +139,17 @@ export default class PayMethod {
       .join('');
   }
 }
+
+/**
+ * TODO:
+ * 백엔드 연동 후 삭제 기능 구현할 것
+ */
+/*
++버튼
+${this.isHistoryModal() ? `` : `<span class='pay'>+</span>`}
+
+xbox
+<div class='card-xbox'>
+  ${this.isHistoryModal() ? `` : `<img class='card-xbox-img' src=${Xbox}>`}
+</div>
+*/

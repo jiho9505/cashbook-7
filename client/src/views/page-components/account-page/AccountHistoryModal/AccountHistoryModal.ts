@@ -133,7 +133,7 @@ export default class AccountHistoryModal {
       };
 
       this.closeModal();
-      new ResultMessage('내역이 추가되었습니다❗️');
+      new ResultMessage('내역이 추가되었습니다.');
       handleEvent.fire('createaccounthistory', { state: history.state, submitArguments });
     } else {
       this.showAlert('.history-form__confirm-alert');
@@ -373,13 +373,13 @@ export default class AccountHistoryModal {
   createContentForm() {
     return `
         <span>내용</span>
-        <input class="history-form__content" type="text" maxlength='18' />
+        <input class="history-form__content" placeholder='최대 20자까지  작성가능합니다.' type="text" maxlength='20' />
     `;
   }
 
   createPayMethodForm() {
     return `
-        <div class="history-form__pay-method"></div>
+        <div class="history-form__pay-method"><span class="history-form__pay-method-title">결제 수단</span></div>
     `;
   }
 

@@ -290,9 +290,9 @@ export default class AccountHistory {
   createTableHeader(): string {
     return `
       <thead>
-        <tr class='account-history-table__header' align='left'>
-          <th class='account-history-table__content'>거래내용</th>
-          <th class='account-history-table__category'><span class='account-history-table__category-span'>분류</span>${this.createCategoryChoiceBar()}</th>
+        <tr class='account-history-table__header'>
+          <th class='account-history-table__content'>거래 내용</th>
+          <th class='account-history-table__category'><span class='account-history-table__category-span'>카테고리</span>${this.createCategoryChoiceBar()}</th>
           <th class='account-history-table__date'><span class='account-history-table__date-span'>날짜</span>${this.createDateChoiceBar()}</th>
           <th class='account-history-table__price'>금액</th>
         </tr>
@@ -339,8 +339,11 @@ export default class AccountHistory {
 
     return `
       <div class="date__specific">
-        <img class="date__specific-part"  id='specific-date-img' src=${specificDateSrc}>
-        <span class="date__specific-part">특정 날짜 선택</span>
+        <div class="date__specific-container">
+          <img class="date__specific-part"  id='specific-date-img' src=${specificDateSrc}>
+          <span class="date__specific-part">특정 날짜 선택</span>
+        </div>
+
         <div class="date__input-container ${AddedInputClassName}">
           ${this.createFixedDate()}
           <input class="date__input" type='text' maxlength=2 value=${initInputValue}>
@@ -366,7 +369,7 @@ export default class AccountHistory {
 
   createCategoryChoiceBar(): string {
     return `
-      <div class="category-container ">
+      <div class="category-container">
        ${this.createCategoryList()}
       </div>
     `;
@@ -405,19 +408,19 @@ export default class AccountHistory {
                     <div class='account-history-table__content-container'>
                         <img src=${image}>
                         <div class='account-history-table__content-detail'>
-                            <span>${item.content}</span>
+                            <span class='account-history-table__content-span'>${item.content}</span>
                             <span class='account-history-table__content-pay'>${item.payMethod}</span>
                         </div>
                     </div>
                 </td>
                 <td>
-                    <span>${item.category}</span>
+                    <span class='account-history-table__content-category'>${item.category}</span>
                 </td>
                 <td>
-                    <span>${item.createdAt}</span>
+                    <span class='account-history-table__content-createdAt'>${item.createdAt}</span>
                 </td>
                 <td>
-                    <span>${item.price}</span>
+                    <span class='account-history-table__content-price'>${item.price}</span>
                 </td>
                 <td>
                     <img class='account-history-table__trashcan' src=${TrashCan} data-id=${item.id}></img>

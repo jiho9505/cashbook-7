@@ -1,8 +1,21 @@
+@mixin fontStyle($weight: bold) {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: $weight;
+}
+
 .account-history__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
+  margin-top: 50px;
+
+  th {
+    @include fontStyle(normal);
+    font-size: 20px;
+    line-height: 9px;
+  }
 
   .account-history__header-left {
     display: flex;
@@ -12,14 +25,14 @@
 
   .account-history__header-right {
     display: flex;
-    gap: 10px;
+    gap: 20px;
   }
 }
 
 .account-history__income {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 14px;
   .account-history__income-img {
     cursor: pointer;
   }
@@ -28,7 +41,7 @@
 .account-history__expenditure {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 14px;
 
   span {
     color: #ef5d5d;
@@ -44,8 +57,9 @@
 }
 
 .account-history__add {
-  font-size: 50px;
+  font-size: 40px;
   cursor: pointer;
+  font-weight: normal;
 }
 
 .account-history-table {
@@ -56,29 +70,51 @@
   // 첫줄은 테이블 고정
   // 아래 2줄은 테이블 간격
 
-  .account-history-table__content-container {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    transform: translateY(25px);
-  }
-
-  .account-history-table__content-detail {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .account-history-table__content-pay {
+  .account-history-table__header {
     font-weight: normal;
+
+    th {
+    }
   }
 
   .account-history-table__content {
-    width: 35%;
+    text-align: left;
+    width: 25%;
+  }
+
+  .account-history-table__content-container {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    transform: translateY(12px);
+
+    img {
+      width: 39px;
+      height: 39px;
+    }
+
+    .account-history-table__content-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+
+      .account-history-table__content-span {
+        text-align: left;
+        @include fontStyle(bold);
+        font-size: 20px;
+      }
+
+      .account-history-table__content-pay {
+        @include fontStyle(normal);
+        font-size: 20px;
+      }
+    }
   }
 
   .account-history-table__category {
     width: 15%;
     position: relative;
+    text-align: right;
 
     span {
       cursor: pointer;
@@ -87,15 +123,17 @@
     .category-container {
       position: absolute;
       top: -160px;
-      left: -240px;
+      left: -75px;
       width: 239px;
-      height: 155px;
+      height: 143px;
+
       background-color: white;
       border-radius: 30px 30px 0px 30px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      padding-left: 20px;
+      justify-content: center;
+      padding-left: 10px;
       display: none;
 
       &.active {
@@ -121,7 +159,7 @@
         &:hover {
           background: #ffffff;
           box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+          filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.5));
         }
         &.active {
           background: #ffffff;
@@ -130,7 +168,10 @@
         }
 
         img {
+          // width: 35px;
+          // height: 35px;
           cursor: pointer;
+          // filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.5));
         }
       }
     }
@@ -139,7 +180,7 @@
   .account-history-table__date {
     width: 25%;
     position: relative;
-
+    text-align: right;
     span {
       cursor: pointer;
     }
@@ -147,34 +188,66 @@
 
   .account-history-table__price {
     width: 25%;
+    text-align: right;
+    @include fontStyle(normal);
   }
 
   .account-history-table_row {
     position: relative;
+
+    td {
+      text-align: right;
+      padding: 10px 0px;
+    }
+
+    .account-history-table__content-createdAt {
+      @include fontStyle(normal);
+      font-size: 20px;
+      line-height: 9px;
+    }
+
+    .account-history-table__content-price {
+      text-align: right;
+      @include fontStyle(normal);
+      font-size: 25px;
+    }
   }
 
   .account-history-table__trashcan {
     position: absolute;
-    right: 40px;
-    top: 25px;
+    right: 0px;
+    top: 30px;
     cursor: pointer;
   }
 }
 
 .date-container {
   position: absolute;
-  width: 183px;
-  height: 112px;
-  left: -160px;
-  top: -120px;
+  width: 203px;
+  left: 50px;
+  top: -160px;
+  height: 150px;
   background-color: #fff;
   border: 1px solid #eee;
   border-radius: 30px 30px 0px 30px;
-  padding: 10px 0 0 20px;
+  padding: 24px;
+  display: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   display: none;
 
   &.active {
     display: block;
+  }
+
+  span {
+    @include fontStyle(bold);
+    font-size: 15px;
+    line-height: 9px;
+  }
+  .date__whole {
+    margin-bottom: 20px;
   }
 
   .date__input-container {
@@ -183,35 +256,45 @@
     &.active {
       display: block;
     }
+    @include fontStyle(normal);
 
     .date__input {
+      @include fontStyle(normal);
       text-align: right;
-      padding: 10px;
+      padding: 10px 10px 15px 10px;
       font-size: 15px;
+      outline: none;
+      width: 122px;
+      height: 30px;
+      border: none;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+      border-radius: 20px 20px 0px 20px;
+      margin-top: 15px;
+      margin-left: 35px;
     }
 
     .date__fix-date {
       position: absolute;
-      left: 65px;
-      top: 14px;
+      left: 70px;
+      top: 25px;
       color: black;
-      font-size: 15px;
+      font-size: 16px;
       cursor: default;
+      font-weight: normal;
     }
   }
 
-  input {
-    width: 122px;
-    height: 30px;
-    left: 1119px;
-    top: 550px;
-    border: none;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 20px 20px 0px 20px;
-    margin-top: 5px;
-    margin-left: 30px;
+  .date__specific-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
   }
 
+  .date__whole {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
   .date__whole-part {
     cursor: pointer;
   }

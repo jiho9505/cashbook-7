@@ -86,7 +86,7 @@ export default class AccountView {
     const sign = balanceString[0];
     const balanceWithoutSign: string = balanceString.slice(1);
 
-    const formattedBalance = this.formatPrice(balanceWithoutSign, sign, '원');
+    const formattedBalance = this.formatPrice(balanceWithoutSign, sign, ' 원');
     this.state.balance = formattedBalance;
   }
 
@@ -187,8 +187,8 @@ export default class AccountView {
   setFormattedPriceOfEachPayMethodId(keyIsPayMethodIdAndValueIsTotalPrice) {
     for (let key in keyIsPayMethodIdAndValueIsTotalPrice) {
       const price: string = keyIsPayMethodIdAndValueIsTotalPrice[key].toString();
-      if (price[0] === '-') keyIsPayMethodIdAndValueIsTotalPrice[key] = this.formatPrice(price.slice(1), '-', '원');
-      else keyIsPayMethodIdAndValueIsTotalPrice[key] = this.formatPrice(price, '', '원');
+      if (price[0] === '-') keyIsPayMethodIdAndValueIsTotalPrice[key] = this.formatPrice(price.slice(1), '-₩', '');
+      else keyIsPayMethodIdAndValueIsTotalPrice[key] = this.formatPrice(price, '₩', '');
     }
   }
 
@@ -218,9 +218,9 @@ export default class AccountView {
 
   getFormattedPrice(data) {
     if (data.type === 'income') {
-      return this.formatPrice(data.price.toString(), '₩ ', '');
+      return this.formatPrice(data.price.toString(), '₩', '');
     } else if (data.type === 'expenditure') {
-      return this.formatPrice(data.price.toString(), '-₩ ', '');
+      return this.formatPrice(data.price.toString(), '-₩', '');
     }
   }
 
