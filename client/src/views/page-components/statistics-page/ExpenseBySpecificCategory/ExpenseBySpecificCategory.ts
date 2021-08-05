@@ -1,26 +1,26 @@
 import { Coord, Expense, HTMLText } from '@src/types';
 import { $, createDOMWithSelector } from '@src/utils/helper';
-import './ExpenseByDay.scss';
+import './ExpenseBySpecificCategory.scss';
 
 type OpposedLineType = {
   length: number;
   angle: number;
 };
 
-export default class ExpenseByDay {
-  $ExpenseByDay: HTMLElement;
+export default class ExpenseBySpecificCategory {
+  $ExpenseBySpecificCategory: HTMLElement;
   data: Expense[];
 
   constructor({ parent, state }) {
-    this.$ExpenseByDay = createDOMWithSelector('div', '.expense-by-category');
+    this.$ExpenseBySpecificCategory = createDOMWithSelector('div', '.expense-by-category');
     this.data = state;
 
-    parent.appendChild(this.$ExpenseByDay);
+    parent.appendChild(this.$ExpenseBySpecificCategory);
     this.render();
   }
 
   render() {
-    this.$ExpenseByDay.innerHTML = `
+    this.$ExpenseBySpecificCategory.innerHTML = `
         <span>생활 카테고리 소비 추이</span>
         <div class='expense-by-category__content'>
           <div class='content__expense-delimiter'>

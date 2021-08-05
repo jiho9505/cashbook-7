@@ -4,8 +4,8 @@ import { $ } from '@src/utils/helper';
 
 import './index.scss';
 import RecentlyAccountHistory from './RecentlyAccountHistory/RecentlyAccountHistory';
-import ExpenseByDay from './ExpenseByDay/ExpenseByDay';
 import ExpenseByAllCategory from './ExpenseByAllCategory/ExpenseByAllCategory';
+import ExpenseBySpecificCategory from './ExpenseBySpecificCategory/ExpenseBySpecificCategory';
 import { api } from '@src/models/api';
 import { ServerHistoryData } from '@src/types';
 
@@ -110,6 +110,6 @@ export default class StatisticsPageView {
     $('.content-wrap').innerHTML = `<div class='content__statistics'></div>`;
     // new ExpenseByAllCategory({ parent: $('.content__statistics'), state: this.store.expenseByAllCategory });
     // new RecentlyAccountHistory({ parent: $('.content__statistics'), state: this.store.recentlyAccountData });
-    new ExpenseByDay({ parent: $('.content__statistics'), state: this.store.expenseBySpecificCategory });
+    new ExpenseBySpecificCategory({ parent: $('.content__statistics'), state: this.store.expenseBySpecificCategory });
   }
 }
