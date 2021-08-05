@@ -2,6 +2,7 @@ import { COLORS_BY_CATEGORY } from '@src/static/constants';
 import { ExpenditureIcon, IncomeIcon } from '@src/static/image-urls';
 import {
   CalendarData,
+  CalendarModalData,
   Date,
   Day,
   DayInfos,
@@ -12,6 +13,7 @@ import {
   TargetDateInfos,
   Year,
 } from '@src/types';
+import handleEvent from '@src/utils/handleEvent';
 import { createDOMWithSelector, formatDataIntoWon, formatDateAsTwoLetters } from '@src/utils/helper';
 
 import './Calendar.scss';
@@ -36,19 +38,43 @@ export default class CalendarView {
     parent.appendChild(this.$totalMoney);
 
     this.render();
+
+    document.addEventListener('click', (e) => this.handleModal(e, this));
+  }
+
+  /**
+   * 캘린더 내에 history가 있는 영역을 클릭할 경우,
+   * 해당 날자의 데이터와 함께 모달을 Open 합니다.
+   * 이외의 영역을 클릭할 경우,
+   * 모달을 Close 합니다.
+   */
+  handleModal(e: Event, { dayObj, calendarData }: CalendarView) {
+    if (!(e.target instanceof HTMLElement)) return;
+    if (!e.target.closest('.contain-data')) return handleEvent.fire('opencalendarmodal', { command: 'close' });
+
+    const target = e.target.closest('.contain-data') as HTMLElement;
+    const targetDay = target.dataset.day;
+    const { year, month } = dayObj;
+
+    const data: CalendarModalData = {
+      date: { year, month, date: targetDay },
+      dayData: calendarData.dayData[`${year}-${formatDateAsTwoLetters(month)}-${formatDateAsTwoLetters(targetDay)}`],
+    };
+    const { top, left } = target.getBoundingClientRect();
+
+    handleEvent.fire('opencalendarmodal', { command: 'open', data, pos: { top, left } });
   }
 
   render() {
     this.$calendarTable.innerHTML = `
-    <thead>
-    ${this.getDayDOM()}
-    </thead>
-    <tbody>
-    ${this.getFullDateOnCalendarDOM(this.dayObj)}
-    </tbody>
+      <thead>
+      ${this.getDayDOM()}
+      </thead>
+      <tbody>
+      ${this.getFullDateOnCalendarDOM(this.dayObj)}
+      </tbody>
     `;
 
-    console.log(this.calendarData);
     this.$totalMoney.innerHTML = `
       <div class='calendar__total-money--expenditure'>
         <img src=${ExpenditureIcon} alt='expenditure'>
@@ -109,7 +135,8 @@ export default class CalendarView {
   /**
    * 배열을 순회하며,
    * tr 태그에 해당하는 weekDOM을 생성합니다.
-   * ex) <tr>
+   * ex)
+   *     <tr>
    *        <td><span>1</span></td>
    *        <td><span>2</span></td>
    *        ...
@@ -130,6 +157,7 @@ export default class CalendarView {
       $td.appendChild($span);
 
       if (isCurrentMonthDate) {
+        $td.setAttribute('data-day', day.toString());
         const { year, month } = this.dayObj;
         const dayFormat = `${year}-${formatDateAsTwoLetters(month)}-${formatDateAsTwoLetters(day)}`;
 
