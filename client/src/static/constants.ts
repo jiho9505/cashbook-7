@@ -58,6 +58,7 @@ export const COLORS_BY_CATEGORY = {
   life: '#5758BB',
   shopping: '#FFC312',
   traffic: '#006266',
+  income: '#1289A7',
 };
 
 export const NAME_BY_CATEGORY = {
