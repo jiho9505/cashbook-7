@@ -1,3 +1,4 @@
+import { COLORS_BY_CATEGORY } from '@src/static/constants';
 import { ExpenditureIcon, IncomeIcon } from '@src/static/image-urls';
 import {
   CalendarData,
@@ -11,7 +12,7 @@ import {
   TargetDateInfos,
   Year,
 } from '@src/types';
-import { createDOMWithSelector, formatDataIntoWon } from '@src/utils/helper';
+import { createDOMWithSelector, formatDataIntoWon, formatDateAsTwoLetters } from '@src/utils/helper';
 
 import './Calendar.scss';
 
@@ -109,24 +110,55 @@ export default class CalendarView {
    * 배열을 순회하며,
    * tr 태그에 해당하는 weekDOM을 생성합니다.
    * ex) <tr>
-   *        <td>1</td>
-   *        <td>2</td>
+   *        <td><span>1</span></td>
+   *        <td><span>2</span></td>
    *        ...
    *     </tr>
+   *
+   * 만약, 해당 일에 해당하는 calendarData가 있을 경우,
+   * 색깔을 표시하기 위해 DOM을 생성해서 넣어줍니다.
    */
   getWeekDOM(week: DayInfos[]): HTMLText {
     const $tr = createDOMWithSelector('tr');
 
     week.forEach(({ day, isCurrentMonthDate }) => {
       const $td = createDOMWithSelector('td');
-
       if (!isCurrentMonthDate) $td.classList.add('not-current-month-date');
-      $td.innerText = `${day}`;
+
+      const $span = createDOMWithSelector('span');
+      $span.innerText = `${day}`;
+      $td.appendChild($span);
+
+      if (isCurrentMonthDate) {
+        const { year, month } = this.dayObj;
+        const dayFormat = `${year}-${formatDateAsTwoLetters(month)}-${formatDateAsTwoLetters(day)}`;
+
+        if (dayFormat in this.calendarData.dayData) {
+          $td.classList.add('contain-data');
+
+          const $containCategory = createDOMWithSelector('div', '.contain-category');
+          const categoryColorDOMs = this.getCategoryColorDOMs(dayFormat);
+
+          $containCategory.innerHTML = categoryColorDOMs;
+          $td.appendChild($containCategory);
+        }
+      }
+
       $tr.appendChild($td);
     });
 
     return $tr.outerHTML;
   }
+
+  /**
+   * 데이터에서 dayFormat 키에 해당하는 category를 가져와서,
+   * DOM으로 변경한 후 반환합니다.
+   */
+  getCategoryColorDOMs = (dayFormat: string): HTMLText => {
+    return this.calendarData.dayData[dayFormat].containCategory
+      .map((cat) => `<div class='contain-category__color' style='background-color:${COLORS_BY_CATEGORY[cat]}'></div>`)
+      .join('');
+  };
 
   /**
    * 달력을 일주일 단위로 분할합니다.
