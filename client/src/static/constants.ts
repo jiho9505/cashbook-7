@@ -75,8 +75,23 @@ export const NAME_BY_CATEGORY = {
   income: '수입',
 };
 export const categoryList = ['문화/여가', '의료/건강', '식비', '교통', '생활', '쇼핑/뷰티', '기타'];
+export const payMethodNameList = [
+  '신한카드',
+  '우리카드',
+  '카카오뱅크',
+  '롯데카드',
+  '현대카드',
+  '삼성카드',
+  '현금',
+  '기타',
+];
 
-export const changeCategoryNameFromKoreanToEng = {
+/**
+ * ----------------------------------------------------
+ * 여기부터는 내역 페이지에서 데이터를 가공하는데 필요한 obj 들 입니다.
+ */
+
+export const objToChangeCategoryNameFromKoreanToEng = {
   '문화/여가': 'culture',
   식비: 'food',
   '의료/건강': 'health',
@@ -86,7 +101,7 @@ export const changeCategoryNameFromKoreanToEng = {
   기타: 'etc',
 };
 
-export const changeCategoryEnglishNameToNum = {
+export const objToChangeCategoryEnglishNameToNum = {
   culture: 0,
   food: 2,
   health: 3,
@@ -96,7 +111,7 @@ export const changeCategoryEnglishNameToNum = {
   etc: 1,
 };
 
-export const changeCardNameFromKoreanToEng = {
+export const objToChangeCardNameFromKoreanToEng = {
   카카오뱅크: 'kakao',
   신한카드: 'shinhan',
   현금: 'money',
@@ -107,7 +122,7 @@ export const changeCardNameFromKoreanToEng = {
   기타: 'etc',
 };
 
-export const changeCardEnglishNameToNum = {
+export const objToChangeCardEnglishNameToNum = {
   shinhan: 0,
   woori: 1,
   kakao: 2,
