@@ -6,7 +6,8 @@ import url from 'url';
 import { Prisma, PrismaPromise } from '@prisma/client';
 
 import db from '../database/database';
-import { createJWTToken } from '../utils/helper';
+import { createJWTToken, createRandomNumber } from '../utils/helper';
+import { randomText } from '../constants/randomText';
 
 // Type
 type ClientCode = string;
@@ -45,7 +46,11 @@ router.get('/login/github', async (req, res) => {
     const accessToken = await getGithubUserAccessToken(code as string);
     const githubId = await getUserGithubId(accessToken);
     let userRecord: UserRecord | null = await findUserRecordOnDB(githubId);
-    if (!userRecord) userRecord = await createUserRecordOnDB(githubId);
+    if (!userRecord) {
+      userRecord = await createUserRecordOnDB(githubId);
+      const IDs = await findCategoryAndPaymentIDOnDB(userRecord.id);
+      await createSampleData(IDs, userRecord.id);
+    }
 
     const tokens = createJWTToken(userRecord);
     const url = getRedirectURL(tokens as JWT);
@@ -54,6 +59,52 @@ router.get('/login/github', async (req, res) => {
     throw new Error(error);
   }
 });
+
+const createSampleData = async (IDs: any, uid: number) => {
+  try {
+    const { categoryID, paymentID } = IDs;
+    const randomData = createRandomData(200, uid, categoryID, paymentID);
+
+    await db.accountHistory.createMany({ data: randomData });
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const createRandomData = (count: number, uid: number, categoryID: number[], paymentID: number[]) => {
+  const data = [...new Array(count).keys()].map((_) => {
+    const randomCategoryID = createRandomNumber(categoryID[0], categoryID.length);
+    const type = randomCategoryID === categoryID[categoryID.length - 1] ? 'income' : 'expenditure';
+
+    return {
+      userId: uid,
+      price: createRandomNumber(1, 1000) * 100,
+      historyContent: randomText[createRandomNumber(0, 20)],
+      expenditureDay: `2021-${createRandomNumber(6, 5).toString().padStart(2, '0')}-${createRandomNumber(1, 30)
+        .toString()
+        .padStart(2, '0')}`,
+      categoryId: randomCategoryID,
+      payMethodId: createRandomNumber(paymentID[0], paymentID.length),
+      type,
+    };
+  });
+
+  return data;
+};
+
+const findCategoryAndPaymentIDOnDB = async (userId: number) => {
+  try {
+    const { category: categoryDB, payMethod: payMethodDB } = db;
+    const categoryDBPromise = await categoryDB.findMany({ where: { userId } });
+    const paymentDBPromise = await payMethodDB.findMany({ where: { userId } });
+    const categoryID = categoryDBPromise.map(({ id }) => id);
+    const paymentID = paymentDBPromise.map(({ id }) => id);
+
+    return { categoryID, paymentID };
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 
 /**
  * BASE_URL에
