@@ -64,14 +64,12 @@
                     opacity:0.5;
                 }
 
-                &:not(.not-current-month-date){
-                    &:hover{
-                      filter: drop-shadow(4px 4px 20px rgba(0, 0, 0, 0.25));
-                    }
-                }
-
                 &.contain-data{
                     cursor:pointer;
+
+                    &:hover{
+                        filter: drop-shadow(4px 4px 20px rgba(0, 0, 0, 0.25));
+                    }
                 }
 
                 span{
