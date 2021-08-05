@@ -86,6 +86,28 @@ export const payMethodNameList = [
   '기타',
 ];
 
+export const initHistoryData = {
+  income: '',
+  expenditure: '',
+  detail: [
+    {
+      id: '',
+      price: '',
+      createdAt: '',
+      category: '',
+      payMethod: '',
+      content: '',
+    },
+  ],
+};
+
+export const initFilterData = {
+  category: '',
+  type: '',
+  day: '',
+  card: 0,
+};
+
 /**
  * ----------------------------------------------------
  * 여기부터는 내역 페이지에서 데이터를 가공하는데 필요한 obj 들 입니다.
