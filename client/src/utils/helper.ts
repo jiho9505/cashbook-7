@@ -82,3 +82,7 @@ export const getValueOnLocalStorage = (key: string) => {
 export const removeValueOnLocalStorage = (key: string) => {
   localStorage.removeItem(key);
 };
+
+export const formatDataIntoWon = (data: number) => {
+  return new Intl.NumberFormat('kr-KR', { style: 'currency', currency: 'KRW' }).format(data);
+};
