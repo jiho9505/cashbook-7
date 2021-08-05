@@ -12,11 +12,10 @@ new Router();
 
 /**
  * 유저 인증 과정이 끝난 후,
- * token을 받아 store를 갱신하고 history state를 account로 변경합니다.
+ * 초기 store data를 detail attribute value에 넣어줍니다.
  */
 const triggerAfterUserAuthCheck = (accessToken: Token): void => {
-  handleEvent.fire('storeupdated', { state: { accessToken } });
-  handleEvent.fire('statechange', newStoreData);
+  handleEvent.fire('statechange', { ...newStoreData, accessToken });
 };
 
 /**
