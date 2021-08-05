@@ -18,7 +18,6 @@ type FilterOption = {
 router.get('/', checkToken(), async (req: any, res) => {
   try {
     const opt = generateFilter(req.query);
-
     const accountHistory = await db.accountHistory.findMany({
       where: { ...opt, userId: req.id },
       include: {
@@ -60,8 +59,8 @@ router.post('/', checkToken(), async (req: any, res) => {
         type,
         historyContent,
         expenditureDay,
-        categoryId: categoryId * 1,
-        payMethodId: payMethodId * 1,
+        categoryId: categoryId,
+        payMethodId: payMethodId,
       },
     });
 
