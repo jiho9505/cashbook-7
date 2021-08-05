@@ -40,6 +40,7 @@ export const matchCategoryAndImg = {
   교통: TRAFFIC,
   '쇼핑/뷰티': SHOPPING,
   생활: LIFE,
+  수입: INCOME,
 };
 
 export const PICTOGRAM = {
@@ -74,7 +75,7 @@ export const NAME_BY_CATEGORY = {
   traffic: '교통',
   income: '수입',
 };
-export const categoryList = ['문화/여가', '기타', '식비', '의료/건강', '생활', '쇼핑/뷰티', '교통'];
+export const categoryList = ['문화/여가', '기타', '식비', '의료/건강', '생활', '쇼핑/뷰티', '교통', '수입'];
 export const payMethodNameList = [
   '신한카드',
   '우리카드',
@@ -121,6 +122,7 @@ export const objToChangeCategoryNameFromKoreanToEng = {
   '쇼핑/뷰티': 'shopping',
   교통: 'traffic',
   기타: 'etc',
+  수입: 'income',
 };
 
 export const objToChangeCategoryEnglishNameToNum = {
@@ -131,6 +133,7 @@ export const objToChangeCategoryEnglishNameToNum = {
   shopping: 5,
   traffic: 6,
   etc: 1,
+  income: 7,
 };
 
 export const objToChangeCardNameFromKoreanToEng = {

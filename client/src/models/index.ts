@@ -25,8 +25,6 @@ class Model {
     evt.subscribe('createaccounthistory', this.createAccountHistory.bind(this));
     evt.subscribe('filterchange', this.fetchFilterdData.bind(this));
     evt.subscribe('deleteaboutaccount', this.deleteAboutAccount.bind(this));
-
-    // evt.subscribe('historymodalgetdata', this.getModalData.bind(this));
   }
 
   /**
