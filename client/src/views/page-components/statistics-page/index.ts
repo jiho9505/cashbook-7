@@ -108,7 +108,6 @@ export default class StatisticsPageView {
   }
 
   render() {
-    console.log(this.store.expenseByAllCategory);
     $('.content-wrap').innerHTML = `<div class='content__statistics'></div>`;
     new ExpenseByAllCategory({
       parent: $('.content__statistics'),

@@ -53,7 +53,6 @@ export default class ExpenseBySpecificCategory {
   }
 
   render() {
-    console.log(this.categoryInfo);
     this.$ExpenseBySpecificCategory.innerHTML = `
         <span>${NAME_BY_CATEGORY[this.categoryInfo.name]} 카테고리 소비 추이</span>
         <div class='expense-by-category__content'>
