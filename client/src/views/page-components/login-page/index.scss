@@ -44,7 +44,7 @@
       right:-50px;
       content:'';
 
-      border-top: 610px solid #e9eeff;
+      border-top: 676px solid #e9eeff;
       border-right: 50px solid transparent;
       z-index:999;
     }
@@ -82,7 +82,7 @@
     추후 시간 있을 시 사다리꼴 할 것
     현재 겪는 어려움은
     height: 0;
-    border-left: 600px solid #e9eeff;
+    border-left: 700px solid #e9eeff;
     border-bottom: 2000px solid #fff;
     width는 border 커야하고 border는 px로 고정값이여야 사다리꼴이 된다.
     하지만 달라지는 높이에 맞춰서 border의 정확한 값 알기엔 미루는게 나아보임
@@ -109,7 +109,7 @@
       height: 0;
       border-left: 50px solid transparent;
       // border-right: 50px solid transparent;
-      border-bottom: 610px solid #fff;
+      border-bottom: 676px solid #fff;
     }
 
     .login__welcome {
