@@ -60,6 +60,7 @@ https://user-images.githubusercontent.com/19240202/128441054-4f229210-5b63-4545-
 * [Figma 디자인 개선 시안](https://www.figma.com/file/e0cbT6DcLrcxQxKm1dFrfG/woowa-ledge?node-id=0%3A1)
 * [SVG 왕초보와 함께하는 그래프/차트 만들기 - 1. 도넛 차트](https://jhpa.tistory.com/8)
 * [SVG 왕초보와 함께하는 그래프/차트 만들기 - 2. 직선, 곡선 그래프](https://jhpa.tistory.com/9)
+* [프로젝트를 하면서 필요했던 공부들](https://github.com/woowa-techcamp-2021/cashbook-7/wiki/Study-lists)
 
 ---
 
