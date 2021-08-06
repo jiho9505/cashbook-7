@@ -16,6 +16,7 @@ export default class AccountView {
     accountHistory: initHistoryData,
     filter: initFilterData,
   };
+  userId;
 
   constructor() {
     handleEvent.subscribe('storeupdated', async (e: CustomEvent) => {
@@ -43,11 +44,14 @@ export default class AccountView {
     const formattedYearMonth = `${year}-${month}`;
     e.detail.filter ? (this.state.filter = e.detail.filter) : '';
 
+    const WholeDataObj = await api.get(`/account-history?expenditureDay=${formattedYearMonth}`, accessToken);
+
+    this.userId = WholeDataObj.data.acc.accountHistory.userId;
+
     let queryString = '';
     queryString = this.setQueryString(queryString, formattedYearMonth);
 
     const filteredDataObj = await api.get(`/account-history?${queryString}`, accessToken);
-    const WholeDataObj = await api.get(`/account-history?expenditureDay=${formattedYearMonth}`, accessToken);
 
     if (filteredDataObj.success && WholeDataObj.success) {
       const filteredData = filteredDataObj.data.accountHistory;
@@ -63,8 +67,11 @@ export default class AccountView {
   }
 
   setQueryString(queryString, formattedYearMonth) {
-    if (this.state.filter.card) queryString += `payMethodId=${this.state.filter.card}&`;
-    if (this.state.filter.category) queryString += `categoryId=${this.state.filter.category}&`;
+    const cardNumber = this.state.filter.card + (this.userId - 1) * 8;
+    const categoryNumber = this.state.filter.category + (this.userId - 1) * 8;
+
+    if (this.state.filter.card) queryString += `payMethodId=${cardNumber}&`;
+    if (this.state.filter.category) queryString += `categoryId=${categoryNumber}&`;
     if (this.state.filter.type) queryString += `type=${this.state.filter.type}&`;
     if (this.state.filter.day) {
       queryString += `expenditureDay=${formattedYearMonth}-${this.state.filter.day}`;
@@ -220,6 +227,7 @@ export default class AccountView {
         category: categoryList[ctgId - 1],
         payMethod: payMethodNameList[payId - 1],
         content: data.historyContent,
+        userId: data.userId,
       });
     });
 

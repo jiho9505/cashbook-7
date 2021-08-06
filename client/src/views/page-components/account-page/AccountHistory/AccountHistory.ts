@@ -1,3 +1,4 @@
+import ResultMessage from '@src/views/components/ResultMessage/ResultMessage';
 import { $, createDOMWithSelector } from '@src/utils/helper';
 import handleEvent from '@src/utils/handleEvent';
 import { matchCategoryAndImg, categoryList } from '@src/static/constants';
@@ -148,7 +149,7 @@ export default class AccountHistory {
       $('#root').removeChild($('.confirm'));
     } else if (target.className === 'confirm__delete') {
       $('#root').removeChild($('.confirm'));
-
+      new ResultMessage('삭제가 완료되었습니다.');
       handleEvent.fire('deleteaboutaccount', { id: targetId });
     }
   }
@@ -228,7 +229,8 @@ export default class AccountHistory {
   }
 
   onClickAddButton(target) {
-    if (target.className === 'account-history__add') handleEvent.fire('createhistorymodal'); // 자신의 결제수단 데이터를 넘겨줄것 state는 없어도 됨
+    if (target.className === 'account-history__add')
+      handleEvent.fire('createhistorymodal', { userId: this.state.detail.userId });
   }
 
   createHistoryHeader(): string {
