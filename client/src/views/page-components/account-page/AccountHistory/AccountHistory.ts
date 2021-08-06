@@ -230,7 +230,7 @@ export default class AccountHistory {
 
   onClickAddButton(target) {
     if (target.className === 'account-history__add')
-      handleEvent.fire('createhistorymodal', { userId: this.state.detail.userId });
+      handleEvent.fire('createhistorymodal', { userId: this.state.detail[0].userId });
   }
 
   createHistoryHeader(): string {

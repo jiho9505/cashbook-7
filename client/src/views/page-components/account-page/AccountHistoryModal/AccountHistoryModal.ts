@@ -39,6 +39,7 @@ export default class AccountHistoryModal {
   constructor() {
     handleEvent.subscribe('createhistorymodal', (e: CustomEvent) => {
       this.userId = e.detail.userId;
+
       this.modalWrapper = createDOMWithSelector('div', '.account-history-wrapper');
       this.render();
 
@@ -125,7 +126,8 @@ export default class AccountHistoryModal {
       const date = this.changeSign(this.dateInput.value);
       const price = this.changeToNum(this.moneyInput.value);
 
-      let temp = (this.userId - 1) * 8;
+      const temp = (this.userId - 1) * 8;
+
       const submitArguments = {
         payMethodId: temp + this.payMethod.currentCardIdx,
         categoryId: temp + (categoryIndex + 1),
