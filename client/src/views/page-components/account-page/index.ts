@@ -46,7 +46,7 @@ export default class AccountView {
 
     const WholeDataObj = await api.get(`/account-history?expenditureDay=${formattedYearMonth}`, accessToken);
 
-    this.userId = WholeDataObj.data.acc.accountHistory.userId;
+    this.userId = WholeDataObj.data.accountHistory.userId;
 
     let queryString = '';
     queryString = this.setQueryString(queryString, formattedYearMonth);
