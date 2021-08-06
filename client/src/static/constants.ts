@@ -103,7 +103,7 @@ export const initHistoryData = {
 };
 
 export const initFilterData = {
-  category: '',
+  category: 0,
   type: '',
   day: '',
   card: 0,
