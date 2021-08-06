@@ -40,11 +40,7 @@
 ### 최근 내역
 > 해당 월의 최근 3개 내역을 보여줍니다.
 
-
-
 https://user-images.githubusercontent.com/19240202/128441123-4afcd192-317a-4b19-bb97-c04eaa826399.mov
-
-
 
 ---
 
@@ -54,11 +50,16 @@ https://user-images.githubusercontent.com/19240202/128441123-4afcd192-317a-4b19-
 * 영역이 있는 곳을 클릭 시, 모달이 띄워집니다.
 * 해당 모달에는 해당 일 수입 및 지출과, 해당 일에 발생할 가계부 내역을 보여줍니다.
 
-
-
 https://user-images.githubusercontent.com/19240202/128441054-4f229210-5b63-4545-bc2d-f144a2b321c2.mov
 
+---
 
+## Resources
+> 2주 간 프로젝트를 하며 얻은 산출물 들입니다.
+
+* [Figma 디자인 개선 시안](https://www.figma.com/file/e0cbT6DcLrcxQxKm1dFrfG/woowa-ledge?node-id=0%3A1)
+* [SVG 왕초보와 함께하는 그래프/차트 만들기 - 1. 도넛 차트](https://jhpa.tistory.com/8)
+* [SVG 왕초보와 함께하는 그래프/차트 만들기 - 2. 직선, 곡선 그래프](https://jhpa.tistory.com/9)
 
 ---
 
