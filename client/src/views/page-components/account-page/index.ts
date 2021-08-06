@@ -160,7 +160,10 @@ export default class AccountView {
     };
 
     accountDatas.forEach((data) => {
-      const temp = (data.userId - 1) * 8;
+      let temp = (data.userId - 1) * 8;
+      if (data.payMethodId < 9) {
+        temp = 0;
+      }
       // data.payMethodId - temp
       if (data.type === 'income') keyIsPayMethodIdAndValueIsTotalPrice[data.payMethodId - temp] += data.price;
       else if (data.type === 'expenditure') keyIsPayMethodIdAndValueIsTotalPrice[data.payMethodId - temp] -= data.price;
@@ -204,7 +207,10 @@ export default class AccountView {
       price = this.getFormattedPrice(data);
       date = this.getFormattedDate(data);
 
-      const temp = (data.userId - 1) * 8;
+      let temp = (data.userId - 1) * 8;
+      if (data.payMethodId < 9) {
+        temp = 0;
+      }
       const ctgId = data.categoryId - temp;
       const payId = data.payMethodId - temp;
       array.push({
