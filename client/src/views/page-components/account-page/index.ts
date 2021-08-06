@@ -160,8 +160,10 @@ export default class AccountView {
     };
 
     accountDatas.forEach((data) => {
-      if (data.type === 'income') keyIsPayMethodIdAndValueIsTotalPrice[data.payMethodId] += data.price;
-      else if (data.type === 'expenditure') keyIsPayMethodIdAndValueIsTotalPrice[data.payMethodId] -= data.price;
+      const temp = (data.userId - 1) * 8;
+      // data.payMethodId - temp
+      if (data.type === 'income') keyIsPayMethodIdAndValueIsTotalPrice[data.payMethodId - temp] += data.price;
+      else if (data.type === 'expenditure') keyIsPayMethodIdAndValueIsTotalPrice[data.payMethodId - temp] -= data.price;
     });
 
     this.setFormattedPriceOfEachPayMethodId(keyIsPayMethodIdAndValueIsTotalPrice);
@@ -202,12 +204,15 @@ export default class AccountView {
       price = this.getFormattedPrice(data);
       date = this.getFormattedDate(data);
 
+      const temp = (data.userId - 1) * 8;
+      const ctgId = data.categoryId - temp;
+      const payId = data.payMethodId - temp;
       array.push({
         id: data.id,
         price: price,
         createdAt: date,
-        category: categoryList[data.categoryId - 1],
-        payMethod: payMethodNameList[data.payMethodId - 1],
+        category: categoryList[ctgId - 1],
+        payMethod: payMethodNameList[payId - 1],
         content: data.historyContent,
       });
     });
