@@ -45,7 +45,7 @@ class Model {
    * 현재 페이지를 githubOAuthUrl로 변경합니다.
    */
   requestGithubLogin() {
-    const clientId = 'd777cdffde41c6cc3bb8';
+    const clientId = '742ffcd3fc9e4708fccc';
     const githubOAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}`;
     window.location.href = githubOAuthUrl;
   }
